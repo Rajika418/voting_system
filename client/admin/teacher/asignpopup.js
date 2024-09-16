@@ -90,13 +90,13 @@ function populateTeacherDropdown() {
             };
         
     
-            fetch('http://localhost/voting_system/server/controller/teacher/assign_post.php'), {
+            fetch('http://localhost/voting_system/server/controller/teacher/assign_post.php?action=create', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(assignData)
-            }
+            })
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
@@ -109,7 +109,7 @@ function populateTeacherDropdown() {
             .catch(error => {
                 console.error('Error assigning teacher:', error);
                 showToast('Error assigning teacher.');
-            });
+            });            
         } else {
             showToast('Please select both a teacher and a grade.');
         }
