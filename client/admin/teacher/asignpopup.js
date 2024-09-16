@@ -4,7 +4,7 @@ function populateTeacherDropdown() {
     fetch('http://localhost/voting_system/server/controller/teacher/assign_get.php?action=read')
         .then(response => response.json())
         .then(data => {
-            console.log(data);  // Use 'data' instead of 'response'
+            console.log(data); 
             if (data.status === 'success') {
                 teacherDropdown.innerHTML = '';
                 const placeholderOption = document.createElement('option');
@@ -72,7 +72,7 @@ function populateTeacherDropdown() {
     // Assign teacher to class
     function showToast(message) {
         const toast = document.getElementById('toast');
-        toast.className = 'toast show';
+        toast.className = 'toast-show';
         toast.innerText = message;
         setTimeout(function() {
             toast.className = toast.className.replace('show', '');
