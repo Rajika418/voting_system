@@ -1,7 +1,7 @@
 function populateTeacherDropdown() {
     const teacherDropdown = document.getElementById('teacher_name');
     
-    fetch('http://localhost/voting_system/server/controller/teacher/asingn_get.php?action=read')
+    fetch('http://localhost/voting_system/server/controller/teacher/assign_get.php?action=read')
         .then(response => response.json())
         .then(data => {
             console.log(data);  // Use 'data' instead of 'response'
