@@ -71,12 +71,15 @@ function populateTeacherDropdown() {
 
     // Assign teacher to class
     function showToast(message) {
-        const toast = document.getElementById('toastContainer');
-        toast.className = 'toast-show';
-        toast.innerText = message;
-        setTimeout(function() {
-            toast.className = toast.className.replace('show', '');
-        }, 3000);
+     const toastContainer = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.classList.add('toast');
+    toast.innerText = message;
+    toastContainer.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 10000);
     }
     
     window.assignTeacher = function() {
