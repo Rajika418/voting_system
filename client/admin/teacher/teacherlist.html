@@ -8,6 +8,7 @@
     <title>Teacher List</title>
     <link rel="stylesheet" href="teacherlist.css">
     <script src="teacherlist.js" defer></script>
+    <script src="asignpopup.js" defer></script>
 </head>
 <body>
 
@@ -18,7 +19,7 @@
 
 
 
-    <button  class="classAssing-btn"  onclick="assignClassTeacher()">Assign Class Teacher</button>
+    <button  class="classAssing-btn"  onclick="openAssignPopup()">Assign Class Teacher</button>
     
 
     <!-- Sorting options -->
@@ -94,6 +95,31 @@
 
         </div>
     </div>
+
+    <!-- Popup form for assigning class teacher -->
+    <div class="popup-overlay" id="assignPopupOverlay"></div>
+    <div id="assignPopupForm">
+        <h3>Assign Class Teacher</h3>
+
+        <!-- Teacher Dropdown -->
+        <div class="form-group">
+            <label for="teacher_name">Teacher Name</label>
+            <select id="teacher_name"></select>
+        </div>
+
+        <!-- Grade Dropdown -->
+        <div class="form-group">
+            <label for="grade_name">Grade Name</label>
+            <select id="grade_name"></select>
+        </div>
+
+        <div class="form-actions">
+            <button onclick="closeAssignPopup()">Cancel</button>
+            <button class="assign-btn" onclick="assignTeacher()">Assign</button>
+        </div>
+    </div>
     <div id="toastContainer"></div>
+    <div class="toast-show"></div>
+    <div id="toast" class="toast"></div> 
 </body>
 </html> 
