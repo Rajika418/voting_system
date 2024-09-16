@@ -90,7 +90,7 @@ function populateTeacherDropdown() {
             };
         
     
-            fetch('http://localhost/voting_system/server/controller/assign_post.php'), {
+            fetch('http://localhost/voting_system/server/controller/teacher/assign_post.php'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
