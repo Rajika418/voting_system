@@ -71,7 +71,7 @@ function populateTeacherDropdown() {
 
     // Assign teacher to class
     function showToast(message) {
-        const toast = document.getElementById('toast');
+        const toast = document.getElementById('toastContainer');
         toast.className = 'toast-show';
         toast.innerText = message;
         setTimeout(function() {
