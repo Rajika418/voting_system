@@ -101,7 +101,7 @@ function populateTeacherDropdown() {
             .then(data => {
                 if (data.status === 'success') {
                     showToast('Teacher assigned successfully!');
-                    closeAssignPopup(); // Close the popup
+                    closeAssignPopup(); 
                 } else {
                     showToast('Failed to assign teacher.');
                 }
