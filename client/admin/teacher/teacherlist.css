@@ -140,9 +140,7 @@ th:hover {
 }
 
 /* Specific toast types */
-.toast.success {
-    background-color: #4CAF50;
-}
+
 
 .toast.error {
     background-color: #f44336;
