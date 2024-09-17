@@ -3,10 +3,12 @@ const resultsPerPage = 8;
 let sortOrder = 'ASC'; 
 
 function fetchTeachers() {
+    
     const searchQuery = document.getElementById('searchInput').value.toLowerCase();
     fetch(`http://localhost/voting_system/server/controller/teacher/teacher_get.php?page=${currentPage}&results_per_page=${resultsPerPage}&sort_order=${sortOrder}`)
         .then(response => response.json())
         .then(data => {
+            console.log(data.data)
             if (data.data) {
                 const teachers = data.data.filter(teacher => 
                     teacher.teacher_name.toLowerCase().includes(searchQuery)
@@ -20,14 +22,17 @@ function fetchTeachers() {
 }
 
 function displayTable(teachers, pagination) {
+    console.log(teachers)
     const tableBody = document.querySelector("#teacherTable tbody");
     tableBody.innerHTML = "";
     teachers.forEach((teacher, index) => {
+        console.log(teacher)
         const row = `
             <tr data-id="${teacher.teacher_id}">
                 <td>${index + 1}</td>
-                <td><img src="${teacher.image ? teacher.image : 'default-profile.png'}" alt="Profile Image" width="50" height="50"></td>
+                <td><img src="${teacher.image ? teacher.image : null}" alt="Profile Image" width="50" height="50"></td>
                 <td>${teacher.teacher_name}</td>
+                <td>${teacher.grade_name}</td>
                 <td>${teacher.address}</td>
                 <td>${teacher.contact_number}</td>
                 <td>${teacher.nic}</td>
@@ -83,12 +88,12 @@ function openPopup(row) {
 
     const cells = row.getElementsByTagName("td");
     document.getElementById("editTeacherName").value = cells[2].innerText;
-    document.getElementById("editAddress").value = cells[3].innerText;
-    document.getElementById("editContactNumber").value = cells[4].innerText;
-    document.getElementById("editNIC").value = cells[5].innerText;
-    document.getElementById("editEmail").value = cells[6].innerText;
-    document.getElementById("editJoinDate").value = cells[7].innerText !== '-' ? cells[7].innerText : '';
-    document.getElementById("editLeaveDate").value = cells[8].innerText !== '-' ? cells[8].innerText : '';
+    document.getElementById("editAddress").value = cells[4].innerText;
+    document.getElementById("editContactNumber").value = cells[5].innerText;
+    document.getElementById("editNIC").value = cells[6].innerText;
+    document.getElementById("editEmail").value = cells[7].innerText;
+    document.getElementById("editJoinDate").value = cells[8].innerText !== '-' ? cells[8].innerText : '';
+    document.getElementById("editLeaveDate").value = cells[9].innerText !== '-' ? cells[9].innerText : '';
 
     popupForm.classList.add("active");
     overlay.classList.add("active");

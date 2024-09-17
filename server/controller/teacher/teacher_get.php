@@ -42,7 +42,8 @@ $sql = "
         g.grade_name 
     FROM teacher t
     JOIN users u ON t.user_id = u.user_id 
-    LEFT JOIN grade g ON t.teacher_id = g.teacher_id
+    LEFT JOIN grade_teacher gt ON t.teacher_id = gt.teacher_id
+    LEFT JOIN grade g ON gt.grade_id = g.grade_id
 ";
 
 // Check if any filter parameters are provided in the GET request
