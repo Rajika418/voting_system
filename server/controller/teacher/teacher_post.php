@@ -122,4 +122,4 @@ try {
     header("Location: ../../../client/teacher/register.html?error=" . $error_message);
     exit();
 }
-    ?>
+    ?> 

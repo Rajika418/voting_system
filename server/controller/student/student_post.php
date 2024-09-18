@@ -1,4 +1,4 @@
-<?php
+<?php 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Origin: *');
@@ -71,37 +71,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     error_log("Received data: " . json_encode($received_data));
 
     // Handle the image upload
-    $image = null;
-    $image_dir = $_SERVER['DOCUMENT_ROOT'] . '/voting_system/uploads/';
 
-    if (!is_dir($image_dir)) {
-        mkdir($image_dir, 0777, true); // Create the uploads directory if it doesn't exist
-    }
 
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $image_tmp_name = $_FILES['image']['tmp_name'];
-        $image_name = basename($_FILES['image']['name']);
-        $image_path = $image_dir . $image_name;
+        $image = NULL;
+$image_dir = '../../../uploads/'; // Corrected to a server file path
+$base_url = 'http://localhost/voting_system/uploads/'; // Base URL for accessing images
 
-        // Move the uploaded file to the desired directory
-        if (move_uploaded_file($image_tmp_name, $image_path)) {
-            $image = $image_name; // Only store the image name in the database, not the full path
-        } else {
-            echo json_encode([
-                "status" => "error",
-                "message" => "Image upload failed",
-                "received_data" => $received_data
-            ]);
-            exit();
-        }
+// Create the directory if it doesn't exist
+if (!is_dir($image_dir)) {
+    mkdir($image_dir, 0777, true);
+}
+
+if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    $image_tmp_name = $_FILES['image']['tmp_name'];
+    $image_name = basename($_FILES['image']['name']);
+    
+    // Generate a unique name for the image to prevent overwriting
+    $unique_image_name = uniqid() . '_' . $image_name;
+    $image_path = $image_dir . $unique_image_name;
+
+    // Move the uploaded file to the desired directory
+    if (move_uploaded_file($image_tmp_name, $image_path)) {
+        // Save the full URL for the image
+        $image = $base_url . $unique_image_name;
     } else {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Image upload error or no image provided",
-            "received_data" => $received_data
-        ]);
+        echo json_encode(["message" => "Image upload failed"]);
         exit();
     }
+} else {
+    // No image uploaded or error in upload
+    if (isset($_FILES['image']['error']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
+        echo json_encode(["message" => "Image upload error: " . $_FILES['image']['error']]);
+        exit();
+    }
+}
 
     // Start database transaction
     $conn->beginTransaction();
@@ -143,3 +146,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+*/
+

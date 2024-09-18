@@ -1,9 +1,27 @@
 <?php 
 
-require "../../db_config.php" ;
 
 
-// Prepare the SQL query
+
+header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Origin: *');
+
+// Database connection
+$host = "localhost";
+$db_name = "voting_system";
+$username = "root";
+$password = "";
+
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch(PDOException $e) {
+    echo json_encode(["message" => "Connection failed: " . $e->getMessage()]);
+    exit();
+}
+
+// Prepare the base SQL query to fetch student details
 $sql = "
     SELECT 
         student.student_id, 
@@ -22,21 +40,38 @@ $sql = "
     FROM student 
     JOIN users ON student.user_id = users.user_id 
     JOIN grade ON student.grade_id = grade.grade_id
-    JOIN teacher ON grade.teacher_id = teacher.teacher_id  -- Join the teacher table using teacher_id
+    LEFT JOIN grade_teacher ON grade.grade_id = grade_teacher.grade_id  -- Use LEFT JOIN for optional matching
+    LEFT JOIN teacher ON grade_teacher.teacher_id = teacher.teacher_id  -- Use LEFT JOIN for optional matching
 ";
 
-// Check if any filter parameters are provided in the GET request
+
+// Initialize filter, sorting, and pagination variables
 $where_conditions = [];
 $params = [];
+$grade_name = null;
+$order_by = 'student.student_name';  // Default sort column
+$order_direction = 'ASC';            // Default sort direction
 
-if (isset($_GET['student_id'])) {
-    $where_conditions[] = "student.student_id = :student_id";
-    $params[':student_id'] = $_GET['student_id'];
-}
-
+// Check if grade_name filter is provided
 if (isset($_GET['grade_name'])) {
     $where_conditions[] = "grade.grade_name = :grade_name";
     $params[':grade_name'] = $_GET['grade_name'];
+    $grade_name = $_GET['grade_name'];
+}
+
+// Check if sort order is provided
+if (isset($_GET['sort_by']) && $_GET['sort_by'] === 'student_name') {
+    $order_by = 'student.student_name';
+}
+if (isset($_GET['order']) && ($_GET['order'] === 'asc' || $_GET['order'] === 'desc')) {
+    $order_direction = strtoupper($_GET['order']);
+}
+
+// Add search functionality
+if (isset($_GET['search'])) {
+    $search = '%' . $_GET['search'] . '%';
+    $where_conditions[] = "(student.student_name LIKE :search OR student.registration_number LIKE :search)";
+    $params[':search'] = $search;
 }
 
 // Add WHERE conditions if any
@@ -44,42 +79,39 @@ if (!empty($where_conditions)) {
     $sql .= " WHERE " . implode(" AND ", $where_conditions);
 }
 
-// Sort by grade_name and then by registration_number within each grade
-$sql .= " ORDER BY grade.grade_name, student.registration_number";
+// Sorting by student_name in ascending or descending order
+$sql .= " ORDER BY $order_by $order_direction";
 
 // Pagination variables
-$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10; // Default limit per page
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Default page
-$offset = ($page - 1) * $limit;
+$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20; // Default limit per page (20 students per page)
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;      // Default page number is 1
+$offset = ($page - 1) * $limit;                            // Calculate the offset for pagination
 
-// Add LIMIT and OFFSET clauses
+// Add LIMIT and OFFSET clauses for pagination
 $sql .= " LIMIT :limit OFFSET :offset";
 
-// Prepare and execute the SQL statement
+// Prepare and execute the SQL query
 try {
     $stmt = $conn->prepare($sql);
-    
-    // Bind parameters
+
+    // Bind filter parameters
     foreach ($params as $key => $value) {
         $stmt->bindValue($key, $value);
     }
-    
+
     // Bind pagination parameters
     $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-    
+
     $stmt->execute();
 
-    // Fetch all results
+    // Fetch all the results
     $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($students) {
-        // Return the results as JSON
-        echo json_encode($students);
-    } else {
-        echo json_encode(["message" => "No students found"]);
-    }
+    // Return the results as JSON
+    echo json_encode($students);
 } catch (Exception $e) {
     echo json_encode(["message" => "Query failed: " . $e->getMessage()]);
 }
 ?>
+

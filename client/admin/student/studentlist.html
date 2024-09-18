@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student List</title>
+    <link rel="stylesheet" href="studentlist.css">
+    <script src="studentlist.js" defer></script>
+</head>
+<body>
+
+    <h1>Student List</h1>
+
+    <div class="search-box">
+        <label for="search">Search by Name or Registration Number:</label>
+        <input type="text" id="search" placeholder="Enter name or registration number" onkeyup="fetchStudents()">
+    </div>
+
+    <div class="sort-box">
+        <button onclick="setSortDirection('asc')">Sort Ascending</button>
+        <button onclick="setSortDirection('desc')">Sort Descending</button>
+    </div>
+
+    <table id="studentTable">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th onclick="sortTable('registration_number')">Registration Number</th>
+                <th onclick="sortTable('student_name')">Student Name</th>
+                <th onclick="sortTable('grade_name')">Grade</th>
+                <th>Class Teacher</th>
+                <th>Guardian</th>
+                <th>Address</th>
+                <th>Contact Number</th>
+                <th>Email</th>
+                <th>Join Date</th>
+                <th>Leave Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data will be injected here -->
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        <button onclick="previousPage()">Previous</button>
+        <span id="pageInfo">Page 1</span>
+        <button onclick="nextPage()">Next</button>
+    </div>
+
+</body>
+</html>
