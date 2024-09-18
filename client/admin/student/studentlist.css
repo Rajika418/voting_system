@@ -48,8 +48,39 @@ th.sort-desc::after {
     border-radius: 4px;
 }
 
-.sort-box button:hover {
-    background-color: #1d33b1;
+/* Style for Edit Button */
+.edit-btn {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for Edit Button */
+.edit-btn:hover {
+    background-color: #45a049; /* Darker Green */
+}
+
+/* Style for Delete Button */
+.delete-btn {
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    margin-left: 10px; /* Optional space between buttons */
+}
+
+/* Hover effect for Delete Button */
+.delete-btn:hover {
+    background-color: #d32f2f; /* Darker Red */
 }
 
 .pagination {
@@ -66,38 +97,97 @@ th.sort-desc::after {
     background-color: #08f888;
 }
 
-.actions {
+.popup-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    margin-top: 10px;
+    max-height: 60vh; /* Ensures popup doesn't go beyond 80% of the viewport height */
+    overflow-y: auto;
+}
+
+.popup-content {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
 }
 
-.edit-btn {
-    padding: 5px 10px;
-    cursor: pointer;
-    background-color: #08f888;
-    color: white;
+.form-group {
+    display: flex;
+    flex-direction: column;
+   
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input, 
+.form-group select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    width: 100%;
+}
+
+button {
+    padding: 10px 15px;
     border: none;
-    border-radius: 4px;
-}
-
-.edit-btn:hover {
-    background-color: #1d33b1;
-}
-
-.delete-btn {
-    padding: 5px 10px;
-    cursor: pointer;
-    background-color: #ff4c4c;
+    border-radius: 5px;
+    background-color: #4CAF50;
     color: white;
-    border: none;
-    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
 }
 
-.delete-btn:hover {
-    background-color: #cc0000;
+button:hover {
+    background-color: #45a049;
 }
 
-#pageInfo {
-    color: black;
-    font-size: medium;
+button[type="button"] + button {
+    background-color: #f44336;
+}
+
+button[type="button"] + button:hover {
+    background-color: #e41f1f;
+}
+
+
+.toast {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+.toast.show {
+    visibility: visible;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@keyframes fadein {
+    from { bottom: 0; opacity: 0; }
+    to { bottom: 30px; opacity: 1; }
+}
+
+@keyframes fadeout {
+    from { bottom: 30px; opacity: 1; }
+    to { bottom: 0; opacity: 0; }
 }

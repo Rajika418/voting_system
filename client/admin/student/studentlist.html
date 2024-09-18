@@ -30,6 +30,7 @@
                 <th onclick="sortTable('grade_name')">Grade</th>
                 <th>Class Teacher</th>
                 <th>Guardian</th>
+                
                 <th>Address</th>
                 <th>Contact Number</th>
                 <th>Email</th>
@@ -48,6 +49,73 @@
         <span id="pageInfo">Page 1</span>
         <button onclick="nextPage()">Next</button>
     </div>
+
+    <!-- Update Student Popup Form -->
+    <!-- Update Student Popup Form -->
+    <div id="editPopup" class="popup-form">
+        <div class="popup-content">
+            <h2>Update Student</h2>
+            <form id="updateForm">
+                <div class="form-group">
+                    <label for="editRegNo">Registration Number:</label>
+                    <input type="text" id="editRegNo" name="editRegNo" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="editName">Student Name:</label>
+                    <input type="text" id="editName" name="editName" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="editGrade">Grade:</label>
+                    <input type="text" id="editGrade" name="editGrade" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="editClassTeacher">Class Teacher:</label>
+                    <input type="text" id="editClassTeacher" name="editClassTeacher" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="editGuardian">Guardian:</label>
+                    <input type="text" id="editGuardian" name="editGuardian" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="editAddress">Address:</label>
+                    <input type="text" id="editAddress" name="editAddress" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="editContact">Contact Number:</label>
+                    <input type="text" id="editContact" name="editContact" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="editEmail">Email:</label>
+                    <input type="email" id="editEmail" name="editEmail" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="editJoinDate">Join Date:</label>
+                    <input type="date" id="editJoinDate" name="editJoinDate" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="editLeaveDate">Leave Date:</label>
+                    <input type="date" id="editLeaveDate" name="editLeaveDate">
+                </div>
+    
+                <button type="button" onclick="updateStudent()">Update</button>
+                <button type="button" onclick="closePopup()">Close</button>
+            </form>
+        </div>
+    </div>
+    
+
+
+    <!-- Toast Messages -->
+    <div id="toast" class="toast"></div>
 
 </body>
 </html>
