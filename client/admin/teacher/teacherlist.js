@@ -3,8 +3,19 @@ const resultsPerPage = 8;
 let sortOrder = 'ASC'; 
 
 document.addEventListener('DOMContentLoaded', function() {
-    fetchTeachers(); // Fetch teachers when the page loads
+    console.log("DOM fully loaded and parsed");
+    initializeTeacherList();
 });
+
+function initializeTeacherList() {
+    const teacherTable = document.getElementById('teacherTable');
+    if (!teacherTable) {
+        console.error("Teacher table not found in the DOM");
+        return;
+    }
+    console.log("Teacher table found, initializing...");
+    fetchTeachers();
+}
 
 function fetchTeachers() {
     const searchInputElement = document.getElementById('searchInput');

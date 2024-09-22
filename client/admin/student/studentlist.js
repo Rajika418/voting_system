@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    const studentTable = document.getElementById('studentTable');
     fetchStudents();
 });
     let currentPag = 1;
