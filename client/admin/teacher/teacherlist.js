@@ -28,6 +28,11 @@ function fetchTeachers() {
 
 function displayTable(teachers, pagination) {
     const tableBody = document.querySelector("#teacherTable tbody");
+    
+    if (!tableBody) {
+        console.error("Table body not found!");
+        return; // Exit if the table body doesn't exist
+    }
 
     tableBody.innerHTML = ""; // Clear existing rows
     teachers.forEach((teacher, index) => {

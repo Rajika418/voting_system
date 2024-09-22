@@ -177,7 +177,3 @@ document.addEventListener('DOMContentLoaded', function () {
         toast.classList.add('show');
         setTimeout(() => toast.classList.remove('show'), 4000);
     }
-
-    // Initial fetch
-    fetchStudents();
-
