@@ -1,16 +1,19 @@
 let currentPage = 1; 
-const resultsPerPage = 8;
+const resultsPerPage = 8; 
 let sortOrder = 'ASC'; 
 
+document.addEventListener('DOMContentLoaded', function() {
+    fetchTeachers(); // Fetch teachers when the page loads
+});
+
 function fetchTeachers() {
-    
-     const searchInputElement = document.getElementById('searchInput');
+    const searchInputElement = document.getElementById('searchInput');
     const searchQuery = searchInputElement ? searchInputElement.value.toLowerCase() : '';
-    
+
     fetch(`http://localhost/voting_system/server/controller/teacher/teacher_get.php?page=${currentPage}&results_per_page=${resultsPerPage}&sort_order=${sortOrder}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data.data)
+            console.log(data.data);
             if (data.data) {
                 const teachers = data.data.filter(teacher => 
                     teacher.teacher_name.toLowerCase().includes(searchQuery)
@@ -24,15 +27,19 @@ function fetchTeachers() {
 }
 
 function displayTable(teachers, pagination) {
-    console.log(teachers)
     const tableBody = document.querySelector("#teacherTable tbody");
-    tableBody.innerHTML = "";
+    
+    if (!tableBody) {
+        console.error("Table body not found!");
+        return; // Exit if the table body doesn't exist
+    }
+
+    tableBody.innerHTML = ""; // Clear existing rows
     teachers.forEach((teacher, index) => {
-        console.log(teacher)
         const row = `
             <tr data-id="${teacher.teacher_id}">
                 <td>${index + 1}</td>
-                <td><img src="${teacher.image ? teacher.image : null}" alt="Profile Image" width="50" height="50"></td>
+                <td><img src="${teacher.image ? teacher.image : ''}" alt="Profile Image" width="50" height="50"></td>
                 <td>${teacher.teacher_name}</td>
                 <td>${teacher.grade_name}</td>
                 <td>${teacher.address}</td>
@@ -143,7 +150,6 @@ function updateTeacher() {
     });
 }
 
-
 function deleteTeacher(teacherId) {
     if (confirm('Are you sure you want to delete this teacher?')) {
         const formData = new FormData();
@@ -194,14 +200,5 @@ function showToast(message, type) {
 
     setTimeout(() => {
         toast.remove();
-    }, 10000);
+    }, 4000);
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    fetchTeachers();
-});
-
-
-
-
-
