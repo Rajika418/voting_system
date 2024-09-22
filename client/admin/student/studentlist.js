@@ -5,8 +5,8 @@ let sortColumn = 'grade_name';
 let searchQuer = '';
 
 function fetchStudents() {
-    const search = document.getElementById('search').value;
-    searchQuer = search;
+    const searchElement = document.getElementById('search');
+     searchQuer = searchElement ? searchElement.value : '';
 
     const url = `http://localhost/voting_system/server/controller/student/student_get.php?page=${currentPag}&limit=${limit}&search=${searchQuer}&sort_by=${sortColumn}&order=${sortDirection}`;
 
