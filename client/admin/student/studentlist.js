@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+    fetchStudents();
+});
     let currentPag = 1;
     let limit = 20;
     let sortDirection = 'asc';
@@ -20,11 +22,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderTable(students) {
         const tbody = document.querySelector('#studentTable tbody');
-        
-        if (!tbody) {
-            console.error("Table body not found!");
-            return; 
-        }
         
         tbody.innerHTML = '';
 
@@ -183,4 +180,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initial fetch
     fetchStudents();
-});
+
