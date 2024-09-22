@@ -108,8 +108,8 @@ th.sort-desc::after {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 350px;
     margin-top: 10px;
-    max-height: 60vh; /* Ensures popup doesn't go beyond 80% of the viewport height */
-    overflow-y: auto;
+    max-height: 80vh; /* Ensures popup doesn't go beyond 80% of the viewport height */
+     overflow-y: auto;
 }
 
 .popup-content {
@@ -190,4 +190,7 @@ button[type="button"] + button:hover {
 @keyframes fadeout {
     from { bottom: 30px; opacity: 1; }
     to { bottom: 0; opacity: 0; }
+}
+#editPopup {
+    display: none;
 }

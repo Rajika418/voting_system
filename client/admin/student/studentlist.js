@@ -75,42 +75,61 @@ function previousPage() {
     }
 }
 
+
+
+
+
+
+
+
+let selectedStudentId; // Global variable to store the current student ID
+
 function editStudent(studentId) {
+    selectedStudentId = studentId; // Store the student ID globally
     document.getElementById('editPopup').style.display = 'flex';
 
     // Fetch student details using studentId and populate the form fields
-    fetch(`http://localhost/voting_system/server/controller/student/student_get_by_id.php?id=${studentId}`)
+    fetch(`http://localhost/voting_system/server/controller/student/student_get.php?id=${studentId}`)
         .then(response => response.json())
         .then(student => {
-            document.getElementById('editRegNo').value = student.registration_number;
-            document.getElementById('editName').value = student.student_name;
-            document.getElementById('editGrade').value = student.grade_name;
-            document.getElementById('editClassTeacher').value = student.teacher_name;
-            document.getElementById('editGuardian').value = student.guardian;
-            document.getElementById('editAddress').value = student.address;
-            document.getElementById('editContact').value = student.contact_number;
-            document.getElementById('editEmail').value = student.email;
-            document.getElementById('editJoinDate').value = student.join_date;
-            document.getElementById('editLeaveDate').value = student.leave_date || ''; // Leave date can be empty
+            // Populate the form with fetched student data, allowing free input
+            document.getElementById('editRegNo').value = student.registration_number || '';
+            document.getElementById('editName').value = student.student_name || '';
+            document.getElementById('editGrade').value = student.grade_name || '';
+            document.getElementById('editClassTeacher').value = student.teacher_name || '';
+            document.getElementById('editGuardian').value = student.guardian || '';
+            document.getElementById('editAddress').value = student.address || '';
+            document.getElementById('editContact').value = student.contact_number || '';
+            document.getElementById('editEmail').value = student.email || '';
+            document.getElementById('editJoinDate').value = student.join_date || '';
+            document.getElementById('editLeaveDate').value = student.leave_date || '';
         })
         .catch(error => console.error('Error fetching student details:', error));
 }
 
+function closePopup() {
+    document.getElementById('editPopup').style.display = 'none';
+}
+
 function updateStudent() {
+    // Create an object to hold the updated student data
     const updatedStudent = {
-        registration_number: document.getElementById('editRegNo').value,
-        student_name: document.getElementById('editName').value,
-        grade_name: document.getElementById('editGrade').value,
-        teacher_name: document.getElementById('editClassTeacher').value,
-        guardian: document.getElementById('editGuardian').value,
-        address: document.getElementById('editAddress').value,
-        contact_number: document.getElementById('editContact').value,
-        email: document.getElementById('editEmail').value,
-        join_date: document.getElementById('editJoinDate').value,
-        leave_date: document.getElementById('editLeaveDate').value
+        registration_number: document.getElementById('editRegNo').value || null,
+        student_name: document.getElementById('editName').value || null,
+        grade_name: document.getElementById('editGrade').value || null,
+        teacher_name: document.getElementById('editClassTeacher').value || null,
+        guardian: document.getElementById('editGuardian').value || null,
+        address: document.getElementById('editAddress').value || null,
+        contact_number: document.getElementById('editContact').value || null,
+        email: document.getElementById('editEmail').value || null,
+        join_date: document.getElementById('editJoinDate').value || null,
+        leave_date: document.getElementById('editLeaveDate').value || null
     };
 
-    fetch(`http://localhost/voting_system/server/controller/student/student_update.php?id=${studentId}`, {
+    const updateButton = document.querySelector('.update-btn');
+    updateButton.disabled = true; // Disable the button during update to prevent multiple submissions
+
+    fetch(`http://localhost/voting_system/server/controller/student/student_update.php?id=${selectedStudentId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -120,22 +139,27 @@ function updateStudent() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            closePopup();
-            showToast('Student updated successfully!');
+            showToast('Student updated successfully!', 'success');
+            closePopup(); // Close the popup after a successful update
             fetchStudents(); // Refresh the student list
         } else {
-            showToast('Failed to update student.');
+            showToast('Failed to update student: ' + data.message, 'error');
         }
     })
-    .catch(error => console.error('Error updating student:', error));
+    .catch(error => {
+        showToast('Error updating student: ' + error, 'error');
+    })
+    .finally(() => {
+        updateButton.disabled = false; // Re-enable the button after completion
+    });
 }
 
-
+/*
 function updateStudent() {
     // Implement the update API call here
     closePopup();
     showToast('Student updated successfully!');
-}
+}*/
 
 function closePopup() {
     document.getElementById('editPopup').style.display = 'none';
