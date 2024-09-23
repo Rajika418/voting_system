@@ -1,14 +1,14 @@
-let currentPage = 1;
+let currentPag = 1;
 let limit = 20;
 let sortDirection = 'asc';
 let sortColumn = 'grade_name';
-let searchQuery = '';
+let searchQuer = '';
 
 function fetchStudents() {
     const search = document.getElementById('search').value;
-    searchQuery = search;
+    searchQuer = search;
 
-    const url = `http://localhost/voting_system/server/controller/student/student_get.php?page=${currentPage}&limit=${limit}&search=${searchQuery}&sort_by=${sortColumn}&order=${sortDirection}`;
+    const url = `http://localhost/voting_system/server/controller/student/student_get.php?page=${currentPag}&limit=${limit}&search=${searchQuer}&sort_by=${sortColumn}&order=${sortDirection}`;
 
     fetch(url)
         .then(response => response.json())
@@ -24,7 +24,7 @@ function renderTable(students) {
         const tr = document.createElement('tr');
 
         tr.innerHTML = `
-            <td>${index + 1 + (currentPage - 1) * limit}</td>
+            <td>${index + 1 + (currentPag - 1) * limit}</td>
             <td>${student.registration_number}</td>
             <td>${student.student_name}</td>
             <td>${student.grade_name}</td>
@@ -36,7 +36,7 @@ function renderTable(students) {
             <td>${student.join_date}</td>
             <td>${student.leave_date || ''}</td>
             <td class="actions">
-                <button class="edit-btn" onclick="editStudent(${student.student_id})">Edit</button>
+                <button class="edit-btn" onclick="editStudent(${student.student_id}, this)">Edit</button>
                 <button class="delete-btn" onclick="deleteStudent(${student.student_id})">Delete</button>
             </td>
         `;
@@ -44,7 +44,7 @@ function renderTable(students) {
         tbody.appendChild(tr);
     });
 
-    document.getElementById('pageInfo').innerText = `Page ${currentPage}`;
+    document.getElementById('pageInfo').innerText = `Page ${currentPag}`;
 }
 
 function sortTable(column) {
@@ -64,121 +64,119 @@ function setSortDirection(direction) {
 }
 
 function nextPage() {
-    currentPage++;
+    currentPag++;
     fetchStudents();
 }
 
 function previousPage() {
-    if (currentPage > 1) {
-        currentPage--;
+    if (currentPag > 1) {
+        currentPag--;
         fetchStudents();
     }
 }
 
+function editStudent(studentId, button) {
+    const updateForm = document.getElementById("updateForm");
+    const editPopup = document.getElementById("editPopup");
 
+    const row = button.parentElement.parentElement; // Get the row of the clicked button
+    const cells = row.getElementsByTagName("td");
 
+    // Populate the form fields with data from the table row
+    document.getElementById("editRegNo").value = cells[1].innerText;
+    document.getElementById("editName").value = cells[2].innerText;
+    document.getElementById("editGrade").value = cells[3].innerText;
+    document.getElementById("editClassTeacher").value = cells[4].innerText;
+    document.getElementById("editGuardian").value = cells[5].innerText;
+    document.getElementById("editAddress").value = cells[6].innerText;
+    document.getElementById("editContact").value = cells[7].innerText;
+    document.getElementById("editEmail").value = cells[8].innerText;
+    document.getElementById("editJoinDate").value = cells[9].innerText !== '-' ? cells[9].innerText : '';
+    document.getElementById("editLeaveDate").value = cells[10].innerText !== '-' ? cells[10].innerText : '';
 
+    // Add the student ID to the popup for use during the update
+    editPopup.dataset.studentId = studentId;
 
-
-
-
-let selectedStudentId; // Global variable to store the current student ID
-
-function editStudent(studentId) {
-    selectedStudentId = studentId; // Store the student ID globally
-    document.getElementById('editPopup').style.display = 'flex';
-
-    // Fetch student details using studentId and populate the form fields
-    fetch(`http://localhost/voting_system/server/controller/student/student_get.php?id=${studentId}`)
-        .then(response => response.json())
-        .then(student => {
-            // Populate the form with fetched student data, allowing free input
-            document.getElementById('editRegNo').value = student.registration_number || '';
-            document.getElementById('editName').value = student.student_name || '';
-            document.getElementById('editGrade').value = student.grade_name || '';
-            document.getElementById('editClassTeacher').value = student.teacher_name || '';
-            document.getElementById('editGuardian').value = student.guardian || '';
-            document.getElementById('editAddress').value = student.address || '';
-            document.getElementById('editContact').value = student.contact_number || '';
-            document.getElementById('editEmail').value = student.email || '';
-            document.getElementById('editJoinDate').value = student.join_date || '';
-            document.getElementById('editLeaveDate').value = student.leave_date || '';
-        })
-        .catch(error => console.error('Error fetching student details:', error));
+    // Show the popup
+    updateForm.classList.add("active");
+    editPopup.style.display = 'block'; // Make the popup visible
 }
 
 function closePopup() {
-    document.getElementById('editPopup').style.display = 'none';
+    document.getElementById("editPopup").style.display = 'none'; // Hide the popup
+    
 }
 
 function updateStudent() {
-    // Create an object to hold the updated student data
-    const updatedStudent = {
-        registration_number: document.getElementById('editRegNo').value || null,
-        student_name: document.getElementById('editName').value || null,
-        grade_name: document.getElementById('editGrade').value || null,
-        teacher_name: document.getElementById('editClassTeacher').value || null,
-        guardian: document.getElementById('editGuardian').value || null,
-        address: document.getElementById('editAddress').value || null,
-        contact_number: document.getElementById('editContact').value || null,
-        email: document.getElementById('editEmail').value || null,
-        join_date: document.getElementById('editJoinDate').value || null,
-        leave_date: document.getElementById('editLeaveDate').value || null
-    };
+    const studentId = document.getElementById("editPopup").dataset.studentId;
+    const formData = new FormData();
+
+    formData.append("student_id", studentId);
+    formData.append("registration_number", document.getElementById("editRegNo").value);
+    formData.append("student_name", document.getElementById("editName").value);
+    formData.append("grade_name", document.getElementById("editGrade").value);
+    formData.append("teacher_name", document.getElementById("editClassTeacher").value);
+    formData.append("guardian", document.getElementById("editGuardian").value);
+    formData.append("address", document.getElementById("editAddress").value);
+    formData.append("contact_number", document.getElementById("editContact").value);
+    formData.append("email", document.getElementById("editEmail").value);
+    formData.append("join_date", document.getElementById("editJoinDate").value);
+    formData.append("leave_date", document.getElementById("editLeaveDate").value);
 
     const updateButton = document.querySelector('.update-btn');
-    updateButton.disabled = true; // Disable the button during update to prevent multiple submissions
 
-    fetch(`http://localhost/voting_system/server/controller/student/student_update.php?id=${selectedStudentId}`, {
+    updateButton.disabled = true; // Disable the button before the request
+
+    fetch('http://localhost/voting_system/server/controller/student/student_update.php?action=update', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedStudent),
+        body: formData
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
-            showToast('Student updated successfully!', 'success');
-            closePopup(); // Close the popup after a successful update
-            fetchStudents(); // Refresh the student list
+        console.log('Response data:', data); // Debugging line
+        if (data.status === 'success') {
+            showToast(data.message, 'success');
+            closePopup();
+            fetchStudents();
         } else {
-            showToast('Failed to update student: ' + data.message, 'error');
+            showToast('Update failed: ' + data.message, 'error'); // Show specific error message
         }
     })
+    
+    
     .catch(error => {
-        showToast('Error updating student: ' + error, 'error');
+        console.error('Error updating student:', error);
+        showToast('Update error: ' + error, 'error');
     })
     .finally(() => {
-        updateButton.disabled = false; // Re-enable the button after completion
+        updateButton.disabled = false; // Re-enable button after completion
     });
 }
 
-/*
-function updateStudent() {
-    // Implement the update API call here
-    closePopup();
-    showToast('Student updated successfully!');
-}*/
 
-function closePopup() {
-    document.getElementById('editPopup').style.display = 'none';
+
+function showToast(message, status) {
+    const toast = document.getElementById('toast');
+    toast.innerText = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
 }
+
 
 function deleteStudent(studentId) {
     if (confirm('Are you sure you want to delete this student?')) {
         fetch(`http://localhost/voting_system/server/controller/student/student_delete.php?id=${studentId}`, {
             method: 'DELETE'
         })
-        .then(response => {
-            if (response.ok) {
-                showToast('Student deleted successfully!');
-                fetchStudents(); // Refresh the list
-            } else {
-                showToast('Failed to delete student.');
-            }
-        })
-        .catch(error => console.error('Error deleting student:', error));
+            .then(response => {
+                if (response.ok) {
+                    showToast('Student deleted successfully!');
+                    fetchStudents(); // Refresh the list
+                } else {
+                    showToast('Failed to delete student.');
+                }
+            })
+            .catch(error => console.error('Error deleting student:', error));
     }
 }
 
@@ -186,7 +184,7 @@ function showToast(message) {
     const toast = document.getElementById('toast');
     toast.innerText = message;
     toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
+    setTimeout(() => toast.classList.remove('show'), 10000);
 }
 
 // Fetch students on page load

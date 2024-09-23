@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Kalaimahal T.M.V.</title>
+
     <script src="./teacher/teacherlist.js"></script>
+    <script src="./teacher/asignpopup.js"></script>
+    <script src="./student/studentlist.js"></script>
     <link rel="stylesheet" href="admin.css">
     <link rel="stylesheet" href="./teacher/teacherlist.css">
+    <link rel="stylesheet" href="/voting_system/client/admin/student/studentlist.css"> 
+   
 </head>
 <body>
     <header class="navbar">
@@ -26,7 +31,7 @@
             <ul>
                 <li><a href="#" onclick="loadPage('./dashboard.html')">Dashboard</a></li>
                 <li><a href="#" onclick="loadPage('./teacher/teacherlist.html')">Teachers</a></li>
-                <li><a href="#" onclick="loadPage('./students/students.html')">Students</a></li>
+                <li><a href="#" onclick="loadPage('./student/studentlist.html')">Students</a></li>
                 <li class="toggleable"><a href="#">Results</a>
                     <ul class="submenu">
                         <li><a href="#" onclick="loadPage('./results/ol.html')">O/L Results</a></li>
