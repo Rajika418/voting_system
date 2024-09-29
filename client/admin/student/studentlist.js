@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>${student.grade_name}</td>
                 <td>${student.teacher_name}</td>
                 <td>${student.guardian}</td>
+                <td>${student.father_name}</td>
                 <td>${student.address}</td>
                 <td>${student.contact_number}</td>
                 <td>${student.email}</td>
@@ -94,11 +95,12 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("editGrade").value = cells[3].innerText;
         document.getElementById("editClassTeacher").value = cells[4].innerText;
         document.getElementById("editGuardian").value = cells[5].innerText;
-        document.getElementById("editAddress").value = cells[6].innerText;
-        document.getElementById("editContact").value = cells[7].innerText;
-        document.getElementById("editEmail").value = cells[8].innerText;
-        document.getElementById("editJoinDate").value = cells[9].innerText !== '-' ? cells[9].innerText : '';
-        document.getElementById("editLeaveDate").value = cells[10].innerText !== '-' ? cells[10].innerText : '';
+        document.getElementById("editFather").value = cells[6].innerText;
+        document.getElementById("editAddress").value = cells[7].innerText;
+        document.getElementById("editContact").value = cells[8].innerText;
+        document.getElementById("editEmail").value = cells[9].innerText;
+        document.getElementById("editJoinDate").value = cells[10].innerText !== '-' ? cells[9].innerText : '';
+        document.getElementById("editLeaveDate").value = cells[11].innerText !== '-' ? cells[10].innerText : '';
 
         // Add the student ID to the popup for use during the update
         editPopup.dataset.studentId = studentId;
@@ -122,6 +124,7 @@ document.addEventListener('DOMContentLoaded', function () {
         formData.append("grade_name", document.getElementById("editGrade").value);
         formData.append("teacher_name", document.getElementById("editClassTeacher").value);
         formData.append("guardian", document.getElementById("editGuardian").value);
+        formData.append("father_name", document.getElementById("editFather").value);
         formData.append("address", document.getElementById("editAddress").value);
         formData.append("contact_number", document.getElementById("editContact").value);
         formData.append("email", document.getElementById("editEmail").value);

@@ -30,6 +30,7 @@ $sql = "
         student.contact_number, 
         student.registration_number, 
         student.guardian, 
+        student.father_name, 
         student.join_date, 
         student.leave_date, 
         users.user_name, 

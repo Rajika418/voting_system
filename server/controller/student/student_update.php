@@ -41,6 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $contact_number = $_POST['contact_number'] ?? null;
     $registration_number = $_POST['registration_number'] ?? null;
     $guardian = $_POST['guardian'] ?? null;
+    $father_name = $_POST['father_name'] ?? null;
     $join_date = $_POST['join_date'] ?? null;
     $grade_id = $_POST['grade_id'] ?? null; // Optional grade ID
     $image = $_POST['image'] ?? null;
@@ -91,6 +92,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($guardian !== null) {
                 $update_fields[] = "guardian = ?";
                 $update_values[] = $guardian;
+            }
+            if ($father_name !== null) {
+                $update_fields[] = "father_name = ?";
+                $update_values[] = $father_name;
             }
             if ($contact_number !== null) {
                 $update_fields[] = "contact_number = ?";
