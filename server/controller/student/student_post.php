@@ -135,9 +135,9 @@ if (empty($guardian) && empty($father_name)) {
         ]);
 
         // Redirect to login page after success
-       /* header("Location: ../../../client/login.html");
+       header("Location: ../../../client/login.html");
         exit();
-        */
+        
     } catch (Exception $e) {
         // Rollback the transaction in case of error
         $conn->rollBack();
