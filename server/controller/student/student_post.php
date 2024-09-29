@@ -23,7 +23,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $required_fields = ['student_name', 'user_name', 'password', 'email', 'address', 'contact_number', 'registration_number', 'guardian', 'join_date'];
+    $required_fields = ['student_name', 'user_name', 'password', 'email', 'address', 'contact_number', 'registration_number', 'join_date'];
     $missing_fields = [];
 
     // Check for missing fields
@@ -50,10 +50,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $address = $_POST['address'];
     $contact_number = $_POST['contact_number'];
     $registration_number = $_POST['registration_number'];
-    $guardian = $_POST['guardian'];
     $join_date = $_POST['join_date'];
     $grade_id = $_POST['grade_id'] ?? null; // Optional grade ID
 
+    // Determine whether to use father_name or guardian based on the checkbox
+    $guardian = isset($_POST['guardian']) && !empty($_POST['guardian']) ? $_POST['guardian'] : null;
+    $father_name = isset($_POST['father_name']) && !empty($_POST['father_name']) ? $_POST['father_name'] : null;
+
+    // If guardian is provided, use it; otherwise, use father_name
+    $guardian_or_father = !empty($guardian) ? $guardian : $father_name;
+
+    if (empty($guardian_or_father)) {
+        echo json_encode([
+            "status" => "error",
+            "message" => "Either father name or guardian must be provided."
+        ]);
+        exit();
+    }
+
+    // Log received data
     $received_data = [
         'student_name' => $student_name,
         'user_name' => $user_name,
@@ -61,50 +76,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'address' => $address,
         'contact_number' => $contact_number,
         'registration_number' => $registration_number,
-        'guardian' => $guardian,
+        'guardian_or_father' => $guardian_or_father,
         'join_date' => $join_date,
         'grade_id' => $grade_id,
         'image' => isset($_FILES['image']) ? 'Provided' : 'Not provided'
     ];
 
-    // Log received data
     error_log("Received data: " . json_encode($received_data));
 
     // Handle the image upload
+    $image = NULL;
+    $image_dir = '../../../uploads/';
+    $base_url = 'http://localhost/voting_system/uploads/';
 
-
-        $image = NULL;
-$image_dir = '../../../uploads/'; // Corrected to a server file path
-$base_url = 'http://localhost/voting_system/uploads/'; // Base URL for accessing images
-
-// Create the directory if it doesn't exist
-if (!is_dir($image_dir)) {
-    mkdir($image_dir, 0777, true);
-}
-
-if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-    $image_tmp_name = $_FILES['image']['tmp_name'];
-    $image_name = basename($_FILES['image']['name']);
-    
-    // Generate a unique name for the image to prevent overwriting
-    $unique_image_name = uniqid() . '_' . $image_name;
-    $image_path = $image_dir . $unique_image_name;
-
-    // Move the uploaded file to the desired directory
-    if (move_uploaded_file($image_tmp_name, $image_path)) {
-        // Save the full URL for the image
-        $image = $base_url . $unique_image_name;
-    } else {
-        echo json_encode(["message" => "Image upload failed"]);
-        exit();
+    // Create the directory if it doesn't exist
+    if (!is_dir($image_dir)) {
+        mkdir($image_dir, 0777, true);
     }
-} else {
-    // No image uploaded or error in upload
-    if (isset($_FILES['image']['error']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
+
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+        $image_tmp_name = $_FILES['image']['tmp_name'];
+        $image_name = basename($_FILES['image']['name']);
+        $unique_image_name = uniqid() . '_' . $image_name;
+        $image_path = $image_dir . $unique_image_name;
+
+        if (move_uploaded_file($image_tmp_name, $image_path)) {
+            $image = $base_url . $unique_image_name;
+        } else {
+            echo json_encode(["message" => "Image upload failed"]);
+            exit();
+        }
+    } elseif (isset($_FILES['image']['error']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
         echo json_encode(["message" => "Image upload error: " . $_FILES['image']['error']]);
         exit();
     }
-}
 
     // Start database transaction
     $conn->beginTransaction();
@@ -120,7 +125,7 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
 
         // Insert student data into the student table
         $stmt_student = $conn->prepare("INSERT INTO student (student_name, user_id, grade_id, address, guardian, contact_number, registration_number, join_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt_student->execute([$student_name, $user_id, $grade_id, $address, $guardian, $contact_number, $registration_number, $join_date]);
+        $stmt_student->execute([$student_name, $user_id, $grade_id, $address, $guardian_or_father, $contact_number, $registration_number, $join_date]);
 
         // Commit the transaction
         $conn->commit();
@@ -146,5 +151,3 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     }
 }
 ?>
-*/
-

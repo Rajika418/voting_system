@@ -38,18 +38,35 @@
                 .catch(error => console.error('Error fetching grades:', error));
         }
 
-        // Populate the dropdown on page load
+        // Function to handle the guardian checkbox toggle
+        function toggleGuardianField() {
+            const guardianField = document.getElementById('guardian_field');
+            const fatherField = document.getElementById('father_name_field');
+            const guardianCheckbox = document.getElementById('guardian_checkbox');
+
+            if (guardianCheckbox.checked) {
+                guardianField.style.display = 'block';
+                fatherField.style.display = 'none';
+            } else {
+                guardianField.style.display = 'none';
+                fatherField.style.display = 'block';
+            }
+        }
+
+        // Add event listener to the checkbox for toggling
+        document.getElementById('guardian_checkbox').addEventListener('change', toggleGuardianField);
+
+        // Populate the grade dropdown on page load
         populateGradeDropdown();
     });
-
-</script>
+    </script>
     <link rel="stylesheet" href="register.css">
 </head>
 <body>
     <div class="container">
         <div class="form-wrapper">
             <h1>Student Registration</h1>
-            <form action="../../server/controller/student/register.php" method="POST" enctype="multipart/form-data">
+            <form action="../../../server/controller/student/student_post.php" method="POST" enctype="multipart/form-data">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="student_name">Student Name</label>
@@ -93,19 +110,33 @@
                     </div>
 
                     <div class="form-group">
-                       
-                            <label for="grade_name">Grade Name (if applicable):</label>
-                    <select id="grade_name" name="grade_id">
-                        <!-- Options will be populated here -->
-                    </select>
-                        
+                        <label for="grade_name">Grade Name (if applicable):</label>
+                        <select id="grade_name" name="grade_id">
+                            <!-- Options will be populated here -->
+                        </select>
                     </div>
                 </div>
 
+                <!-- Father's Name Field -->
+                <div class="form-row" id="father_name_field">
+                    <div class="form-group">
+                        <label for="father_name">Father's Name with Initial</label>
+                        <input type="text" id="father_name" name="father_name">
+                    </div>
+                </div>
+
+                <!-- Guardian Checkbox and Guardian Field -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="guardian">Guardian</label>
-                        <input type="text" id="guardian" name="guardian" required>
+                        <input type="checkbox" id="guardian_checkbox" name="use_guardian">
+                        <label for="guardian_checkbox">Use Guardian instead of Father</label>
+                    </div>
+                </div>
+
+                <div class="form-row" id="guardian_field" style="display: none;">
+                    <div class="form-group">
+                        <label for="guardian">Guardian Name</label>
+                        <input type="text" id="guardian" name="guardian">
                     </div>
 
                     <div class="form-group">
@@ -115,7 +146,6 @@
                 </div>
 
                 <div class="form-row">
-                   
                     <div class="form-group">
                         <label for="image">Upload Image (optional)</label>
                         <input type="file" id="image" name="image" accept="image/*">
