@@ -87,7 +87,6 @@ function renderSubjects(subjects) {
     });
 }
 
-
 document.getElementById('resultsForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const formData = new FormData(this);
@@ -137,6 +136,37 @@ document.getElementById('resultsForm').addEventListener('submit', function(e) {
     });
 });
 
+// Function to fetch data from the GET API when the index number changes
+function fetchData() {
+    const indexNo = document.getElementById('indexNo').value;
+    
+    if (indexNo) {
+        axios.get(`http://localhost/voting_system/server/controller/results/ol/admission_get.php?index_no=${indexNo}`)
+            .then(response => {
+                if (response.data.status === 'success') {
+                    const studentData = response.data.data;
+                    document.getElementById('studentInfo').innerHTML = `
+                        <p><strong>Student Name:</strong> ${studentData.student_name}</p>
+                        <p><strong>NIC:</strong> ${studentData.nic}</p>
+                        <p><strong>Year:</strong> ${studentData.year}</p>
+                        <p><strong>Exam Name:</strong> ${studentData.exam_name}</p>
+                    `;
+                } else {
+                    document.getElementById('studentInfo').innerHTML = `<p>${response.data.message}</p>`;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                document.getElementById('studentInfo').innerHTML = `<p>Error fetching data. Please try again.</p>`;
+            });
+    } else {
+        document.getElementById('studentInfo').innerHTML = '';
+    }
+}
+
+// Add event listener to the index number input
+document.getElementById('indexNo').addEventListener('input', fetchData);
+
 (async function init() {
     const subjects = await fetchSubjects();
     if (subjects) {
@@ -145,3 +175,31 @@ document.getElementById('resultsForm').addEventListener('submit', function(e) {
         document.getElementById('subjectsContainer').innerHTML = '<p>Error loading subjects. Please try again later.</p>';
     }
 })();
+
+
+document.getElementById('openAdmissionForm').addEventListener('click', function() {
+    document.getElementById('admissionPopup').style.display = 'block';
+});
+
+document.getElementById('closeAdmissionForm').addEventListener('click', function() {
+    document.getElementById('admissionPopup').style.display = 'none';
+});
+
+document.getElementById('admissionForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    // You can handle form submission here (e.g., using Axios to send the data to a server)
+    const studentName = document.getElementById('studentName').value;
+    const nic = document.getElementById('nic').value;
+    const year = document.getElementById('year').value;
+    const examName = document.getElementById('examName').value;
+
+    // Log the input for debugging purposes
+    console.log({ studentName, nic, year, examName });
+
+    // Close the form after submission
+    document.getElementById('admissionPopup').style.display = 'none';
+    
+    // Optionally, reset the form fields after submission
+    document.getElementById('admissionForm').reset();
+});
