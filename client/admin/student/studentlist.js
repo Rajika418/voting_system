@@ -99,8 +99,8 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("editAddress").value = cells[7].innerText;
         document.getElementById("editContact").value = cells[8].innerText;
         document.getElementById("editEmail").value = cells[9].innerText;
-        document.getElementById("editJoinDate").value = cells[10].innerText !== '-' ? cells[9].innerText : '';
-        document.getElementById("editLeaveDate").value = cells[11].innerText !== '-' ? cells[10].innerText : '';
+        document.getElementById("editJoinDate").value = cells[10].innerText !== '-' ? cells[10].innerText : '';
+        document.getElementById("editLeaveDate").value = cells[11].innerText !== '-' ? cells[11].innerText : '';
 
         // Add the student ID to the popup for use during the update
         editPopup.dataset.studentId = studentId;
