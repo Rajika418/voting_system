@@ -54,20 +54,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $grade_id = $_POST['grade_id'] ?? null; // Optional grade ID
 
     // Determine whether to use father_name or guardian based on the checkbox
-    $guardian = isset($_POST['guardian']) && !empty($_POST['guardian']) ? $_POST['guardian'] : null;
-    $father_name = isset($_POST['father_name']) && !empty($_POST['father_name']) ? $_POST['father_name'] : null;
+// Determine which one is provided: guardian or father_name
+$guardian = isset($_POST['guardian']) && !empty($_POST['guardian']) ? $_POST['guardian'] : null;
+$father_name = isset($_POST['father_name']) && !empty($_POST['father_name']) ? $_POST['father_name'] : null;
 
-    // If guardian is provided, use it; otherwise, use father_name
-    $guardian_or_father = !empty($guardian) ? $guardian : $father_name;
-
-    if (empty($guardian_or_father)) {
-        echo json_encode([
-            "status" => "error",
-            "message" => "Either father name or guardian must be provided."
-        ]);
-        exit();
-    }
-
+// Ensure at least one of them is provided
+if (empty($guardian) && empty($father_name)) {
+    echo json_encode([
+        "status" => "error",
+        "message" => "Either father name or guardian must be provided."
+    ]);
+    exit();
+}
     // Log received data
     $received_data = [
         'student_name' => $student_name,
@@ -76,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'address' => $address,
         'contact_number' => $contact_number,
         'registration_number' => $registration_number,
-        'guardian_or_father' => $guardian_or_father,
+       
         'join_date' => $join_date,
         'grade_id' => $grade_id,
         'image' => isset($_FILES['image']) ? 'Provided' : 'Not provided'
@@ -124,8 +122,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_id = $conn->lastInsertId();
 
         // Insert student data into the student table
-        $stmt_student = $conn->prepare("INSERT INTO student (student_name, user_id, grade_id, address, guardian, contact_number, registration_number, join_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt_student->execute([$student_name, $user_id, $grade_id, $address, $guardian_or_father, $contact_number, $registration_number, $join_date]);
+        $stmt_student = $conn->prepare("INSERT INTO student (student_name, user_id, grade_id, address, guardian, father_name, contact_number, registration_number, join_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt_student->execute([$student_name, $user_id, $grade_id, $address, $guardian, $father_name, $contact_number, $registration_number, $join_date]);
 
         // Commit the transaction
         $conn->commit();
@@ -137,9 +135,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
 
         // Redirect to login page after success
-        header("Location: ../../../client/login.html");
+       /* header("Location: ../../../client/login.html");
         exit();
-        
+        */
     } catch (Exception $e) {
         // Rollback the transaction in case of error
         $conn->rollBack();

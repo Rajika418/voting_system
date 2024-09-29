@@ -58,6 +58,26 @@
 
         // Populate the grade dropdown on page load
         populateGradeDropdown();
+
+
+        // Listen to form submission to log relevant fields
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting immediately
+
+            const fatherName = document.getElementById('father_name').value;
+            const guardianName = document.getElementById('guardian').value;
+            const useGuardian = document.getElementById('guardian_checkbox').checked;
+
+            console.log('Father\'s Name:', fatherName);
+            console.log('Use Guardian:', useGuardian);
+
+            if (useGuardian) {
+                console.log('Guardian Name:', guardianName);
+            }
+
+            // After logging, you can submit the form manually if needed
+            this.submit();
+        });
     });
     </script>
     <link rel="stylesheet" href="register.css">
