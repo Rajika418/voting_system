@@ -1,3 +1,11 @@
+document.getElementById('openAdmissionForm').addEventListener('click', function() {
+    document.getElementById('admissionPopup').style.display = 'block';
+});
+
+document.getElementById('closeAdmissionForm').addEventListener('click', function() {
+    document.getElementById('admissionPopup').style.display = 'none';
+});
+
 // Function to populate the student name dropdown from the GET API
 function populateStudentNames() {
     axios.get('http://localhost/voting_system/server/controller/admission/ol_student_get.php?action=read')
@@ -50,8 +58,9 @@ function submitAdmissionForm(event) {
     const nic = document.getElementById('nic').value;
     const year = document.getElementById('year').value;
     const examName = document.getElementById('examName').value;
-    const indexNo = document.getElementById('indexNo').value;
-             console.log(studentId,nic,year,examName,indexNo)
+    const indexNo = document.getElementById('indexNo1').value;
+             console.log("gi", indexNo)
+
     if (studentId && nic && year && examName && indexNo) {
         // Construct the data payload
         const postData = {

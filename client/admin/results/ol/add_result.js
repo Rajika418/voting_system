@@ -177,29 +177,3 @@ document.getElementById('indexNo').addEventListener('input', fetchData);
 })();
 
 
-document.getElementById('openAdmissionForm').addEventListener('click', function() {
-    document.getElementById('admissionPopup').style.display = 'block';
-});
-
-document.getElementById('closeAdmissionForm').addEventListener('click', function() {
-    document.getElementById('admissionPopup').style.display = 'none';
-});
-
-document.getElementById('admissionForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    // You can handle form submission here (e.g., using Axios to send the data to a server)
-    const studentName = document.getElementById('studentName').value;
-    const nic = document.getElementById('nic').value;
-    const year = document.getElementById('year').value;
-    const examName = document.getElementById('examName').value;
-
-    // Log the input for debugging purposes
-    console.log({ studentName, nic, year, examName });
-
-    // Close the form after submission
-    document.getElementById('admissionPopup').style.display = 'none';
-    
-    // Optionally, reset the form fields after submission
-    document.getElementById('admissionForm').reset();
-});
