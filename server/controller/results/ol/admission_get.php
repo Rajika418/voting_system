@@ -1,68 +1,14 @@
 <?php
-// Include the database connection file
 require "../../../db_config.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Handle the POST request (inserting data)
-    try {
-        // Check if the required POST parameters are provided
-        if (isset($_POST['id'], $_POST['student_id'], $_POST['exam_name'], $_POST['year'], $_POST['index_no'], $_POST['nic'])) {
-            
-            // Retrieve the POST data
-            $id = $_POST['id'];
-            $student_id = $_POST['student_id'];
-            $exam_name = $_POST['exam_name'];
-            $year = $_POST['year'];
-            $index_no = $_POST['index_no'];
-            $nic = $_POST['nic'];
+// Enable CORS (Cross-Origin Resource Sharing)
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: POST");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-            // Prepare the SQL INSERT query, now including nic
-            $query = "INSERT INTO student_exam (id, student_id, exam_name, year, index_no, nic)
-                      VALUES (:id, :student_id, :exam_name, :year, :index_no, :nic)";
-
-            // Prepare the statement using PDO
-            $stmt = $conn->prepare($query);
-
-            // Bind the parameters to the query
-            $stmt->bindParam(':id', $id);
-            $stmt->bindParam(':student_id', $student_id);
-            $stmt->bindParam(':exam_name', $exam_name);
-            $stmt->bindParam(':year', $year);
-            $stmt->bindParam(':index_no', $index_no);
-            $stmt->bindParam(':nic', $nic);
-
-            // Execute the query
-            if ($stmt->execute()) {
-                // Success response
-                echo json_encode([
-                    'status' => 'success',
-                    'message' => 'Data inserted successfully'
-                ]);
-            } else {
-                // Error response if execution fails
-                echo json_encode([
-                    'status' => 'error',
-                    'message' => 'Failed to insert data'
-                ]);
-            }
-
-        } else {
-            // Missing required fields
-            echo json_encode([
-                'status' => 'error',
-                'message' => 'All fields are required'
-            ]);
-        }
-
-    } catch (PDOException $e) {
-        // Handle any errors
-        echo json_encode([
-            'status' => 'error',
-            'message' => 'Database error: ' . $e->getMessage()
-        ]);
-    }
-
-} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     // Handle the GET request (retrieving data by index_no)
     if (isset($_GET['index_no'])) {
         $index_no = $_GET['index_no'];
@@ -117,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Close the database connection
+// Close connection
 $conn = null;
 ?>
+

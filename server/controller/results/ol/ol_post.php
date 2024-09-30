@@ -1,6 +1,4 @@
 <?php
-// submit_results.php
-
 // Enable CORS (Cross-Origin Resource Sharing)
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>General Certificate of Education</title>
+    <link rel="stylesheet" href="result.css">
+    <script src="popup.js" defer></script>
+    <script src="tab.js" defer></script>
+    <script src="add_result.js" defer></script>
+    <script src="admission_popup.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+</head>
+<body>
+<!-- Admission Button -->
+<button type="button" id="openAdmissionForm">Admission</button>
+
+<!-- Popup Form for Admission -->
+<div id="admissionPopup" class="popup-form" style="display:none;">
+    <button type="button" class="close-button" id="closeAdmissionForm">×</button> <!-- Close Button -->
+    <form id="admissionForm">
+        <h2>Student Admission Form</h2>
+
+        <!-- Buttons to Select Admission Type -->
+        <button type="button" id="olButton">O/L Admission</button>
+        <button type="button" id="alButton">A/L Admission</button>
+
+        <!-- Disabled form fields initially -->
+        <fieldset id="admissionFields" disabled>
+            <label for="studentName">Student Name:</label>
+            <select id="studentName" name="studentName" required>
+                <option value="">Select Student</option>
+            </select><br>
+
+            <p id="guardianInfo"></p>
+
+            <label for="nic">NIC:</label>
+            <input type="text" id="nic" name="nic" required><br>
+
+            <label for="year">Year:</label>
+            <input type="text" id="year" name="year" required><br>
+
+            <label for="examName">Exam Name:</label>
+            <input type="text" id="examName" name="examName" required><br>
+
+            <label for="indexNo1">Index No:</label>
+            <input type="text" id="indexNo1" name="indexNo1" required><br>
+
+            <!-- Centering the submit button -->
+            <div style="text-align: center;">
+                <button type="submit">Submit</button>
+            </div>
+        </fieldset>
+    </form>
+</div>    
+
+<!-- Results Button -->
+<button type="button" id="openResultsForm">Enter O/L Results</button>
+
+<!-- Popup Form for Results -->
+<div id="resultsPopup" class="popup-form" style="display:none;">
+    <button type="button" class="close-button" id="closeResultsForm">×</button> <!-- Close Button -->
+    <form id="resultsForm">
+        <h2>General Certificate of Education - Ordinary Level (G.C.E(O/L))</h2>
+        <div class="index-container">
+            <div>
+                <label for="indexNo">Index No:</label>
+                <input type="text" id="indexNo" name="indexNo" required>
+            </div>
+            <div id="studentInfo"></div>
+        </div>
+        <div id="subjectsContainer"></div>
+        <div style="text-align: center;">
+            <button type="submit">Submit Results</button>
+        </div>
+        <button type="button" id="closeResultsForm">Close</button>
+    </form>
+</div>
+
+<button type="button" id="openNewPopupForm">Enter A/L Results</button>
+
+<!-- New Popup Form -->
+<div id="newPopup" class="popup-form" style="display:none;">
+    <button type="button" class="close-button" id="closeNewPopupForm">×</button> <!-- Close Button -->
+    <form id="newPopupForm">
+        <h2>General Certificate of Education - Advanced Level (G.C.E(A/L))</h2>
+        <div class="index-container">
+            <div>
+                <label for="indexNo2">Index No:</label>
+                <input type="text" id="indexNo2" name="indexNo2" required>
+            </div>
+            <div id="studentInfo"></div>
+        </div>
+        <div style="text-align: center;">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+
+
+    <div class="tab-container">
+        <!-- Tab buttons -->
+        <div class="tab-buttons">
+            <button class="tab-button" data-tab="olResultsTab">O/L Results</button>
+            <button class="tab-button" data-tab="alResultsTab">A/L Results</button>
+        </div>
+
+        <!-- Tab content: O/L Results -->
+        <div id="olResultsTab" class="tab-content">
+            <h3>O/L Results</h3>
+<!-- Table 1 -->
+<table>
+    <thead>
+        <tr>
+            <th>Index No</th>
+            <th>Student Name</th>
+            <th>Mathematics</th>
+            <th>Science</th>
+            <th>English</th>
+            <th>History</th>
+            <th>Subject 5</th>
+            <th>Subject 6</th>
+            <th>Subject 7</th>
+            <th>Subject 8</th>
+            <th>Subject 9</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>001</td>
+            <td>John Doe</td>
+            <td></td>
+            <td></td>
+            <td>Geography</td>
+            <td></td>
+            <td></td>
+            <td>Art</td>
+            <td>Music</td>
+            <td>Physical Education</td>
+            <td>Computer Science</td>
+            <td>A</td>
+        </tr>
+        <tr>
+            <td>002</td>
+            <td>Jane Smith</td>
+            <td>Mathematics</td>
+            <td>Biology</td>
+            <td>Chemistry</td>
+            <td>English Literature</td>
+            <td>Business Studies</td>
+            <td>Drama</td>
+            <td>Physics</td>
+            <td>Health Education</td>
+            <td>Information Technology</td>
+            <td>B</td>
+        </tr>
+    </tbody>
+</table>
+
+        </div>
+
+        <!-- Tab content: A/L Results -->
+        <div id="alResultsTab" class="tab-content">
+            <h3>A/L Results</h3>
+        <!-- Table 2 -->
+<table>
+    <thead>
+        <tr>
+            <th>Index No</th>
+            <th>Student Name</th>
+            <th>Subject 1</th>
+            <th>Subject 2</th>
+            <th>Subject 3</th>
+            <th>Grade</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>001</td>
+            <td>John Doe</td>
+            <td>Mathematics</td>
+            <td>Science</td>
+            <td>English</td>
+            <td>A</td>
+        </tr>
+        <tr>
+            <td>002</td>
+            <td>Jane Smith</td>
+            <td>Biology</td>
+            <td>Chemistry</td>
+            <td>English Literature</td>
+            <td>B</td>
+        </tr>
+    </tbody>
+</table>
+        </div>
+    </div>
+
+</body>
+</html>

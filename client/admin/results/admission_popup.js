@@ -1,14 +1,34 @@
-document.getElementById('openAdmissionForm').addEventListener('click', function() {
-    document.getElementById('admissionPopup').style.display = 'block';
+// Disable form fields by default
+const admissionFields = document.getElementById('admissionFields');
+admissionFields.disabled = true;
+
+let selectedYear = null; // To store the selected year (11 for O/L, 13 for A/L)
+
+// Handle the O/L Admission button click
+document.getElementById('olButton').addEventListener('click', function() {
+    selectedYear = 11; // Set year to 11 for O/L
+    populateStudentNames(); // Populate student names for O/L
+    admissionFields.disabled = false;  // Enable form fields
+    document.getElementById('examName').value = 'General Certificate of Education - Ordinary Level (G.C.E(O/L))';  // Pre-fill the exam name as O/L
 });
 
-document.getElementById('closeAdmissionForm').addEventListener('click', function() {
-    document.getElementById('admissionPopup').style.display = 'none';
+// Handle the A/L Admission button click
+document.getElementById('alButton').addEventListener('click', function() {
+    selectedYear = 13; // Set year to 13 for A/L
+    populateStudentNames(); // Populate student names for A/L
+    admissionFields.disabled = false;  // Enable form fields
+    document.getElementById('examName').value = 'General Certificate of Education - Advanced Level (G.C.E(A/L))';  // Pre-fill the exam name as A/L
 });
 
 // Function to populate the student name dropdown from the GET API
 function populateStudentNames() {
-    axios.get('http://localhost/voting_system/server/controller/admission/ol_student_get.php?action=read')
+    if (selectedYear === null) {
+        console.error('Year is not selected');
+        return;
+    }
+
+    // Send request with the selected year as a parameter
+    axios.get(`http://localhost/voting_system/server/controller/admission/student_get.php?action=read&year=${selectedYear}`)
         .then(response => {
             console.log(response)
             if (response.data.status === 'success') {
@@ -37,7 +57,7 @@ function populateStudentNames() {
                         } else if (selectedStudent.guardian && selectedStudent.guardian !== 'null') {
                             guardianInfo.textContent = `Guardian: ${selectedStudent.guardian}`;
                         } else {
-                            guardianInfo.textContent = ''; // Clear if both are null
+                            guardianInfo.textContent = ''; 
                         }
                     }
                 });
@@ -59,7 +79,6 @@ function submitAdmissionForm(event) {
     const year = document.getElementById('year').value;
     const examName = document.getElementById('examName').value;
     const indexNo = document.getElementById('indexNo1').value;
-             console.log("gi", indexNo)
 
     if (studentId && nic && year && examName && indexNo) {
         // Construct the data payload
