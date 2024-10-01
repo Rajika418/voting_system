@@ -17,6 +17,7 @@ function initializeTeacherList() {
   fetchTeachers();
 }
 
+
 function fetchTeachers() {
   const searchInputElement = document.getElementById("searchInput");
   const searchQuery = searchInputElement
