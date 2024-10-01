@@ -33,9 +33,9 @@ console.log("selectedYear", selectedYear1);
 
 const RESULT_OPTIONS = ["A", "B", "C", "S", "W"];
 
-async function fetchSubjects() {
+async function fetchSubjects(year) {
   try {
-    const response = await axios.get(API_URL);
+    const response = await axios.get(API_URL(year));
     return response.data;
   } catch (error) {
     console.error("Error fetching subjects:", error);

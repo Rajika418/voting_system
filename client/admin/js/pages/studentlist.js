@@ -1,23 +1,26 @@
-document.addEventListener("DOMContentLoaded", function () {
-  const studentTable = document.getElementById("studentTable");
-  fetchStudents();
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//   const studentTable = document.getElementById("studentTable");
+//   fetchStudents();
+// });
+
 let currentPag = 1;
 let limit = 20;
 let sortDirection = "asc";
 let sortColumn = "grade_name";
 let searchQuer = "";
 
-function fetchStudents() {
+async function fetchStudents() {
   const searchElement = document.getElementById("search");
   searchQuer = searchElement ? searchElement.value : "";
 
   const url = `http://localhost/voting_system/server/controller/student/student_get.php?page=${currentPag}&limit=${limit}&search=${searchQuer}&sort_by=${sortColumn}&order=${sortDirection}`;
 
-  fetch(url)
-    .then((response) => response.json())
-    .then((data) => renderTable(data))
-    .catch((error) => console.error("Error fetching student data:", error));
+  try {
+    const response = await axios.get(url);
+    renderTable(response.data);
+  } catch (error) {
+    console.error("Error fetching student data:", error);
+  }
 }
 
 function renderTable(students) {
@@ -68,11 +71,6 @@ function sortTable(column) {
   fetchStudents();
 }
 
-function setSortDirection(direction) {
-  sortDirection = direction;
-  fetchStudents();
-}
-
 function nextPage() {
   currentPag++;
   fetchStudents();
@@ -89,10 +87,9 @@ function editStudent(studentId, button) {
   const updateForm = document.getElementById("updateForm");
   const editPopup = document.getElementById("editPopup");
 
-  const row = button.parentElement.parentElement; // Get the row of the clicked button
+  const row = button.parentElement.parentElement;
   const cells = row.getElementsByTagName("td");
 
-  // Populate the form fields with data from the table row
   document.getElementById("editRegNo").value = cells[1].innerText;
   document.getElementById("editName").value = cells[2].innerText;
   document.getElementById("editGrade").value = cells[3].innerText;
@@ -107,19 +104,16 @@ function editStudent(studentId, button) {
   document.getElementById("editLeaveDate").value =
     cells[11].innerText !== "-" ? cells[11].innerText : "";
 
-  // Add the student ID to the popup for use during the update
   editPopup.dataset.studentId = studentId;
-
-  // Show the popup
   updateForm.classList.add("active");
-  editPopup.style.display = "block"; // Make the popup visible
+  editPopup.style.display = "block";
 }
 
 function closePopup() {
-  document.getElementById("editPopup").style.display = "none"; // Hide the popup
+  document.getElementById("editPopup").style.display = "none";
 }
 
-function updateStudent() {
+async function updateStudent() {
   const studentId = document.getElementById("editPopup").dataset.studentId;
   const formData = new FormData();
 
@@ -147,57 +141,61 @@ function updateStudent() {
 
   const updateButton = document.querySelector(".update-btn");
 
-  updateButton.disabled = true; // Disable the button before the request
+  updateButton.disabled = true;
 
-  fetch(
-    "http://localhost/voting_system/server/controller/student/student_update.php?action=update",
-    {
-      method: "POST",
-      body: formData,
+  try {
+    const response = await axios.post(
+      "http://localhost/voting_system/server/controller/student/student_update.php?action=update",
+      formData
+    );
+    const data = response.data;
+    if (data.status === "success") {
+      showToast(data.message, "success");
+      closePopup();
+      fetchStudents();
+    } else {
+      showToast("Update failed: " + data.message, "error");
     }
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.status === "success") {
-        showToast(data.message, "success");
-        closePopup();
-        fetchStudents();
-      } else {
-        showToast("Update failed: " + data.message, "error"); // Show specific error message
-      }
-    })
-    .catch((error) => {
-      console.error("Error updating student:", error);
-      showToast("Update error: " + error, "error");
-    })
-    .finally(() => {
-      updateButton.disabled = false; // Re-enable button after completion
-    });
-}
-
-function deleteStudent(studentId) {
-  if (confirm("Are you sure you want to delete this student?")) {
-    fetch(
-      `http://localhost/voting_system/server/controller/student/student_delete.php?id=${studentId}`,
-      {
-        method: "DELETE",
-      }
-    )
-      .then((response) => {
-        if (response.ok) {
-          showToast("Student deleted successfully!");
-          fetchStudents(); // Refresh the list
-        } else {
-          showToast("Failed to delete student.");
-        }
-      })
-      .catch((error) => console.error("Error deleting student:", error));
+  } catch (error) {
+    console.error("Error updating student:", error);
+    showToast("Update error: " + error, "error");
+  } finally {
+    updateButton.disabled = false;
   }
 }
 
-function showToast(message) {
+async function deleteStudent(studentId) {
+  if (confirm("Are you sure you want to delete this student?")) {
+    try {
+      const response = await axios.delete(
+        `http://localhost/voting_system/server/controller/student/student_delete.php?id=${studentId}`
+      );
+      if (response.status === 200) {
+        showToast("Student deleted successfully!", "success");
+        fetchStudents();
+      } else {
+        showToast("Failed to delete student.", "error");
+      }
+    } catch (error) {
+      console.error("Error deleting student:", error);
+      showToast("Error deleting student: " + error, "error");
+    }
+  }
+}
+
+function showToast(message, type = "success") {
   const toast = document.getElementById("toast");
   toast.innerText = message;
-  toast.classList.add("show");
+  toast.classList.add("show", type);
   setTimeout(() => toast.classList.remove("show"), 4000);
 }
+
+(async function init() {
+  const students = await fetchStudents();
+  if (students) {
+    renderTable(students);
+  } else {
+    document.getElementById("studentTable").innerHTML =
+      "<p>Error loading students. Please try again later.</p>";
+  }
+})();
