@@ -119,7 +119,6 @@ try {
     
     // Encode error message and redirect back to registration page
     $error_message = urlencode("Registration failed: " . $e->getMessage());
-    header("Location: ../../../client/teacher/register.html?error=" . $error_message);
-    exit();
+
 }
     ?> 
