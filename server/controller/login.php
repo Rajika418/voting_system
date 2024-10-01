@@ -31,7 +31,7 @@ try {
         // Check if user exists and the password is correct
         if ($user && password_verify($user_password, $user['password'])) {
             // Password matches, check role_id and set redirect URL
-            $redirect_url = ($user['role_id'] == "1") ? "../../voting_system/client/admin/admin.html" : "../../voting_system/client/home/home.html";
+            $redirect_url = ($user['role_id'] == "1") ? "../../voting_system/client/admin/" : "../../voting_system/client/home/home.html";
             
             // Start session and set success flag
             session_start();
