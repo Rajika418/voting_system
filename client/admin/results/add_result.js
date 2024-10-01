@@ -1,4 +1,34 @@
-const API_URL = `http://localhost/voting_system/server/controller/subject/exam_subject_get.php?action=read&year=${selectedYear1}`;
+const indexNoField = document.getElementById('indexNo');
+const submitButton = document.getElementById('submitResults');
+
+let selectedYear1 = "";
+const olButton = document.getElementById('ol_Button');
+const alButton = document.getElementById('al_Button');
+
+const API_URL = (year) => `http://localhost/voting_system/server/controller/subject/exam_subject_get.php?action=read&year=${year}`;
+
+// Function to enable the form fields
+function enableForm() {
+    indexNoField.disabled = false;
+    submitButton.disabled = false;
+}
+
+// Event listener for O/L button
+olButton.addEventListener('click', () => {
+    selectedYear1 = 'o/l';
+    enableForm(); // Enable the form when O/L is clicked
+    fetchSubjects(selectedYear1); // Fetch O/L subjects
+});
+
+// Event listener for A/L button
+alButton.addEventListener('click', () => {
+    selectedYear1 = 'a/l';
+    enableForm(); // Enable the form when A/L is clicked
+    fetchSubjects(selectedYear1); // Fetch A/L subjects
+});
+
+console.log("selectedYear", selectedYear1);
+
 const RESULT_OPTIONS = ['A', 'B', 'C', 'S', 'W'];
 
 
