@@ -9,15 +9,15 @@ const routes = {
   },
   "#/teachers": {
     title: "Teacher List",
-    js: ["teacherList.js", "classAssignPopup.js"],
-    css: "teacherList.css",
-    template: "teacherList.html",
+    js: ["teacherlist.js", "classAssignPopup.js"],
+    css: "teacherlist.css",
+    template: "teacherlist.html",
   },
   "#/students": {
     title: "Student List",
-    js: "studentList.js",
-    css: "studentList.css",
-    template: "studentList.html",
+    js: "studentlist.js",
+    css: "studentlist.css",
+    template: "studentlist.html",
   },
   "#/results": {
     title: "Results",
