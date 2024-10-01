@@ -1,6 +1,8 @@
 const indexNoField = document.getElementById("indexNo");
 const submitButton = document.getElementById("submitResults");
 
+indexNoField.disabled = true;
+
 let selectedYear1 = "";
 const olButton = document.getElementById("ol_Button");
 const alButton = document.getElementById("al_Button");
@@ -9,20 +11,10 @@ const formTitle = document.getElementById("formTitle");
 const API_URL = (year) =>
   `http://localhost/voting_system/server/controller/subject/exam_subject_get.php?action=read&year=${year}`;
 
-console.log("hi", formTitle);
-
-const enableForm = () => {
-  document
-    .getElementById("resultsForm")
-    .querySelectorAll("input, button")
-    .forEach((elem) => {
-      elem.disabled = false;
-    });
-};
 // Event listener for O/L button
 olButton.addEventListener("click", () => {
   selectedYear1 = "o/l";
-  enableForm(); // Enable the form when O/L is clicked
+  indexNoField.disabled = false;
   fetchSubjects(selectedYear1);
   formTitle.innerText =
     "General Certificate of Education - Ordinary Level (G.C.E(O/L))";
@@ -31,7 +23,7 @@ olButton.addEventListener("click", () => {
 // Event listener for A/L button
 alButton.addEventListener("click", () => {
   selectedYear1 = "a/l";
-  enableForm(); // Enable the form when A/L is clicked
+  indexNoField.disabled = false;
   fetchSubjects(selectedYear1);
   formTitle.innerText =
     "General Certificate of Education - Advanced Level (G.C.E(A/L))";
