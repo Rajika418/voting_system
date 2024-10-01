@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost/voting_system/server/controller/subject/subject_get.php?action=read';
+const API_URL = 'http://localhost/voting_system/server/controller/subject/ol_subject_get.php?action=read';
 const RESULT_OPTIONS = ['A', 'B', 'C', 'S', 'W'];
 
 async function fetchSubjects() {
@@ -118,7 +118,7 @@ document.getElementById('resultsForm').addEventListener('submit', function(e) {
     console.log('Results to be submitted:', results);
 
     // Send results to the server
-    fetch('http://localhost/voting_system/server/controller/results/ol/ol_post.php?action=create', {
+    fetch('http://localhost/voting_system/server/controller/results/results_post.php?action=create', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -141,7 +141,7 @@ function fetchData() {
     const indexNo = document.getElementById('indexNo').value;
     
     if (indexNo) {
-        axios.get(`http://localhost/voting_system/server/controller/results/ol/admission_get.php?index_no=${indexNo}`)
+        axios.get(`http://localhost/voting_system/server/controller/results/admission_get.php?index_no=${indexNo}`)
             .then(response => {
                 if (response.data.status === 'success') {
                     const studentData = response.data.data;
