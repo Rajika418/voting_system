@@ -1,189 +1,99 @@
-/* Base styling for the body */
+/* Root layout styling */
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
   color: #333;
-  max-width: 800px;
-  margin: 0 auto;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 200px;
+  background-color: #2c3e50;
+  color: white;
   padding: 20px;
-  box-sizing: border-box;
 }
 
-/* Headings */
-h1 {
-  color: #2c3e50;
-  text-align: center;
-}
-
-/* Form styling */
-form {
-  background: #f9f9f9;
-  border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-/* Labels and inputs */
-label {
+.sidebar a {
+  color: white;
+  text-decoration: none;
   display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+  padding: 10px 0;
 }
 
-input,
-select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-/* Buttons */
-button {
-  background-color: #3498db;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: #2980b9;
-}
-
-/* Responsive Popup Form */
-.popup-form {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
+/* Main content area */
+.main-content {
+  flex-grow: 1;
   padding: 20px;
-  border: 2px solid black;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  z-index: 1000;
-  max-width: 90%;
-  max-height: 90vh; /* Make sure it fits within the viewport height */
-  overflow-y: auto; /* Scroll if content overflows */
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Fields inside the popup form */
-.popup-form input {
-  margin-bottom: 10px;
-  width: 100%;
-}
-
-/* Close button styling */
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: #f14d31;
-  cursor: pointer;
-}
-
-.close-button:hover {
-  color: #ed4141;
-  background: none;
-}
-
-/* Center the submit button */
-.popup-form div {
-  text-align: center;
-}
-
-/* Admission Type Buttons */
-#olButton,
-#alButton {
-  background-color: #3498db;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  margin-right: 10px;
-  margin-bottom: 15px;
-  width: 48%;
-  box-sizing: border-box;
-}
-
-#olButton:hover,
-#alButton:hover {
-  background-color: #2980b9;
-}
-
-/* Disable form fields initially */
-fieldset {
-  border: none;
-}
-
-/* Tab Container */
-.tab-container {
-  margin-top: 20px;
+  background-color: #f0f0f0;
   display: flex;
   flex-direction: column;
-  width: 100%;
 }
 
-/* Tab buttons */
-.tab-buttons {
+/* Header styling */
+.header {
   display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #34495e;
+  color: white;
 }
 
-.tab-buttons button {
-  padding: 10px 20px;
-  background-color: #3498db;
+.logo {
+  height: 40px;
+}
+
+.logout-btn {
+  background-color: #e74c3c;
   color: white;
   border: none;
+  padding: 10px 15px;
   cursor: pointer;
-  transition: background-color 0.3s;
-  flex-grow: 1;
-  margin: 5px;
-  max-width: 150px;
 }
 
-/* Active tab styling */
-.tab-buttons button.active {
-  background-color: #2c3e50;
-}
-
-/* Tab content styling */
-.tab-content {
-  display: none;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.tab-content.active {
-  display: block;
-}
-
-/* Table styling */
-table {
-  width: 100%;
-  border-collapse: collapse;
+/* Navigation buttons */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-table,
+.nav-buttons button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+/* Results section */
+.results-section {
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  flex-grow: 1;
+}
+
+/* Table styling */
+.table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
 th,
 td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 12px;
+  text-align: left;
 }
 
 th {
@@ -191,21 +101,35 @@ th {
   color: white;
 }
 
-/* Responsive tweaks for smaller screens */
-@media (max-width: 600px) {
-  .popup-form {
-    padding: 15px;
-    max-width: 95%;
-    max-height: 90vh;
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
   }
 
-  #olButton,
-  #alButton {
-    width: 100%; /* Make buttons full width on small screens */
-    margin-right: 0;
+  .sidebar {
+    width: 100%;
+    order: 2;
   }
 
-  .tab-buttons button {
-    max-width: 100%; /* Tabs should fill available space on small screens */
+  .main-content {
+    order: 1;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logout-btn {
+    margin-top: 10px;
+  }
+
+  .nav-buttons {
+    flex-wrap: wrap;
   }
 }
