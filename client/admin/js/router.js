@@ -1,3 +1,5 @@
+import "https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js";
+
 const routes = {
   "#/": {
     title: "Dashboard",
@@ -7,7 +9,7 @@ const routes = {
   },
   "#/teachers": {
     title: "Teacher List",
-    js: "teacherList.js",
+    js: ["teacherList.js", "classAssignPopup.js"],
     css: "teacherList.css",
     template: "teacherList.html",
   },
@@ -19,9 +21,15 @@ const routes = {
   },
   "#/results": {
     title: "Results",
-    js: "results.js",
-    css: "results.css",
-    template: "results.html",
+    js: [
+      // "results.js",
+      "tab.js",
+      "popup.js",
+      "admission_popup.js",
+      "add_result.js",
+    ],
+    css: "result.css",
+    template: "result.html",
   },
   "#/elections": {
     title: "Elections",
@@ -57,15 +65,21 @@ function loadRoute(route) {
     .then((html) => {
       app.innerHTML = html;
 
-      // Load the associated JS file
-      import(`./pages/${js}`)
-        .then((module) => {
-          if (module.render) {
-            module.render();
-          }
-          if (module.init) {
-            module.init();
-          }
+      // Check if js is an array and load associated JS files
+      const jsFiles = Array.isArray(js) ? js : [js]; // Ensure js is always an array
+
+      const jsPromises = jsFiles.map((jsFile) => import(`./pages/${jsFile}`));
+
+      Promise.all(jsPromises)
+        .then((modules) => {
+          modules.forEach((module) => {
+            if (module.render) {
+              module.render();
+            }
+            if (module.init) {
+              module.init();
+            }
+          });
         })
         .catch((error) => {
           console.error("Error loading module:", error);
