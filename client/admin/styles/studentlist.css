@@ -1,7 +1,7 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 20px;
+  padding: 0px;
 }
 
 table {
@@ -40,6 +40,7 @@ th.sort-desc::after {
 
 .search-box input {
   padding: 5px;
+  width: 100%; /* Full width for responsive input */
 }
 
 .sort-box button {
@@ -110,7 +111,8 @@ th.sort-desc::after {
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 350px;
+  width: 90%; /* Responsive width */
+  max-width: 350px;
   margin-top: 10px;
   max-height: 80vh; /* Ensures popup doesn't go beyond 80% of the viewport height */
   overflow-y: auto;
@@ -137,7 +139,7 @@ th.sort-desc::after {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
-  width: 100%;
+  width: 100%; /* Full width for responsive inputs */
 }
 
 button {
@@ -205,6 +207,41 @@ button[type="button"] + button:hover {
     opacity: 0;
   }
 }
+
 #editPopup {
   display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 10px; /* Reduce padding on smaller screens */
+  }
+
+  .search-box input {
+    padding: 10px; /* Increase padding for usability */
+  }
+
+  table {
+    font-size: 14px; /* Reduce font size for table on smaller screens */
+  }
+
+  th,
+  td {
+    padding: 8px; /* Reduce padding for table cells */
+  }
+
+  button {
+    font-size: 14px; /* Smaller button font size */
+    padding: 8px 12px; /* Adjust button padding */
+  }
+
+  .pagination button {
+    padding: 8px 12px; /* Adjust pagination button size */
+  }
+
+  .popup-form {
+    width: 90%; /* Full width for smaller screens */
+    max-width: none; /* Remove max width for full use of screen */
+  }
 }
