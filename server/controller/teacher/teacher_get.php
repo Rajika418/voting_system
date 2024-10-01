@@ -103,7 +103,10 @@ try {
     $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // Get total number of teachers for pagination
-    $total_sql = "SELECT COUNT(*) FROM teacher";
+    $total_sql = "SELECT COUNT(*) FROM teacher t
+                  JOIN users u ON t.user_id = u.user_id 
+                  LEFT JOIN grade_teacher gt ON t.teacher_id = gt.teacher_id
+                  LEFT JOIN grade g ON gt.grade_id = g.grade_id";
     if (!empty($where_conditions)) {
         $total_sql .= " WHERE " . implode(" AND ", $where_conditions);
     }

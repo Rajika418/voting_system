@@ -23,7 +23,7 @@ async function fetchTeachers() {
     );
 
     const data = response.data;
-    console.log(data.data);
+    console.log(data);
     if (data.data) {
       displayTable(data.data, data.pagination);
     } else {
