@@ -21,7 +21,7 @@ function fetchTeachers() {
     const searchInputElement = document.getElementById('searchInput');
     const searchQuery = searchInputElement ? searchInputElement.value.toLowerCase() : '';
 
-    fetch(`http://localhost/voting_system/server/controller/teacher/teacher_get.php?page=${currentPage}&results_per_page=${resultsPerPage}&sort_order=${sortOrder}`)
+    fetch(`http://localhost/voting_system/server/controller/teacher/teacher_get.php?page=${currentPage}&search=${searchQuery}&results_per_page=${resultsPerPage}&sort_order=${sortOrder}`)
         .then(response => response.json())
         .then(data => {
             console.log(data.data);
