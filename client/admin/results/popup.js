@@ -1,6 +1,6 @@
 // Function to handle opening and closing of popups, ensuring only one is open at a time
 function togglePopup(popupType, action) {
-    const popupIds = ['admissionPopup', 'resultsPopup', 'newPopup'];
+    const popupIds = ['admissionPopup', 'resultsPopup'];
 
     // Close all popups before opening the new one
     popupIds.forEach(id => {
@@ -47,9 +47,6 @@ document.getElementById('closeAdmissionForm').addEventListener('click', function
     admissionFields.disabled = true;  // Reset form to disabled when closed
 });
 
-
-
-
 // Add event listeners for Results form buttons
 document.getElementById('openResultsForm').addEventListener('click', function() {
     togglePopup('results', 'open');
@@ -58,10 +55,3 @@ document.getElementById('closeResultsForm').addEventListener('click', function()
     togglePopup('results', 'close');
 });
 
-// Add event listeners for New Popup form buttons
-document.getElementById('openNewPopupForm').addEventListener('click', function() {
-    togglePopup('newPopup', 'open');
-});
-document.getElementById('closeNewPopupForm').addEventListener('click', function() {
-    togglePopup('newPopup', 'close');
-});
