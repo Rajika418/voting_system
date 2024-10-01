@@ -40,7 +40,6 @@ const routes = {
 };
 
 function loadRoute(route) {
-  console.log("Loading route:", route); // Debug log
   const app = document.getElementById("app");
   const { title, js, css, template } = routes[route] || routes["#/"];
 
@@ -94,24 +93,21 @@ function loadRoute(route) {
 
 // Initial load
 window.addEventListener("DOMContentLoaded", () => {
-  console.log("DOMContentLoaded"); // Debug log
   loadRoute(window.location.hash || "#/");
 });
 
 // Handle route changes
 window.addEventListener("hashchange", () => {
-  console.log("Hash changed:", window.location.hash); // Debug log
   loadRoute(window.location.hash);
 });
 
 // Handle sidebar navigation
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("Setting up sidebar navigation"); // Debug log
   document.querySelector(".sidebar").addEventListener("click", (event) => {
     if (event.target.tagName === "A") {
       event.preventDefault();
       const route = event.target.getAttribute("href");
-      console.log("Clicked route:", route); // Debug log
+
       window.location.hash = route;
     }
   });

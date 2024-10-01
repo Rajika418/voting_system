@@ -7,14 +7,13 @@ function initRouter() {
     link.addEventListener("click", (e) => {
       e.preventDefault(); // Prevent default anchor behavior
       const route = e.target.getAttribute("href");
-      console.log("Navigating to route:", route); // Debug log
+
       window.location.hash = route; // Use hash to navigate
     });
   });
 
   // Handle back/forward browser buttons
   window.addEventListener("popstate", () => {
-    console.log("Popstate event triggered."); // Debug log
     loadRoute(window.location.hash || "#/"); // Load the current route based on hash
   });
 
