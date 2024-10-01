@@ -3,7 +3,7 @@ import "https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js";
 const routes = {
   "#/": {
     title: "Dashboard",
-    js: "dashboard.js",
+    js: ["dashboard.js"],
     css: "dashboard.css",
     template: "dashboard.html",
   },
@@ -33,9 +33,9 @@ const routes = {
   },
   "#/elections": {
     title: "Elections",
-    js: "elections.js",
-    css: "elections.css",
-    template: "elections.html",
+    js: ["election.js"],
+    css: "election.css",
+    template: "election.html",
   },
 };
 
