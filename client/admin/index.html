@@ -7,15 +7,40 @@
     <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-    <header>
-        <!-- Your header content -->
+    <!-- Navbar -->
+    <header class="navbar">
+        <div class="logo">
+            <img src="./school.png" alt="Logo"> <!-- You can replace this with your actual logo -->
+            <h1>Voting System</h1>
+        </div>
+        <div class="nav-right">
+            <div class="notifications">
+                <img src="./notification-bell.svg" alt="Notifications"> <!-- Replace with your notification icon -->
+            </div>
+            <button class="logout-btn">Logout</button>
+        </div>
     </header>
-    <nav>
-        <!-- Your navigation links -->
-    </nav>
-    <main id="app">
-        <!-- Dynamic content will be inserted here -->
-    </main>
+
+    <!-- Main container with sidebar and content -->
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul>
+                <li><a href="#/" data-section="dashboard">Dashboard</a></li>
+                <li><a href="#/teachers" data-section="teachers">Teachers</a></li>
+                <li><a href="#/students" data-section="students">Students</a></li>
+                <li><a href="#/results" data-section="results">Results</a></li>
+                <li><a href="#/elections" data-section="elections">Elections</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main content -->
+        <main id="app" class="content">
+            <!-- Dynamic content will be inserted here by the router -->
+        </main>
+    </div>
+
+    <!-- Scripts for routing and app functionality -->
     <script src="js/router.js" type="module"></script>
     <script src="js/app.js" type="module"></script>
 </body>

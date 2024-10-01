@@ -9,11 +9,14 @@ const formTitle = document.getElementById("formTitle");
 const API_URL = (year) =>
   `http://localhost/voting_system/server/controller/subject/exam_subject_get.php?action=read&year=${year}`;
 
-console.log("hi",formTitle);
+console.log("hi", formTitle);
 
 const enableForm = () => {
-    document.getElementById('resultsForm').querySelectorAll('input, button').forEach(elem => {
-        elem.disabled = false;
+  document
+    .getElementById("resultsForm")
+    .querySelectorAll("input, button")
+    .forEach((elem) => {
+      elem.disabled = false;
     });
 };
 // Event listener for O/L button
