@@ -30,9 +30,6 @@ function fetchTeachers() {
     .then((data) => {
       console.log(data.data);
       if (data.data) {
-        const teachers = data.data.filter((teacher) =>
-          teacher.teacher_name.toLowerCase().includes(searchQuery)
-        );
         displayTable(teachers, data.pagination);
       } else {
         console.error("Error fetching data:", data.message);

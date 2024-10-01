@@ -52,7 +52,7 @@ function loadRoute(route) {
   document.head.appendChild(linkElement);
 
   // Load the HTML template
-  fetch(`../templates/${template}`)
+  fetch(`templates/${template}`)
     .then((response) => response.text())
     .then((html) => {
       app.innerHTML = html;

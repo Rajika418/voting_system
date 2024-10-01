@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: GET');
@@ -13,7 +13,7 @@ $password = "";
 try {
     $conn = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     echo json_encode(["message" => "Connection failed: " . $e->getMessage()]);
     exit();
 }
@@ -50,6 +50,7 @@ $sql = "
 $where_conditions = [];
 $params = [];
 
+// Check for specific filters
 if (isset($_GET['teacher_id'])) {
     $where_conditions[] = "t.teacher_id = :teacher_id";
     $params[':teacher_id'] = $_GET['teacher_id'];
@@ -65,6 +66,14 @@ if (isset($_GET['user_name'])) {
     $params[':user_name'] = $_GET['user_name'];
 }
 
+// Check for search query
+if (isset($_GET['search'])) {
+    $searchQuery = $_GET['search'];
+    $where_conditions[] = "t.teacher_name LIKE :search";
+    $params[':search'] = '%' . $searchQuery . '%'; // Use wildcard for partial match
+}
+
+// Add WHERE clause if any conditions exist
 if (!empty($where_conditions)) {
     $sql .= " WHERE " . implode(" AND ", $where_conditions);
 }
@@ -122,4 +131,3 @@ try {
 } catch (Exception $e) {
     echo json_encode(["message" => "Query failed: " . $e->getMessage()]);
 }
-?>
