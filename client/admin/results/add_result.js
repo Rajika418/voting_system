@@ -1,6 +1,9 @@
 const API_URL = 'http://localhost/voting_system/server/controller/subject/ol_subject_get.php?action=read';
 const RESULT_OPTIONS = ['A', 'B', 'C', 'S', 'W'];
 
+const API_URL1 = 'http://localhost/voting_system/server/controller/subject/al_subject_get.php?action=read';
+
+
 async function fetchSubjects() {
     try {
         const response = await axios.get(API_URL);
