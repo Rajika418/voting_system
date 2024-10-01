@@ -30,10 +30,9 @@ function populateStudentNames() {
     // Send request with the selected year as a parameter
     axios.get(`http://localhost/voting_system/server/controller/admission/student_get.php?action=read&year=${selectedYear}`)
         .then(response => {
-            console.log(response)
             if (response.data.status === 'success') {
                 const students = response.data.data;
-                console.log(response.data,'hiii')
+                console.log("hi",response.data)
                 const studentNameSelect = document.getElementById('studentName');
                 studentNameSelect.innerHTML = '<option value="">Select Student</option>'; // Reset options
 
@@ -49,9 +48,13 @@ function populateStudentNames() {
                 studentNameSelect.addEventListener('change', (event) => {
                     const selectedStudentId = event.target.value;
                     const selectedStudent = students.find(student => student.student_id === selectedStudentId);
+                    console.log("selectedStudent",selectedStudent);
                     
                     if (selectedStudent) {
                         const guardianInfo = document.getElementById('guardianInfo');
+
+                        console.log("guardian",guardianInfo);
+                        
                         if (selectedStudent.father_name && selectedStudent.father_name !== 'null') {
                             guardianInfo.textContent = `Father Name: ${selectedStudent.father_name}`;
                         } else if (selectedStudent.guardian && selectedStudent.guardian !== 'null') {
