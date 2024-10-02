@@ -1,19 +1,14 @@
-// document.addEventListener("DOMContentLoaded", function () {
-//   const studentTable = document.getElementById("studentTable");
-//   fetchStudents();
-// });
-
-let currentPag = 1;
+let currentPage = 1;
 let limit = 20;
 let sortDirection = "asc";
 let sortColumn = "grade_name";
-let searchQuer = "";
+let searchQuery = "";
 
 async function fetchStudents() {
   const searchElement = document.getElementById("search");
-  searchQuer = searchElement ? searchElement.value : "";
+  searchQuery = searchElement ? searchElement.value : "";
 
-  const url = `http://localhost/voting_system/server/controller/student/student_get.php?page=${currentPag}&limit=${limit}&search=${searchQuer}&sort_by=${sortColumn}&order=${sortDirection}`;
+  const url = `http://localhost/voting_system/server/controller/student/student_get.php?page=${currentPage}&limit=${limit}&search=${searchQuery}&sort_by=${sortColumn}&order=${sortDirection}`;
 
   try {
     const response = await axios.get(url);
@@ -191,11 +186,5 @@ function showToast(message, type = "success") {
 }
 
 (async function init() {
-  const students = await fetchStudents();
-  if (students) {
-    renderTable(students);
-  } else {
-    document.getElementById("studentTable").innerHTML =
-      "<p>Error loading students. Please try again later.</p>";
-  }
+  await fetchStudents();
 })();

@@ -1,22 +1,17 @@
-<?php 
+<?php
 header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Origin: *');
 
-// Database connection
-$host = 'localhost';
-$dbname = 'voting_system';
-$username = 'root';
-$password = '';
+// Include the database configuration file
+require '../../db_config.php';
 
+// Retrieve all grades with corresponding teacher details (if available)
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    // Retrieve all grades with corresponding teacher details (if available)
     $stmt = $conn->prepare("
-        SELECT g.grade_id, g.grade_name, t.teacher_id, t.teacher_name 
+        SELECT g.grade_id, g.grade_name, g.year, t.teacher_id, t.teacher_name 
         FROM grade g
-        LEFT JOIN grade_teacher gt ON g.grade_id = gt.grade_id
-        LEFT JOIN teacher t ON gt.teacher_id = t.teacher_id
+        LEFT JOIN teacher t ON g.teacher_id = t.teacher_id
     ");
     $stmt->execute();
     $grades = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -36,6 +31,7 @@ try {
         $result['grades'][] = [
             'grade_id' => $grade['grade_id'],
             'grade_name' => $grade['grade_name'],
+            'year' => $grade['year'], // Year field included
             'teacher' => !empty($grade['teacher_id']) ? [
                 'teacher_id' => $grade['teacher_id'],
                 'teacher_name' => $grade['teacher_name']
@@ -45,11 +41,9 @@ try {
 
     // Return the result as JSON
     echo json_encode($result);
-
 } catch (PDOException $e) {
     echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
 }
 
 // Close the connection
 $conn = null;
-?>

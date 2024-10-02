@@ -1,11 +1,11 @@
 let currentPage = 1;
 const resultsPerPage = 8;
 let sortOrder = "ASC";
+let searchQuery = "";
 
-async function fetchTeachers() {
-  console.log("fetchTeachers called");
+window.fetchTeachers = async function fetchTeachers() {
   const searchInputElement = document.getElementById("searchInput");
-  const searchQuery = searchInputElement
+  searchQuery = searchInputElement
     ? searchInputElement.value.toLowerCase()
     : "";
 
@@ -22,8 +22,7 @@ async function fetchTeachers() {
       }
     );
 
-    const data = response.data;
-    console.log(data);
+    const data = response.data;    
     if (data.data) {
       displayTable(data.data, data.pagination);
     } else {
@@ -32,13 +31,17 @@ async function fetchTeachers() {
   } catch (error) {
     console.error("Fetch error:", error);
   }
-}
+};
 
 function displayTable(teachers, pagination) {
   const tableBody = document.querySelector("#teacherTable tbody");
 
   tableBody.innerHTML = ""; // Clear existing rows
   teachers.forEach((teacher, index) => {
+    const grades = (teacher.grades && teacher.grades.length > 0)
+    ? teacher.grades.join(", ") 
+    : "No grade assigned";
+
     const row = `
             <tr data-id="${teacher.teacher_id}">
                 <td>${index + 1}</td>
@@ -46,7 +49,7 @@ function displayTable(teachers, pagination) {
                   teacher.image ? teacher.image : ""
                 }" alt="Profile Image" width="50" height="50"></td>
                 <td>${teacher.teacher_name}</td>
-                <td>${teacher.grade_name}</td>
+                <td>${grades}</td>
                 <td>${teacher.address}</td>
                 <td>${teacher.contact_number}</td>
                 <td>${teacher.nic}</td>
@@ -84,16 +87,16 @@ function displayPagination(pagination) {
   }
 }
 
-function searchTeacher() {
+window.searchTeacher = function searchTeacher() {
   fetchTeachers();
-}
+};
 
-function sortTable(order) {
+window.sortTeacher = function sortTable(order) {
   sortOrder = order;
   fetchTeachers();
-}
+};
 
-async function updateTeacher() {
+window.updateTeacher = async function updateTeacher() {
   const teacherId = document.getElementById("popupForm").dataset.teacherId;
   const formData = new FormData();
   formData.append("teacher_id", teacherId);
@@ -121,9 +124,11 @@ async function updateTeacher() {
     );
 
     const data = response.data;
+    console.log(data);
+
     if (data.success) {
       showToast("Teacher updated successfully", "success");
-      closePopup(); // Ensure the popup is closed after a successful update
+      closeTeacherPopup(); // Ensure the popup is closed after a successful update
       fetchTeachers(); // Refresh the teacher list
     } else {
       showToast("Update failed: " + data.message, "error");
@@ -133,14 +138,7 @@ async function updateTeacher() {
   } finally {
     updateButton.disabled = false; // Re-enable button after completion
   }
-}
-
-document
-  .getElementById("popupForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault(); // Prevent the default form submission
-    updateTeacher(); // Call the updateTeacher function
-  });
+};
 
 function openPopup(row) {
   const popupForm = document.getElementById("popupForm");
@@ -170,34 +168,10 @@ function openPopup(row) {
   overlay.classList.add("active");
 }
 
-function closePopup() {
+window.closeTeacherPopup = function closePopup() {
   document.getElementById("popupForm").classList.remove("active");
   document.getElementById("popupOverlay").classList.remove("active");
-}
-
-async function deleteTeacher(teacherId) {
-  if (confirm("Are you sure you want to delete this teacher?")) {
-    const formData = new FormData();
-    formData.append("teacher_id", teacherId);
-
-    try {
-      const response = await axios.post(
-        "http://localhost/voting_system/server/controller/teacher/teacher_delete.php?action=delete",
-        formData
-      );
-
-      const data = response.data;
-      if (data.success) {
-        showToast("Teacher deleted successfully", "success");
-        fetchTeachers();
-      } else {
-        showToast("Delete failed: " + data.message, "error");
-      }
-    } catch (error) {
-      showToast("Delete error: " + error, "error");
-    }
-  }
-}
+};
 
 function addEditListeners() {
   document.querySelectorAll(".edit-btn").forEach((button) => {
@@ -216,6 +190,25 @@ function addDeleteListeners() {
   });
 }
 
+async function deleteTeacher(teacherId) {
+  if (confirm("Are you sure you want to delete this teacher?")) {
+    const formData = new FormData();
+    formData.append("teacher_id", teacherId);
+    console.log("hi", teacherId);
+    try {
+      const response = await axios.post(
+        "http://localhost/voting_system/server/controller/teacher/teacher_delete.php?action=delete",
+        formData
+      );
+      const data = response.data;
+      showToast("Teacher deleted successfully", "success");
+      fetchTeachers();
+    } catch (error) {
+      showToast("Delete error: " + error, "error");
+    }
+  }
+}
+
 function showToast(message, type) {
   const toastContainer = document.getElementById("toastContainer");
   const toast = document.createElement("div");
@@ -223,17 +216,20 @@ function showToast(message, type) {
   toast.innerText = message;
   toastContainer.appendChild(toast);
 
+  // Use a small timeout to ensure the element is in the DOM before the class is added
   setTimeout(() => {
-    toast.remove();
-  }, 4000);
+    toast.classList.add("toast-show");
+  }, 10); // Small delay to trigger transition
+
+  setTimeout(() => {
+    toast.classList.remove("toast-show");
+    // Remove the toast after it fades out
+    setTimeout(() => {
+      toast.remove();
+    }, 500); // Match the transition time in the CSS
+  }, 5000); // Keep toast visible for 10 seconds
 }
 
 (async function init() {
-  const teachers = await fetchTeachers();
-  if (teachers) {
-    displayTable(teachers);
-  } else {
-    document.getElementById("teacherTable").innerHTML =
-      "<p>Error loading teachers. Please try again later.</p>";
-  }
+  await fetchTeachers();
 })();

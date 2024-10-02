@@ -17,6 +17,7 @@ function populateTeacherDropdown() {
         data.teachers.forEach((teacher) => {
           const option = document.createElement("option");
           option.value = teacher.teacher_id;
+          option.dataset.grades = JSON.stringify(teacher.grades);
           option.text = teacher.teacher_name;
           teacherDropdown.appendChild(option);
         });
@@ -27,6 +28,43 @@ function populateTeacherDropdown() {
     .catch((error) => console.error("Error fetching teachers:", error));
 }
 
+// Function to fetch grades for the selected teacher
+window.fetchGradesForTeacher = function fetchGradesForTeacher() {
+  const teacherDropdown = document.getElementById("teacher_name");
+  const selectedTeacher =
+    teacherDropdown.options[teacherDropdown.selectedIndex];
+  const gradesDisplay = document.getElementById("grades_display");
+  const gradesList = document.getElementById("grades_list");
+
+  console.log("hhg");
+
+  // Clear previous grades
+  gradesList.innerHTML = "";
+
+  // Check if a teacher is selected
+  if (selectedTeacher.value) {
+    const grades = JSON.parse(selectedTeacher.dataset.grades);
+    // Check if grades exist
+    if (grades.length > 0) {
+      gradesDisplay.style.display = "block";
+      grades.forEach((grade) => {
+        const gradeDiv = document.createElement("span");
+        gradeDiv.textContent = grade;
+        gradeDiv.style.marginRight = "5px";
+        gradesList.appendChild(gradeDiv);
+      });
+    } else {
+      gradesDisplay.style.display = "block";
+      const noClassesDiv = document.createElement("div");
+      noClassesDiv.textContent = "No classes assigned for this teacher.";
+      noClassesDiv.style.color = "red";
+      gradesList.appendChild(noClassesDiv);
+    }
+  } else {
+    gradesDisplay.style.display = "none";
+  }
+};
+
 // Populate grade dropdown
 function populateGradeDropdown() {
   const gradeDropdown = document.getElementById("grade_name");
@@ -36,6 +74,8 @@ function populateGradeDropdown() {
   )
     .then((response) => response.json())
     .then((data) => {
+      console.log(data, "kk");
+
       if (data.status === "success") {
         gradeDropdown.innerHTML = "";
         const placeholderOption = document.createElement("option");
@@ -70,6 +110,11 @@ window.openAssignPopup = function () {
 window.closeAssignPopup = function () {
   document.getElementById("assignPopupOverlay").classList.remove("active");
   document.getElementById("assignPopupForm").classList.remove("active");
+
+  const gradesList = document.getElementById("grades_list");
+  gradesList.innerHTML = "";
+  const gradesDisplay = document.getElementById("grades_display");
+  gradesDisplay.style.display = "none"; // Hide the grades display
 };
 
 // Assign teacher to class
@@ -104,7 +149,10 @@ window.assignTeacher = function () {
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data, "hi");
+
         if (data.status === "success") {
+          fetchTeachers();
           showToast("Teacher assigned successfully!");
           closeAssignPopup();
         } else {

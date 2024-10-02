@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teacher List</title>
     <link rel="stylesheet" href="./styles/teacherlist.css" />
-    <script src="../js/pages/teacherlist.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
   </head>
   <body>
@@ -16,8 +15,8 @@
     <input
       type="text"
       id="searchInput"
-      onkeyup="searchTeacher()"
       placeholder="Search for names.."
+      oninput="searchTeacher()"
     />
 
     <button class="classAssing-btn" onclick="openAssignPopup()">
@@ -27,8 +26,8 @@
     <!-- Sorting options -->
     <div>
       <p>Sortby:</p>
-      <button onclick="sortTable('ASC')">Name Ascending</button>
-      <button onclick="sortTable('DESC')">Name Descending</button>
+      <button onclick="sortTeacher('ASC')">Name Ascending</button>
+      <button onclick="sortTeacher('DESC')">Name Descending</button>
     </div>
 
     <!-- Teacher table -->
@@ -93,7 +92,7 @@
       </div>
 
       <div class="form-actions">
-        <button onclick="closePopup()">Close</button>
+        <button onclick="closeTeacherPopup()">Close</button>
         <!-- <button onclick="updateTeacher()">Update</button> -->
         <button class="update-btn" onclick="updateTeacher()">Update</button>
       </div>
@@ -107,9 +106,13 @@
       <!-- Teacher Dropdown -->
       <div class="form-group">
         <label for="teacher_name">Teacher Name</label>
-        <select id="teacher_name"></select>
+        <select id="teacher_name" onchange="fetchGradesForTeacher()"></select>
       </div>
 
+      <div class="form-group" id="grades_display" style="display:none;">
+        <label for="grade_name">Grades</label>
+        <div id="grades_list"></div>
+    </div>
       <!-- Grade Dropdown -->
       <div class="form-group">
         <label for="grade_name">Grade Name</label>

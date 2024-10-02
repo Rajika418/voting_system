@@ -4,7 +4,7 @@
 header('Content-Type: application/json');
 
 // Database connection
-$host = 'localhost';
+$host = 'localhost:3307';
 $dbname = 'voting_system';
 $username = 'root';
 $password = '';
