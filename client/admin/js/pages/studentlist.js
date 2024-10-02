@@ -12,6 +12,8 @@ window.fetchStudents = async function fetchStudents() {
 
   try {
     const response = await axios.get(url);
+    console.log(response.data);
+    
     renderTable(response.data);
   } catch (error) {
     console.error("Error fetching student data:", error);
@@ -19,6 +21,9 @@ window.fetchStudents = async function fetchStudents() {
 };
 
 function renderTable(students) {
+
+  console.log(students);
+  
   const tbody = document.querySelector("#studentTable tbody");
 
   tbody.innerHTML = "";
@@ -27,7 +32,7 @@ function renderTable(students) {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
-                <td>${index + 1 + (currentPag - 1) * limit}</td>
+                <td>${index + 1 + (currentPage - 1) * limit}</td>
                 <td>${student.registration_number}</td>
                 <td>${student.student_name}</td>
                 <td>${student.grade_name}</td>
@@ -52,7 +57,7 @@ function renderTable(students) {
     tbody.appendChild(tr);
   });
 
-  document.getElementById("pageInfo").innerText = `Page ${currentPag}`;
+  document.getElementById("pageInfo").innerText = `Page ${currentPage}`;
 }
 
 function sortTable(column) {
@@ -67,13 +72,13 @@ function sortTable(column) {
 }
 
 function nextPage() {
-  currentPag++;
+  currentPage++;
   fetchStudents();
 }
 
 function previousPage() {
-  if (currentPag > 1) {
-    currentPag--;
+  if (currentPage > 1) {
+    currentPage--;
     fetchStudents();
   }
 }

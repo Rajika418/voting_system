@@ -1,7 +1,4 @@
-<?php 
-
-
-
+<?php
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST');
@@ -26,14 +23,12 @@ $sql = "
         users.email, 
         users.image, 
         grade.grade_name, 
-        teacher.teacher_name  -- Fetch teacher_name from the teacher table
+        teacher.teacher_name  -- Fetch teacher_name directly from the teacher table
     FROM student 
     JOIN users ON student.user_id = users.user_id 
     JOIN grade ON student.grade_id = grade.grade_id
-    LEFT JOIN grade_teacher ON grade.grade_id = grade_teacher.grade_id  -- Use LEFT JOIN for optional matching
-    LEFT JOIN teacher ON grade_teacher.teacher_id = teacher.teacher_id  -- Use LEFT JOIN for optional matching
+    LEFT JOIN teacher ON grade.teacher_id = teacher.teacher_id  -- Direct join with teacher table using teacher_id from grade
 ";
-
 
 // Initialize filter, sorting, and pagination variables
 $where_conditions = [];
@@ -103,5 +98,3 @@ try {
 } catch (Exception $e) {
     echo json_encode(["message" => "Query failed: " . $e->getMessage()]);
 }
-?>
-
