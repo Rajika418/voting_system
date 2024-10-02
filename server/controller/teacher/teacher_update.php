@@ -1,7 +1,4 @@
 <?php 
-
-
-
 require "../../db_config.php";
 
 // Check if the necessary POST data is provided
