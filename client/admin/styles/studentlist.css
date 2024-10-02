@@ -169,15 +169,15 @@ button[type="button"] + button:hover {
   visibility: hidden;
   min-width: 250px;
   margin-left: -125px;
-  background-color: #333;
+  background-color: #6cf735;
   color: #fff;
   text-align: center;
-  border-radius: 2px;
+  border-radius: 20px;
   padding: 16px;
   position: fixed;
   z-index: 1;
   left: 50%;
-  bottom: 30px;
+  top: 30px;
   font-size: 17px;
 }
 
@@ -188,22 +188,22 @@ button[type="button"] + button:hover {
 
 @keyframes fadein {
   from {
-    bottom: 0;
+    top: 0;
     opacity: 0;
   }
   to {
-    bottom: 30px;
+    top: 30px;
     opacity: 1;
   }
 }
 
 @keyframes fadeout {
   from {
-    bottom: 30px;
+    top: 30px;
     opacity: 1;
   }
   to {
-    bottom: 0;
+    top:0;
     opacity: 0;
   }
 }

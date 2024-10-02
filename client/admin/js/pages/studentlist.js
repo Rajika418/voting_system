@@ -120,17 +120,16 @@ window.studentPreviousPage = function previousPage() {
   }
 };
 
-function editStudent(studentId, button) {
+window.editStudent = function editStudent(studentId, button) {
   const updateForm = document.getElementById("updateForm");
   const editPopup = document.getElementById("editPopup");
 
   const row = button.parentElement.parentElement;
   const cells = row.getElementsByTagName("td");
 
-  document.getElementById("editRegNo").value = cells[1].innerText;
-  document.getElementById("editName").value = cells[2].innerText;
-  document.getElementById("editGrade").value = cells[3].innerText;
-  document.getElementById("editClassTeacher").value = cells[4].innerText;
+  document.getElementById("editRegNo").value = cells[2].innerText;
+  document.getElementById("editName").value = cells[3].innerText;
+  document.getElementById("editGrade").value = cells[4].innerText;
   document.getElementById("editGuardian").value = cells[5].innerText;
   document.getElementById("editFather").value = cells[6].innerText;
   document.getElementById("editAddress").value = cells[7].innerText;
@@ -144,13 +143,13 @@ function editStudent(studentId, button) {
   editPopup.dataset.studentId = studentId;
   updateForm.classList.add("active");
   editPopup.style.display = "block";
-}
+};
 
-function closePopup() {
+window.closeStudentPopup = function closePopup() {
   document.getElementById("editPopup").style.display = "none";
-}
+};
 
-async function updateStudent() {
+window.updateStudent = async function updateStudent() {
   const studentId = document.getElementById("editPopup").dataset.studentId;
   const formData = new FormData();
 
@@ -161,10 +160,6 @@ async function updateStudent() {
   );
   formData.append("student_name", document.getElementById("editName").value);
   formData.append("grade_name", document.getElementById("editGrade").value);
-  formData.append(
-    "teacher_name",
-    document.getElementById("editClassTeacher").value
-  );
   formData.append("guardian", document.getElementById("editGuardian").value);
   formData.append("father_name", document.getElementById("editFather").value);
   formData.append("address", document.getElementById("editAddress").value);
@@ -188,7 +183,7 @@ async function updateStudent() {
     const data = response.data;
     if (data.status === "success") {
       showToast(data.message, "success");
-      closePopup();
+      closeStudentPopup();
       fetchStudents();
     } else {
       showToast("Update failed: " + data.message, "error");
@@ -199,14 +194,18 @@ async function updateStudent() {
   } finally {
     updateButton.disabled = false;
   }
-}
+};
 
-async function deleteStudent(studentId) {
+window.deleteStudent = async function deleteStudent(studentId) {
   if (confirm("Are you sure you want to delete this student?")) {
     try {
+      console.log(studentId, "kk");
+
       const response = await axios.delete(
         `http://localhost/voting_system/server/controller/student/student_delete.php?id=${studentId}`
       );
+      console.log(response);
+
       if (response.status === 200) {
         showToast("Student deleted successfully!", "success");
         fetchStudents();
@@ -218,7 +217,7 @@ async function deleteStudent(studentId) {
       showToast("Error deleting student: " + error, "error");
     }
   }
-}
+};
 
 function showToast(message, type = "success") {
   const toast = document.getElementById("toast");
