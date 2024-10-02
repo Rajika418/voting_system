@@ -1,5 +1,5 @@
 let currentPage = 1;
-let limit = 20;
+let limit = 10;
 let sortDirection = "asc";
 let sortColumn = "grade_name";
 let searchQuery = "";
@@ -13,7 +13,7 @@ window.fetchStudents = async function fetchStudents() {
   try {
     const response = await axios.get(url);
     console.log(response.data);
-    
+
     renderTable(response.data);
   } catch (error) {
     console.error("Error fetching student data:", error);
@@ -21,9 +21,8 @@ window.fetchStudents = async function fetchStudents() {
 };
 
 function renderTable(students) {
-
   console.log(students);
-  
+
   const tbody = document.querySelector("#studentTable tbody");
 
   tbody.innerHTML = "";
@@ -33,10 +32,12 @@ function renderTable(students) {
 
     tr.innerHTML = `
                 <td>${index + 1 + (currentPage - 1) * limit}</td>
+                <td><img src="${
+                  student.image ? student.image : ""
+                }" alt="Profile Image" width="50" height="50"></td>
                 <td>${student.registration_number}</td>
                 <td>${student.student_name}</td>
                 <td>${student.grade_name}</td>
-                <td>${student.teacher_name}</td>
                 <td>${student.guardian}</td>
                 <td>${student.father_name}</td>
                 <td>${student.address}</td>
@@ -58,9 +59,12 @@ function renderTable(students) {
   });
 
   document.getElementById("pageInfo").innerText = `Page ${currentPage}`;
+
+  // Update the sort button text dynamically based on the current state
+  updateSortButtons();
 }
 
-function sortTable(column) {
+window.sortStudent = function sortStudent(column) {
   if (sortColumn === column) {
     sortDirection = sortDirection === "asc" ? "desc" : "asc";
   } else {
@@ -69,19 +73,52 @@ function sortTable(column) {
   }
 
   fetchStudents();
+};
+
+window.sortGrade = function sortGrade(column) {
+  if (sortColumn === column) {
+    sortDirection = sortDirection === "asc" ? "desc" : "asc";
+  } else {
+    sortColumn = column;
+    sortDirection = "asc";
+  }
+
+  fetchStudents();
+};
+
+// Dynamically update the button text based on the sorting state
+function updateSortButtons() {
+  const studentNameButton = document.getElementById("sortStudentName");
+  const gradeNameButton = document.getElementById("sortGradeName");
+
+  if (sortColumn === "student_name") {
+    studentNameButton.textContent = `Name ${
+      sortDirection === "asc" ? "Ascending" : "Descending"
+    }`;
+  } else {
+    studentNameButton.textContent = "Sort by Name";
+  }
+
+  if (sortColumn === "grade_name") {
+    gradeNameButton.textContent = `Grade ${
+      sortDirection === "asc" ? "Ascending" : "Descending"
+    }`;
+  } else {
+    gradeNameButton.textContent = "Sort by Grade";
+  }
 }
 
-function nextPage() {
+window.studentNextPage = function nextPage() {
   currentPage++;
   fetchStudents();
-}
+};
 
-function previousPage() {
+window.studentPreviousPage = function previousPage() {
   if (currentPage > 1) {
     currentPage--;
     fetchStudents();
   }
-}
+};
 
 function editStudent(studentId, button) {
   const updateForm = document.getElementById("updateForm");

@@ -44,10 +44,16 @@ if (isset($_GET['grade_name'])) {
     $grade_name = $_GET['grade_name'];
 }
 
-// Check if sort order is provided
-if (isset($_GET['sort_by']) && $_GET['sort_by'] === 'student_name') {
-    $order_by = 'student.student_name';
+// Check if sort order is provided (either by student_name or grade_name)
+if (isset($_GET['sort_by'])) {
+    if ($_GET['sort_by'] === 'student_name') {
+        $order_by = 'student.student_name';
+    } elseif ($_GET['sort_by'] === 'grade_name') {
+        $order_by = 'grade.grade_name';
+    }
 }
+
+// Check if sorting direction is provided (ascending or descending)
 if (isset($_GET['order']) && ($_GET['order'] === 'asc' || $_GET['order'] === 'desc')) {
     $order_direction = strtoupper($_GET['order']);
 }
@@ -64,7 +70,7 @@ if (!empty($where_conditions)) {
     $sql .= " WHERE " . implode(" AND ", $where_conditions);
 }
 
-// Sorting by student_name in ascending or descending order
+// Sorting by student_name or grade_name in ascending or descending order
 $sql .= " ORDER BY $order_by $order_direction";
 
 // Pagination variables
