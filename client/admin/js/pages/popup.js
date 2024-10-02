@@ -58,8 +58,14 @@ document
   .addEventListener("click", function () {
     togglePopup("results", "open");
   });
+
 document
   .getElementById("closeResultsForm")
   .addEventListener("click", function () {
     togglePopup("results", "close");
+    document.getElementById("studentInfo").innerHTML = "";
+    document.getElementById("subjectsContainer").innerHTML = "";
+
+    // Optionally, clear the index number input field
+    document.getElementById("indexNo").value = "";
   });
