@@ -48,6 +48,7 @@ document
   .getElementById("closeAdmissionForm")
   .addEventListener("click", function () {
     togglePopup("admission", "close");
+    document.querySelector("#admissionPopup form").reset();
     admissionFields.disabled = true; // Reset form to disabled when closed
   });
 
