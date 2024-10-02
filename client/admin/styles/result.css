@@ -203,3 +203,50 @@ fieldset {
     max-width: 100%; /* Tabs should fill available space on small screens */
   }
 }
+
+/* Section title styling */
+.section-title {
+  font-weight: bold;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+/* Subject row styling */
+.subject-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+/* Label styling */
+.subject-name {
+  font-size: 1em;
+  margin-right: 10px; /* Space between label and select */
+}
+
+/* Result select styling */
+.result-select,
+.subject-select {
+  padding: 5px;
+  border: 1px solid #ccc; /* Light grey border */
+  border-radius: 4px; /* Rounded corners */
+}
+
+/* Center button styling */
+button {
+  background-color: #4caf50; /* Green background */
+  color: white; /* White text */
+  border: none; /* No border */
+  padding: 10px 20px; /* Padding around the button */
+  text-align: center; /* Centered text */
+  text-decoration: none; /* No underline */
+  display: inline-block; /* Align as inline block */
+  font-size: 16px; /* Font size */
+  margin: 4px 2px; /* Margin for spacing */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+button:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
