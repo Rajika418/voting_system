@@ -2,32 +2,36 @@
 const admissionFields = document.getElementById("admissionFields");
 admissionFields.disabled = true;
 
-let selectedYear = null; // To store the selected year (11 for O/L, 13 for A/L)
+let selectedYear = null; 
 
 // Handle the O/L Admission button click
 document.getElementById("olButton").addEventListener("click", function () {
-  selectedYear = 11; // Set year to 11 for O/L
-  populateStudentNames(); // Populate student names for O/L
-  admissionFields.disabled = false; // Enable form fields
+  selectedYear = 11; 
+  populateStudentNames(); 
+  admissionFields.disabled = false; 
   document.getElementById("examName").value =
-    "General Certificate of Education - Ordinary Level (G.C.E(O/L))"; // Pre-fill the exam name as O/L
+    "General Certificate of Education - Ordinary Level (G.C.E(O/L))"; 
 });
 
 // Handle the A/L Admission button click
 document.getElementById("alButton").addEventListener("click", function () {
-  selectedYear = 13; // Set year to 13 for A/L
-  populateStudentNames(); // Populate student names for A/L
-  admissionFields.disabled = false; // Enable form fields
+  selectedYear = 13;
+  populateStudentNames(); 
+  admissionFields.disabled = false; 
   document.getElementById("examName").value =
-    "General Certificate of Education - Advanced Level (G.C.E(A/L))"; // Pre-fill the exam name as A/L
+    "General Certificate of Education - Advanced Level (G.C.E(A/L))"; 
 });
 
 // Function to populate the student name dropdown from the GET API
-function populateStudentNames() {
+window.populateStudentNames = function populateStudentNames() {
+  console.log("kk");
+  
   if (selectedYear === null) {
     console.error("Year is not selected");
     return;
   }
+  console.log(selectedYear,"gg");
+  
 
   // Send request with the selected year as a parameter
   axios
@@ -35,6 +39,8 @@ function populateStudentNames() {
       `http://localhost/voting_system/server/controller/admission/student_get.php?action=read&year=${selectedYear}`
     )
     .then((response) => {
+      console.log(response,"kk");
+      
       if (response.data.status === "success") {
         const students = response.data.data;
         console.log("hi", response.data);
@@ -88,7 +94,7 @@ function populateStudentNames() {
 }
 
 // Function to submit the form data via POST API
-function submitAdmissionForm(event) {
+window.submitAdmissionForm = function submitAdmissionForm(event) {
   event.preventDefault(); // Prevent form default submit
 
   const studentId = document.getElementById("studentName").value;
@@ -129,6 +135,13 @@ function submitAdmissionForm(event) {
   }
 }
 
+function showToast(message, type ) {
+  const toast = document.getElementById("toast");
+  toast.innerText = message;
+  toast.classList.add("show", type);
+  setTimeout(() => toast.classList.remove("show"), 4000);
+}
+
 // Add event listeners
 document
   .getElementById("admissionForm")
@@ -136,3 +149,5 @@ document
 
 // Call function to populate student names on page load
 populateStudentNames();
+
+

@@ -219,7 +219,7 @@ window.deleteStudent = async function deleteStudent(studentId) {
   }
 };
 
-function showToast(message, type = "success") {
+function showToast(message, type ) {
   const toast = document.getElementById("toast");
   toast.innerText = message;
   toast.classList.add("show", type);
