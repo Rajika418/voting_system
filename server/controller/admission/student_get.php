@@ -1,16 +1,8 @@
 <?php
-// Database connection
-$host = "localhost"; // Your database host
-$username = "root"; // Your database username
-$password = ""; // Your database password
-$dbname = "voting_system"; // Your database name
+header('Content-Type: application/json');
 
-$conn = new mysqli($host, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// Include the database configuration file
+require '../../db_config.php';
 
 // Check if 'year' is passed as a parameter
 if (isset($_GET['year']) && is_numeric($_GET['year'])) {
@@ -20,33 +12,27 @@ if (isset($_GET['year']) && is_numeric($_GET['year'])) {
     $sql = "SELECT s.student_id, s.student_name, s.father_name, s.user_id, s.grade_id, s.address, s.guardian, s.contact_number, s.registration_number, s.join_date, s.leave_date 
             FROM student s
             JOIN grade g ON s.grade_id = g.grade_id
-            WHERE g.year = ?";
+            WHERE g.year = :year";
     
-    // Prepare statement to prevent SQL injection
+    // Prepare the statement
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $year);
+
+    // Bind the year parameter
+    $stmt->bindParam(':year', $year, PDO::PARAM_INT);
     $stmt->execute();
     
-    $result = $stmt->get_result();
-    $students = array();
+    // Fetch all the results
+    $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    if ($result->num_rows > 0) {
-        // Output data of each row
-        while ($row = $result->fetch_assoc()) {
-            $students[] = $row;
-        }
+    if (!empty($students)) {
         // Send response as JSON
         echo json_encode(array('status' => 'success', 'data' => $students));
     } else {
         echo json_encode(array('status' => 'error', 'message' => 'No students found for year ' . $year));
     }
-    
-    // Close statement
-    $stmt->close();
 } else {
     echo json_encode(array('status' => 'error', 'message' => 'Year parameter is missing or invalid.'));
 }
 
-// Close connection
-$conn->close();
+// Close connection (optional with PDO, since it's closed automatically when script ends)
 ?>

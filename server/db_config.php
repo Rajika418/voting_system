@@ -5,7 +5,7 @@ header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Origin: *');
 
 // Database connection
-$host = "localhost:3306";
+$host = "localhost:3307";
 $db_name = "voting_system";
 $username = "root";
 $password = "";
