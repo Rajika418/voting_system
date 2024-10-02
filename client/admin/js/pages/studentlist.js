@@ -4,7 +4,7 @@ let sortDirection = "asc";
 let sortColumn = "grade_name";
 let searchQuery = "";
 
-async function fetchStudents() {
+window.fetchStudents = async function fetchStudents() {
   const searchElement = document.getElementById("search");
   searchQuery = searchElement ? searchElement.value : "";
 
@@ -16,7 +16,7 @@ async function fetchStudents() {
   } catch (error) {
     console.error("Error fetching student data:", error);
   }
-}
+};
 
 function renderTable(students) {
   const tbody = document.querySelector("#studentTable tbody");
@@ -188,3 +188,7 @@ function showToast(message, type = "success") {
 (async function init() {
   await fetchStudents();
 })();
+
+export function init() {
+  fetchStudents();
+}

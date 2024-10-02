@@ -233,3 +233,7 @@ function showToast(message, type) {
 (async function init() {
   await fetchTeachers();
 })();
+
+export function init() {
+  fetchTeachers(); 
+}
