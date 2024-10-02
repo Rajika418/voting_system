@@ -24,10 +24,8 @@ document.getElementById("alButton").addEventListener("click", function () {
 
 // Function to populate the student name dropdown from the GET API
 window.populateStudentNames = function populateStudentNames() {
-  console.log("kk");
-  
   if (selectedYear === null) {
-    console.error("Year is not selected");
+    console.log("Year is not selected");
     return;
   }
   console.log(selectedYear,"gg");

@@ -1,5 +1,5 @@
 <?php
-require "../../../db_config.php";
+require "../../db_config.php";
 
 // Enable CORS (Cross-Origin Resource Sharing)
 header("Access-Control-Allow-Origin: *");

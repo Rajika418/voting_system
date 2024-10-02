@@ -12,30 +12,44 @@ const API_URL = (year) =>
   `http://localhost/voting_system/server/controller/subject/exam_subject_get.php?action=read&year=${year}`;
 
 // Event listener for O/L button
-olButton.addEventListener("click", () => {
+olButton.addEventListener("click", async () => {
   selectedYear1 = "o/l";
   indexNoField.disabled = false;
-  fetchSubjects(selectedYear1);
+  const subjects = await fetchSubjects(selectedYear1);
   formTitle.innerText =
     "General Certificate of Education - Ordinary Level (G.C.E(O/L))";
+  if (subjects) {
+    renderSubjects(subjects);
+  } else {
+    document.getElementById("subjectsContainer").innerHTML =
+      "<p>Error loading subjects. Please try again later.</p>";
+  }
 });
 
 // Event listener for A/L button
-alButton.addEventListener("click", () => {
+alButton.addEventListener("click", async () => {
   selectedYear1 = "a/l";
   indexNoField.disabled = false;
-  fetchSubjects(selectedYear1);
+  const subjects = await fetchSubjects(selectedYear1);
   formTitle.innerText =
     "General Certificate of Education - Advanced Level (G.C.E(A/L))";
+  if (subjects) {
+    renderSubjects(subjects);
+  } else {
+    document.getElementById("subjectsContainer").innerHTML =
+      "<p>Error loading subjects. Please try again later.</p>";
+  }
 });
-
-console.log("selectedYear", selectedYear1);
 
 const RESULT_OPTIONS = ["A", "B", "C", "S", "W"];
 
 async function fetchSubjects(year) {
+  console.log(year, "kk");
+
   try {
     const response = await axios.get(API_URL(year));
+    console.log(response.data, "mm");
+
     return response.data;
   } catch (error) {
     console.error("Error fetching subjects:", error);
@@ -86,7 +100,12 @@ function createResultSelect(sectionName) {
 }
 
 function renderSubjects(subjects) {
+  console.log(subjects, "mj");
+
   const container = document.getElementById("subjectsContainer");
+
+  // Clear the container before rendering new subjects
+  container.innerHTML = "";
 
   // Render subjects with no section
   const noSectionDiv = document.createElement("div");
@@ -185,6 +204,8 @@ function fetchData() {
         `http://localhost/voting_system/server/controller/results/admission_get.php?index_no=${indexNo}`
       )
       .then((response) => {
+        console.log("kk",response);
+        
         if (response.data.status === "success") {
           const studentData = response.data.data;
           document.getElementById("studentInfo").innerHTML = `
@@ -212,13 +233,3 @@ function fetchData() {
 
 // Add event listener to the index number input
 document.getElementById("indexNo").addEventListener("input", fetchData);
-
-(async function init() {
-  const subjects = await fetchSubjects();
-  if (subjects) {
-    renderSubjects(subjects);
-  } else {
-    document.getElementById("subjectsContainer").innerHTML =
-      "<p>Error loading subjects. Please try again later.</p>";
-  }
-})();
