@@ -192,6 +192,7 @@ document.getElementById("resultsForm").addEventListener("submit", function (e) {
     .then((data) => {
       console.log("Success:", data);
       alert("Results submitted successfully!");
+      document.getElementById("resultsPopup").style.display = "none";
     })
     .catch((error) => {
       console.error("Error:", error);
