@@ -111,6 +111,10 @@ function renderSubjects(subjects) {
   const noSectionDiv = document.createElement("div");
   noSectionDiv.className = "section";
   noSectionDiv.innerHTML = '<div class="section-title">Core Subjects</div>';
+
+  const noSectionSubjectsWrapper = document.createElement("div");
+  noSectionSubjectsWrapper.className = "subject-rows-wrapper";
+
   subjects.no_section.forEach((subject) => {
     const div = document.createElement("div");
     div.className = "subject-row";
@@ -118,8 +122,9 @@ function renderSubjects(subjects) {
             <label class="subject-name">${subject.subject_name}</label>
         `;
     div.appendChild(createResultSelect(subject.subject_id));
-    noSectionDiv.appendChild(div);
+    noSectionSubjectsWrapper.appendChild(div);
   });
+  noSectionDiv.appendChild(noSectionSubjectsWrapper);
   container.appendChild(noSectionDiv);
 
   // Render subjects with sections
@@ -204,8 +209,8 @@ function fetchData() {
         `http://localhost/voting_system/server/controller/results/admission_get.php?index_no=${indexNo}`
       )
       .then((response) => {
-        console.log("kk",response);
-        
+        console.log("kk", response);
+
         if (response.data.status === "success") {
           const studentData = response.data.data;
           document.getElementById("studentInfo").innerHTML = `

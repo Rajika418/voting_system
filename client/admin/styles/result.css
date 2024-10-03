@@ -112,7 +112,7 @@ button:hover {
 
 /* Center the submit button */
 .popup-form div {
-  text-align: center;
+  text-align: left;
 }
 
 /* Admission Type Buttons */
@@ -204,6 +204,11 @@ fieldset {
   }
 }
 
+.subject-rows-wrapper{
+  display: flex;
+}
+
+
 /* Section title styling */
 .section-title {
   font-weight: bold;
@@ -215,8 +220,7 @@ fieldset {
 .subject-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin: 10px 0;
+  margin: 10px ;
 }
 
 /* Label styling */
@@ -230,7 +234,8 @@ fieldset {
 .subject-select {
   padding: 5px;
   border: 1px solid #ccc; /* Light grey border */
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 4px;
+  margin-right: 10px; /* Rounded corners */
 }
 
 /* Center button styling */
@@ -250,3 +255,4 @@ button {
 button:hover {
   background-color: #45a049; /* Darker green on hover */
 }
+
