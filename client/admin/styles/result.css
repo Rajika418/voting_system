@@ -238,21 +238,56 @@ fieldset {
   margin-right: 10px; /* Rounded corners */
 }
 
-/* Center button styling */
-button {
-  background-color: #4caf50; /* Green background */
-  color: white; /* White text */
-  border: none; /* No border */
-  padding: 10px 20px; /* Padding around the button */
-  text-align: center; /* Centered text */
-  text-decoration: none; /* No underline */
-  display: inline-block; /* Align as inline block */
-  font-size: 16px; /* Font size */
-  margin: 4px 2px; /* Margin for spacing */
-  cursor: pointer; /* Pointer cursor on hover */
+body {
+  font-family: Arial, sans-serif;
 }
 
-button:hover {
-  background-color: #45a049; /* Darker green on hover */
+.tab-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
+.tab-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.tab-button.active {
+  background-color: #0056b3;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th, table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+  color: black;
+}
+
+table th {
+  background-color: #f2f2f2;
+}

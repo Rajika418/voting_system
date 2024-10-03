@@ -15,8 +15,8 @@ try {
     // Get search query for student name or index_no
     $search_query = isset($_GET['search']) ? $_GET['search'] : '';
 
-    // Get year parameter from query string
-    $year_param = isset($_GET['year']) ? (int)$_GET['year'] : null;
+    // Get year parameter (e.g., "A/L" or "O/L") from query string
+    $year_param = isset($_GET['year']) ? $_GET['year'] : null;
 
     // Prepare the SQL query
     $sql = "
@@ -41,11 +41,15 @@ try {
         LEFT JOIN 
             subjects sub ON r.subject_id = sub.subject_id
         WHERE 
-            (s.student_name LIKE :search_query OR se.index_no LIKE :search_query)
-            AND (:year_param IS NULL OR sub.year = :year_param)
-        ORDER BY 
-            se.year $sort_order
-        LIMIT :limit OFFSET :offset";
+            (s.student_name LIKE :search_query OR se.index_no LIKE :search_query)";
+
+    // Add condition to filter by `sub.year` (exam type) if provided
+    if (!is_null($year_param)) {
+        $sql .= " AND sub.year = :year_param";  // Filter by exam type when provided
+    }
+
+    $sql .= " ORDER BY se.year $sort_order
+              LIMIT :limit OFFSET :offset";
 
     // Prepare the statement
     $stmt = $conn->prepare($sql);
@@ -53,17 +57,14 @@ try {
     // Add wildcard characters for search query
     $search_term = '%' . $search_query . '%';
 
-    // Bind parameters for the search term, limit, offset, and year
+    // Bind parameters for the search term, limit, and offset
     $stmt->bindParam(':search_query', $search_term, PDO::PARAM_STR);
     $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
     $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
 
-    // Bind the year parameter, allowing it to be null
-    if ($year_param) {
-        $stmt->bindParam(':year_param', $year_param, PDO::PARAM_INT);
-    } else {
-        $nullYear = null;
-        $stmt->bindParam(':year_param', $nullYear, PDO::PARAM_NULL);
+    // Bind the year parameter (exam type) only if it's provided
+    if (!is_null($year_param)) {
+        $stmt->bindParam(':year_param', $year_param, PDO::PARAM_STR);
     }
 
     // Execute the statement
