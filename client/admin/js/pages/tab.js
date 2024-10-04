@@ -11,7 +11,7 @@ tabButtons.forEach((button) => {
         this.classList.add("active");
         const tabId = this.getAttribute("data-tab");
         document.getElementById(tabId).classList.add("active");
-
+    
         // Fetch and display results based on the clicked tab
         if (tabId === "olResultsTab") {
             fetchResults('o/l');
@@ -31,20 +31,14 @@ function fetchResults(year) {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            if (data && data.data.length > 0) {
+            if (data && data.data.length > 0 && data.subjects.length > 0) {
                 let tableHTML = '<table><thead><tr><th>Index No</th><th>Student Name</th>';
 
-                // Add subject headers dynamically
-                let subjectHeaders = new Set();
-                data.data.forEach(student => {
-                    student.results.forEach(subject => {
-                        subjectHeaders.add(subject.subject_name);
-                    });
-                });
+                // Add subject headers from the response's subjects array
+                const subjectHeaders = data.subjects;
 
-                // Create the subject columns
                 subjectHeaders.forEach(subject => {
-                    tableHTML += `<th>${subject}</th>`;
+                    tableHTML += `<th>${subject.subject_name}</th>`;
                 });
 
                 tableHTML += '</tr></thead><tbody>';
@@ -53,9 +47,9 @@ function fetchResults(year) {
                 data.data.forEach(student => {
                     tableHTML += `<tr><td>${student.index_no}</td><td>${student.student_name}</td>`;
 
-                    // Fill results based on subjects, empty cells for missing subjects
-                    subjectHeaders.forEach(subjectName => {
-                        const result = student.results.find(subject => subject.subject_name === subjectName);
+                    // Display results for each subject, or show '-' if no result for that subject
+                    subjectHeaders.forEach(subject => {
+                        const result = student.results.find(r => r.subject_name === subject.subject_name);
                         tableHTML += `<td>${result ? result.result : '-'}</td>`;
                     });
 
@@ -76,3 +70,7 @@ function fetchResults(year) {
 
 // Set the first tab as active by default
 document.querySelector(".tab-button").click();
+
+export function init() {
+    fetchResults(); 
+}
