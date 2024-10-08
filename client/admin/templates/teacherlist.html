@@ -12,6 +12,7 @@
     <h2>Teacher List</h2>
 
     <!-- Search input -->
+    <div class="search-container">
     <input
       type="text"
       id="searchInput"
@@ -22,13 +23,18 @@
     <button class="classAssing-btn" onclick="openAssignPopup()">
       Assign Class Teacher
     </button>
+    </div>
 
     <!-- Sorting options -->
-    <div>
+    <div class="sort-container">
+    <div class="sort">
       <p>Sortby:</p>
+    </div>
+    <div class="sortbutton">
       <button onclick="sortTeacher('ASC')">Name Ascending</button>
       <button onclick="sortTeacher('DESC')">Name Descending</button>
     </div>
+  </div>
 
     <!-- Teacher table -->
     <table id="teacherTable">

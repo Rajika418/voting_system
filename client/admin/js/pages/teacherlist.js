@@ -56,7 +56,7 @@ function displayTable(teachers, pagination) {
                 <td>${teacher.email}</td>
                 <td>${teacher.join_date || "-"}</td>
                 <td>${teacher.leave_date || "-"}</td>
-                <td>
+                <td class= "action">
                     <button class="edit-btn">Edit</button>
                     <button class="delete-btn">Delete</button>
                 </td>

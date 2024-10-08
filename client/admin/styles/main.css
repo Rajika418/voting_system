@@ -21,14 +21,17 @@ body {
   color: #fff;
 }
 
+
 .logo {
   display: flex;
   align-items: center;
 }
 
 .logo img {
-  height: 40px;
+  height: 60px;
   margin-right: 10px;
+  width: auto;
+  border-radius: 50%;
 }
 
 .nav-right {

@@ -4,6 +4,18 @@ body {
   padding: 0px;
 }
 
+h1{
+  margin-bottom: 50px;
+  display: block;
+font-size: 1.5em;
+margin-block-start: 0.83em;
+margin-block-end: 0.83em;
+margin-inline-start: 0px;
+margin-inline-end: 0px;
+font-weight: bold;
+unicode-bidi: isolate;
+
+}
 table {
   width: 100%;
   border-collapse: collapse;
@@ -23,8 +35,21 @@ td {
 
 th {
   cursor: pointer;
+  background-color: #f2f2f2;
+  
 }
 
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+table tr:nth-child(odd) {
+  background-color: #ffffff ;
+}
+
+th:hover {
+  background-color: #ddd;
+}
 th.sort-asc::after {
   content: " ▲";
 }
@@ -48,14 +73,17 @@ th.sort-desc::after {
   padding: 5px 10px;
   cursor: pointer;
   color: #f0f2f5;
-  background-color: #08f888;
+  background-color: #6988dd;
   border: none;
   border-radius: 4px;
 }
 
+.actions{
+  display: flex;
+}
 /* Style for Edit Button */
 .edit-btn {
-  background-color: #4caf50; /* Green */
+  background-color: #6988dd; /* Green */
   color: white;
   border: none;
   padding: 8px 16px;
@@ -63,6 +91,8 @@ th.sort-desc::after {
   font-size: 14px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+  margin: 10px;
+  width: 60px;
 }
 
 /* Hover effect for Edit Button */
@@ -72,7 +102,7 @@ th.sort-desc::after {
 
 /* Style for Delete Button */
 .delete-btn {
-  background-color: #f44336; /* Red */
+  background-color: #bb1e1e; /* Red */
   color: white;
   border: none;
   padding: 8px 16px;
@@ -80,12 +110,13 @@ th.sort-desc::after {
   font-size: 14px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
-  margin-left: 10px; /* Optional space between buttons */
+  margin: 10px; /* Optional space between buttons */
+  width: 60px;
 }
 
 /* Hover effect for Delete Button */
 .delete-btn:hover {
-  background-color: #d32f2f; /* Darker Red */
+  background-color: #a53b3b; /* Darker Red */
 }
 
 .pagination {
@@ -99,7 +130,7 @@ th.sort-desc::after {
   padding: 5px 10px;
   cursor: pointer;
   color: #f0f2f5;
-  background-color: #08f888;
+  background-color: #6988dd;
 }
 
 .popup-form {

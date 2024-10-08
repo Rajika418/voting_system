@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
 * {
     margin: 0;
@@ -13,20 +12,51 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: url('https://source.unsplash.com/featured/?night-sky,stars') no-repeat center center/cover;
+    background: url('https://source.unsplash.com/featured/?school,learning') no-repeat center center/cover;
+}
+
+/* Header with logo and school name */
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 50px;
+    background-color: rgba(31, 54, 82, 0.8);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header img {
+    width: 60px;
+    height: auto;
+}
+
+header h1 {
+    font-size: 24px;
+}
+
+/* Main container */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 50px;
 }
 
 .login-container {
-    background-color: rgba(0, 0, 0, 0.6);
+    width: 40%;
+    background-color: rgba(31, 54, 82, 0.6);
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 10px 25px rgba(34, 29, 29, 0.4);
     backdrop-filter: blur(10px);
 }
 
 .login-box {
-    max-width: 350px;
-    margin: auto;
     text-align: center;
 }
 
@@ -111,4 +141,58 @@ button:hover {
     text-decoration: underline;
 }
 
-    
+/* Welcome text on the right with animation */
+.welcome-text {
+    width: 50%;
+    color: #110f0f;
+    font-size: 28px;
+    font-weight: 500;
+    animation: fadeIn 2s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(50px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Toast message styles */
+#toast {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    top: 30px;
+    font-size: 17px;
+}
+
+#toast.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from { top: 0; opacity: 0; }
+    to { top: 30px; opacity: 1; }
+}
+
+@keyframes fadein {
+    from { top: 0; opacity: 0; }
+    to { top: 30px; opacity: 1; }
+}
+
+@-webkit-keyframes fadeout {
+    from { top: 30px; opacity: 1; }
+    to { top: 0; opacity: 0; }
+}
+
+@keyframes fadeout {
+    from { top: 30px; opacity: 1; }
+    to { top: 0; opacity: 0; }}
