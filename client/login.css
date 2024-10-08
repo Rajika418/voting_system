@@ -27,11 +27,15 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    
 }
+
+
 
 header img {
     width: 60px;
     height: auto;
+    border-radius: 50%;
 }
 
 header h1 {
@@ -45,6 +49,7 @@ header h1 {
     align-items: center;
     width: 100%;
     padding: 50px;
+    margin-top: 60px;
 }
 
 .login-container {
@@ -144,7 +149,7 @@ button:hover {
 /* Welcome text on the right with animation */
 .welcome-text {
     width: 50%;
-    color: #110f0f;
+    color: #462f97;
     font-size: 28px;
     font-weight: 500;
     animation: fadeIn 2s ease-out;
