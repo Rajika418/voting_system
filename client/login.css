@@ -7,12 +7,16 @@
 }
 
 body {
-    font-family: 'Poppins', sans-serif;
+   
+    font-family: 'Arial', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background: url('https://source.unsplash.com/featured/?school,learning') no-repeat center center/cover;
+    background: linear-gradient(45deg, #74ebd5, #ACB6E5); /* Gradient background for a more attractive look */
+    background-size: cover;
+
 }
 
 /* Header with logo and school name */
@@ -25,7 +29,7 @@ header {
     background-color: rgba(31, 54, 82, 0.8);
     color: #fff;
     display: flex;
-    justify-content: space-between;
+    /*justify-content: space-between;*/
     align-items: center;
     
 }
@@ -36,12 +40,24 @@ header img {
     width: 60px;
     height: auto;
     border-radius: 50%;
+    margin-right: 15px;
 }
 
 header h1 {
     font-size: 24px;
+    position: absolute;
+    top: 15px;
+    right: 50px;
+    
 }
+header h2{
 
+    font-size: 22px;
+    color:white; /* Color for school name */
+    font-weight: bold;
+    margin: 0;line-height: 1.2;
+    float: right;
+}
 /* Main container */
 .container {
     display: flex;
@@ -49,16 +65,16 @@ header h1 {
     align-items: center;
     width: 100%;
     padding: 50px;
-    margin-top: 60px;
+    margin-top: 80px;
 }
 
 .login-container {
     width: 40%;
-    background-color: rgba(31, 54, 82, 0.6);
+    background-color: rgba(224, 197, 197, 0.8);
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(34, 29, 29, 0.4);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    /*backdrop-filter: blur(10px);*/
 }
 
 .login-box {
@@ -67,7 +83,7 @@ header h1 {
 
 h2 {
     margin-bottom: 20px;
-    color: #fff;
+    color: #1f3652;
     font-weight: 600;
 }
 
@@ -84,8 +100,14 @@ h2 {
     border: none;
     border-radius: 30px;
     outline: none;
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: #e7e7e7;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .input-group .icon {
@@ -94,14 +116,14 @@ h2 {
     top: 50%;
     transform: translateY(-50%);
     font-family: 'FontAwesome';
-    color: #fff;
+    color:  #666;
     font-size: 16px;
 }
 
 .remember-forgot {
     display: flex;
     justify-content: space-between;
-    color: #bbb;
+    color: #0a0000;
     font-size: 14px;
     margin-bottom: 25px;
 }
@@ -111,7 +133,7 @@ h2 {
 }
 
 .remember-forgot a {
-    color: #fff;
+    color: #0e0d0d;
     text-decoration: none;
 }
 
@@ -120,25 +142,25 @@ button {
     padding: 12px;
     border: none;
     border-radius: 30px;
-    background: #fff;
-    color: #333;
+    background: #5c5dc2;
+    color: #fff;;
     font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background: #eee;
+    background: #4b4bb1;
 }
 
 .register-link {
     margin-top: 20px;
-    color: #bbb;
+    color: #0e0d0d;
     font-size: 14px;
 }
 
 .register-link a {
-    color: #fff;
+    color: #0a0a0a;
     text-decoration: none;
 }
 
@@ -149,8 +171,8 @@ button:hover {
 /* Welcome text on the right with animation */
 .welcome-text {
     width: 50%;
-    color: #462f97;
-    font-size: 28px;
+    color: #fff;
+    font-size: 38px;
     font-weight: 500;
     animation: fadeIn 2s ease-out;
 }
@@ -201,3 +223,64 @@ button:hover {
 @keyframes fadeout {
     from { top: 30px; opacity: 1; }
     to { top: 0; opacity: 0; }}
+
+
+    /* Register link styles */
+.register-link {
+    font-size: 16px;
+}
+
+/* Popup container hidden by default */
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay background */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Popup content box */
+.popup-content {
+    background-color: rgb(197, 231, 241);
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons inside popup */
+.popup-btn {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.popup-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Close button */
+.popup-close {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.popup-close:hover {
+    background-color: #d32f2f;
+}

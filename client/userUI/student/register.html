@@ -83,6 +83,13 @@
     <link rel="stylesheet" href="register.css">
 </head>
 <body>
+    <header>
+        <img src="../../../client/admin/school.png" alt="School Logo">
+        <h2>Kalaimahal TMV.Hopton</h2>
+        <h1>School Management System</h1>
+    </header>
+
+
     <div class="container">
         <div class="form-wrapper">
             <h1>Student Registration</h1>
@@ -143,10 +150,10 @@
                         <label for="father_name">Father's Name with Initial</label>
                         <input type="text" id="father_name" name="father_name">
                     </div>
-                </div>
+                
 
                 <!-- Guardian Checkbox and Guardian Field -->
-                <div class="form-row">
+                
                     <div class="form-group">
                         <input type="checkbox" id="guardian_checkbox" name="use_guardian">
                         <label for="guardian_checkbox">Use Guardian instead of Father</label>
@@ -160,18 +167,19 @@
                     </div>   
                 </div>
                 
-                <div class="form-group">
+                <div class="form-row">
+                    <div class="form-group">
                     <label for="join_date">Join Date</label>
                     <input type="date" id="join_date" name="join_date" required>
+                
                 </div>
-
-                <div class="form-row">
+               
                     <div class="form-group">
                         <label for="image">Upload Image (optional)</label>
                         <input type="file" id="image" name="image" accept="image/*">
                     </div>
                 </div>
-
+               
                 <div class="form-group-submit">
                     <button type="submit">Register</button>
                 </div>
