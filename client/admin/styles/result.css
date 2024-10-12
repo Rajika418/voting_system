@@ -28,8 +28,7 @@ table {
   border-collapse: collapse;
 }
 
-th,
-td {
+th, td {
   border: 1px solid #ddd;
   padding: 12px;
   text-align: left;
@@ -81,8 +80,8 @@ button:hover {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   z-index: 1000;
   max-width: 90%;
-  max-height: 90vh; /* Make sure it fits within the viewport height */
-  overflow-y: auto; /* Scroll if content overflows */
+  max-height: 90vh; /* Fit within the viewport height */
+  overflow-y: auto;
   width: 100%;
   box-sizing: border-box;
 }
@@ -110,14 +109,8 @@ button:hover {
   background: none;
 }
 
-/* Center the submit button */
-.popup-form div {
-  text-align: left;
-}
-
 /* Admission Type Buttons */
-#olButton,
-#alButton {
+#olButton, #alButton {
   background-color: #3498db;
   color: white;
   padding: 10px 15px;
@@ -130,8 +123,7 @@ button:hover {
   box-sizing: border-box;
 }
 
-#olButton:hover,
-#alButton:hover {
+#olButton:hover, #alButton:hover {
   background-color: #2980b9;
 }
 
@@ -146,13 +138,16 @@ fieldset {
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-/* Tab buttons */
 .tab-buttons {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
 .tab-buttons button {
@@ -167,7 +162,6 @@ fieldset {
   max-width: 150px;
 }
 
-/* Active tab styling */
 .tab-buttons button.active {
   background-color: #2c3e50;
 }
@@ -193,21 +187,19 @@ fieldset {
     max-height: 90vh;
   }
 
-  #olButton,
-  #alButton {
-    width: 100%; /* Make buttons full width on small screens */
+  #olButton, #alButton {
+    width: 100%; /* Full width on small screens */
     margin-right: 0;
   }
 
   .tab-buttons button {
-    max-width: 100%; /* Tabs should fill available space on small screens */
+    max-width: 100%; /* Tabs fill available space on small screens */
   }
 }
 
-.subject-rows-wrapper{
+.subject-rows-wrapper {
   display: flex;
 }
-
 
 /* Section title styling */
 .section-title {
@@ -220,61 +212,24 @@ fieldset {
 .subject-row {
   display: flex;
   align-items: center;
-  margin: 10px ;
+  margin: 10px;
 }
 
 /* Label styling */
 .subject-name {
   font-size: 1em;
-  margin-right: 10px; /* Space between label and select */
+  margin-right: 10px;
 }
 
 /* Result select styling */
-.result-select,
-.subject-select {
+.result-select, .subject-select {
   padding: 5px;
-  border: 1px solid #ccc; /* Light grey border */
+  border: 1px solid #ccc;
   border-radius: 4px;
-  margin-right: 10px; /* Rounded corners */
+  margin-right: 10px;
 }
 
-body {
-  font-family: Arial, sans-serif;
-}
-
-.tab-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.tab-buttons {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-}
-
-.tab-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.tab-button.active {
-  background-color: #0056b3;
-}
-
-.tab-content {
-  display: none;
-}
-
-.tab-content.active {
-  display: block;
-}
-
+/* Table styling adjustments */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -285,7 +240,6 @@ table th, table td {
   padding: 10px;
   border: 1px solid #ddd;
   text-align: left;
-  color: black;
 }
 
 table th {

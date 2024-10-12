@@ -10,9 +10,8 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(45deg, #499285, #917bf1); 
+    background: linear-gradient(45deg, #499285, #917bf1);
 }
-
 
 /* Header with logo and school name */
 header {
@@ -24,12 +23,8 @@ header {
     background-color: rgba(31, 54, 82, 0.8);
     color: #fff;
     display: flex;
-    /*justify-content: space-between;*/
     align-items: center;
-    
 }
-
-
 
 header img {
     width: 60px;
@@ -43,14 +38,14 @@ header h1 {
     position: absolute;
     top: 15px;
     right: 50px;
-    
 }
-header h2{
 
+header h2 {
     font-size: 22px;
-    color:white; /* Color for school name */
+    color: white;
     font-weight: bold;
-    margin: 0;line-height: 1.2;
+    margin: 0;
+    line-height: 1.2;
     float: right;
 }
 
@@ -115,6 +110,7 @@ form {
     background-color: #218838;
 }
 
+/* Responsive Design for Smaller Screens */
 @media screen and (max-width: 768px) {
     .form-row {
         flex-direction: column;
@@ -122,28 +118,37 @@ form {
     .form-group {
         width: 100%;
     }
+
+    header h1 {
+        font-size: 20px;
+    }
+
+    header h2 {
+        font-size: 18px;
+    }
+
+    .form-container {
+        width: 90%;
+        margin-top: 100px;
+    }
 }
 
+@media screen and (max-width: 480px) {
+    header h1 {
+        font-size: 18px;
+    }
+
+    header h2 {
+        font-size: 16px;
+    }
+
+    .form-container {
+        width: 100%;
+        margin-top: 80px;
+    }
+}
 
 /* Toast message styling */
-.toast {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: #4caf50;
-    color: white;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    opacity: 0.9;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    z-index: 1000;
-}
-
-.toast.hide {
-    opacity: 0;
-    transform: translateY(-20px);
-}/* Toast message styling */
 .toast {
     position: fixed;
     top: 20px;

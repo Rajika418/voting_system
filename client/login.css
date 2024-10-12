@@ -7,16 +7,13 @@
 }
 
 body {
-   
-    font-family: 'Arial', sans-serif;
+    font-family: 'Poppins', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    background: url('https://source.unsplash.com/featured/?school,learning') no-repeat center center/cover;
-    background: linear-gradient(45deg, #499285, #917bf1); /* Gradient background for a more attractive look */
+    min-height: 100vh;
+    background: linear-gradient(45deg, #499285, #917bf1);
     background-size: cover;
-
 }
 
 /* Header with logo and school name */
@@ -25,16 +22,13 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    padding: 15px 50px;
+    padding: 15px 20px;
     background-color: rgba(31, 54, 82, 0.8);
     color: #fff;
     display: flex;
-    /*justify-content: space-between;*/
     align-items: center;
-    
+    justify-content: space-between;
 }
-
-
 
 header img {
     width: 60px;
@@ -44,20 +38,16 @@ header img {
 }
 
 header h1 {
-    font-size: 24px;
-    position: absolute;
-    top: 15px;
-    right: 50px;
-    
-}
-header h2{
-
     font-size: 22px;
-    color:white; /* Color for school name */
-    font-weight: bold;
-    margin: 0;line-height: 1.2;
-    float: right;
 }
+
+header h2 {
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    margin: 0;
+}
+
 /* Main container */
 .container {
     display: flex;
@@ -68,13 +58,14 @@ header h2{
     margin-top: 80px;
 }
 
+/* Login container */
 .login-container {
     width: 40%;
     background-color: rgba(224, 197, 197, 0.8);
     padding: 40px;
     border-radius: 12px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    /*backdrop-filter: blur(10px);*/
+    backdrop-filter: blur(10px);
 }
 
 .login-box {
@@ -116,7 +107,7 @@ h2 {
     top: 50%;
     transform: translateY(-50%);
     font-family: 'FontAwesome';
-    color:  #666;
+    color: #666;
     font-size: 16px;
 }
 
@@ -128,22 +119,13 @@ h2 {
     margin-bottom: 25px;
 }
 
-.remember-forgot label {
-    cursor: pointer;
-}
-
-.remember-forgot a {
-    color: #0e0d0d;
-    text-decoration: none;
-}
-
 button {
     width: 100%;
     padding: 12px;
     border: none;
     border-radius: 30px;
     background: #5c5dc2;
-    color: #fff;;
+    color: #fff;
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
@@ -159,16 +141,7 @@ button:hover {
     font-size: 14px;
 }
 
-.register-link a {
-    color: #0a0a0a;
-    text-decoration: none;
-}
-
-.register-link a:hover {
-    text-decoration: underline;
-}
-
-/* Welcome text on the right with animation */
+/* Welcome text */
 .welcome-text {
     width: 50%;
     color: #fff;
@@ -178,25 +151,158 @@ button:hover {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateX(50px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-/* Toast message styles */
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .login-container {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .welcome-text {
+        width: 100%;
+        font-size: 28px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    header h1 {
+        font-size: 18px;
+    }
+
+    header h2 {
+        font-size: 16px;
+        text-align: center;
+        margin-top: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 20px;
+    }
+
+    .login-container {
+        padding: 20px;
+    }
+
+    header h1 {
+        font-size: 16px;
+    }
+
+    header h2 {
+        font-size: 14px;
+    }
+
+    .welcome-text {
+        font-size: 24px;
+    }
+
+    .input-group input {
+        font-size: 12px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
+
+/* Popup styles */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 400px;
+}
+
+.popup-content h2 {
+    margin-bottom: 20px;
+    color: #1f3652;
+}
+
+.popup-btn {
+    width: 100%;
+    padding: 10px 0;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 30px;
+    background-color: #5c5dc2;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.popup-btn:hover {
+    background-color: #4b4bb1;
+}
+
+.popup-close {
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    border-radius: 30px;
+    background-color: #ff4e4e;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.popup-close:hover {
+    background-color: #d44141;
+}
+
+/* Toast Notification */
 #toast {
     visibility: hidden;
     min-width: 250px;
-    margin-left: -125px;
+    margin: 0 auto;
     background-color: #333;
     color: #fff;
     text-align: center;
-    border-radius: 5px;
+    border-radius: 2px;
     padding: 16px;
     position: fixed;
-    z-index: 1;
+    z-index: 1000;
     left: 50%;
-    top: 30px;
+    bottom: 30px;
     font-size: 17px;
+    transform: translateX(-50%);
 }
 
 #toast.show {
@@ -206,81 +312,46 @@ button:hover {
 }
 
 @-webkit-keyframes fadein {
-    from { top: 0; opacity: 0; }
-    to { top: 30px; opacity: 1; }
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
 }
 
 @keyframes fadein {
-    from { top: 0; opacity: 0; }
-    to { top: 30px; opacity: 1; }
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
 }
 
 @-webkit-keyframes fadeout {
-    from { top: 30px; opacity: 1; }
-    to { top: 0; opacity: 0; }
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
 }
 
 @keyframes fadeout {
-    from { top: 30px; opacity: 1; }
-    to { top: 0; opacity: 0; }}
-
-
-    /* Register link styles */
-.register-link {
-    font-size: 16px;
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
 }
 
-/* Popup container hidden by default */
-.popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Overlay background */
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-/* Popup content box */
-.popup-content {
-    background-color: rgb(197, 231, 241);
-    padding: 20px;
-    border-radius: 8px;
-    width: 300px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Buttons inside popup */
-.popup-btn {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-.popup-btn:hover {
-    background-color: #0056b3;
-}
-
-/* Close button */
-.popup-close {
-    background-color: #f44336;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.popup-close:hover {
-    background-color: #d32f2f;
-}
