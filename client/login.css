@@ -14,7 +14,7 @@ body {
     align-items: center;
     height: 100vh;
     background: url('https://source.unsplash.com/featured/?school,learning') no-repeat center center/cover;
-    background: linear-gradient(45deg, #74ebd5, #ACB6E5); /* Gradient background for a more attractive look */
+    background: linear-gradient(45deg, #499285, #917bf1); /* Gradient background for a more attractive look */
     background-size: cover;
 
 }
