@@ -212,13 +212,13 @@ fieldset {
 .subject-row {
   display: flex;
   align-items: center;
-  margin: 10px;
+  margin: 5px;
 }
 
 /* Label styling */
 .subject-name {
   font-size: 1em;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 /* Result select styling */
@@ -244,4 +244,5 @@ table th, table td {
 
 table th {
   background-color: #f2f2f2;
+  color: black;
 }
