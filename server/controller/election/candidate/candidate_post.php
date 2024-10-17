@@ -1,7 +1,7 @@
 <?php
 // add_candidate.php
 
-require '../../db_config.php'; // Include database connection
+require '../../../db_config.php'; // Include database connection
 
 header('Content-Type: application/json'); // Set the content type to JSON
 
