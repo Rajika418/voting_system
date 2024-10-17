@@ -5,14 +5,10 @@ require '../../db_config.php'; // Include database connection
 
 header('Content-Type: application/json'); // Set the content type to JSON
 
-// Check if the request method is PUT
-if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-    // Get the raw input from the PUT request
-    parse_str(file_get_contents("php://input"), $_PUT);
-
-    // Retrieve the candidate ID from the input
-    $candidate_id = isset($_PUT['candidate_id']) ? intval($_PUT['candidate_id']) : null;
-
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST['_method'] === 'PUT') {
+    // Retrieve the candidate ID
+    $candidate_id = isset($_POST['candidate_id']) ? intval($_POST['candidate_id']) : null;
+    
     // Validate the input
     if ($candidate_id === null) {
         echo json_encode([
@@ -21,30 +17,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
         ]);
         exit;
     }
-
+    
     try {
-        // Prepare the SQL statement to update total_votes
-        $stmt = $conn->prepare("UPDATE candidate SET total_votes = total_votes + 1 WHERE id = ?");
+        // Start a transaction
+        $conn->beginTransaction();
         
-        // Execute the statement with the candidate ID
-        $stmt->execute([$candidate_id]);
-
-        // Check if the update was successful
-        if ($stmt->rowCount() > 0) {
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'Vote counted successfully.'
-            ]);
-        } else {
+        // First, check if the candidate exists and get current vote count
+        $checkStmt = $conn->prepare("SELECT id, total_votes FROM candidate WHERE id = ? FOR UPDATE");
+        $checkStmt->execute([$candidate_id]);
+        $candidate = $checkStmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$candidate) {
+            // Candidate doesn't exist
+            $conn->rollBack();
             echo json_encode([
                 'status' => 'error',
-                'message' => 'Candidate not found or no votes updated.'
+                'message' => 'Candidate not found.'
             ]);
+            exit;
         }
+        
+        // Update the total_votes for the candidate
+        $updateStmt = $conn->prepare("UPDATE candidate SET total_votes = total_votes + 1 WHERE id = ?");
+        $updateStmt->execute([$candidate_id]);
+        
+        // Retrieve the updated vote count
+        $selectStmt = $conn->prepare("SELECT id, nomination_id, total_votes FROM candidate WHERE id = ?");
+        $selectStmt->execute([$candidate_id]);
+        $updatedCandidate = $selectStmt->fetch(PDO::FETCH_ASSOC);
+        
+        // Commit the transaction
+        $conn->commit();
+        
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'Vote counted successfully.',
+            'data' => $updatedCandidate
+        ]);
+        
     } catch (PDOException $e) {
+        // Roll back the transaction if an error occurred
+        $conn->rollBack();
+      
         echo json_encode([
             'status' => 'error',
-            'message' => 'Failed to count vote: ' . $e->getMessage()
+            'message' => 'An unexpected error occurred. Please try again later.'
         ]);
     }
 } else {
@@ -55,5 +72,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 }
 
 // Close the database connection
-$conn = null; // Set connection to null to close
+$conn = null;
 ?>

@@ -5,7 +5,7 @@ require '../../db_config.php';  // Adjust the path based on your directory struc
 // Set headers for JSON response
 header("Content-Type: application/json");
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: PUT");
+header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With");
 
 // Function to clean input data
@@ -13,8 +13,8 @@ function clean_input($data) {
     return htmlspecialchars(stripslashes(trim($data)));
 }
 
-// Check if it's a PUT request
-if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
+// Check if it's a POST request and if `_method=PUT` is present
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST['_method'] === 'PUT') {
     // Get the ID from the URL
     $url_components = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
     $id = end($url_components);
@@ -24,23 +24,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
         exit;
     }
 
-    // Get the raw PUT data
-    $put_data = file_get_contents("php://input");
-    $data = json_decode($put_data, true);
-
-    $year = isset($data['year']) ? clean_input($data['year']) : null;
-    $electionName = isset($data['electionName']) ? clean_input($data['electionName']) : null;
-    $nominationStart = isset($data['nominationStart']) ? clean_input($data['nominationStart']) : null;
-    $nominationEnd = isset($data['nominationEnd']) ? clean_input($data['nominationEnd']) : null;
-    $electionStart = isset($data['electionStart']) ? clean_input($data['electionStart']) : null;
-    $electionEnd = isset($data['electionEnd']) ? clean_input($data['electionEnd']) : null;
+    // Collect form data from POST request
+    $year = isset($_POST['year']) ? clean_input($_POST['year']) : null;
+    $electionName = isset($_POST['electionName']) ? clean_input($_POST['electionName']) : null;
+    $nominationStart = isset($_POST['nominationStart']) ? clean_input($_POST['nominationStart']) : null;
+    $nominationEnd = isset($_POST['nominationEnd']) ? clean_input($_POST['nominationEnd']) : null;
+    $electionStart = isset($_POST['electionStart']) ? clean_input($_POST['electionStart']) : null;
+    $electionEnd = isset($_POST['electionEnd']) ? clean_input($_POST['electionEnd']) : null;
 
     // Image handling
     $image = null;
     $image_dir = '../../../uploads/';
     $base_url = 'http://localhost/voting_system/uploads/';
 
-    // Check if a new image file is provided (you may need to adjust this based on how you're sending the file)
+    // Check if a new image file is provided
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $fileTmpPath = $_FILES['image']['tmp_name'];
         $fileName = $_FILES['image']['name'];
@@ -116,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
     }
 
 } else {
-    echo json_encode(array("status" => "error", "message" => "Invalid request method."));
+    echo json_encode(array("status" => "error", "message" => "Invalid request method or missing _method=PUT."));
 }
 
 $conn = null; // Close the connection
