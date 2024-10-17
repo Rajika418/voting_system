@@ -5,15 +5,15 @@ function extractelectionId() {
     const match = hash.match(/#\/elections\/nominations\/(\d+)/);
     if (match && match[1]) {
         electionId = parseInt(match[1]);
-        console.log("Extracted nomination ID:", electionId);
+        console.log("Extracted election ID:", electionId);
     } else {
-        console.error("Failed to extract nomination ID from URL");
+        console.error("Failed to extract election ID from URL");
     }
 }
 
 async function fetchNominationData() {
     if (!electionId) {
-        console.error("Nomination ID is not set");
+        console.error("Election ID is not set");
         return;
     }
 
