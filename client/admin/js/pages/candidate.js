@@ -20,7 +20,7 @@ async function fetchCandidateData() {
     }
 
     try {
-        const response = await fetch(`http://localhost/voting_system/server/controller/candidate/candidate_get.php?id=${electionId}`);
+        const response = await fetch(`http://localhost/voting_system/server/controller/election/candidate/candidate_get.php?id=${electionId}`);
         const data = await response.json();
 
         if (data.status === 'success') {
