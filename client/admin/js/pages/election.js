@@ -259,3 +259,45 @@ style.innerHTML = `
 }
 `;
 document.head.appendChild(style);
+
+
+// add popup
+
+document.getElementById('addElectionButton').addEventListener('click', function () {
+    document.getElementById('addModal').style.display = 'block';
+});
+
+function closePopup() {
+    document.getElementById('addModal').style.display = 'none';
+}
+
+document.getElementById('addElectionForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    // Include the image if uploaded
+    const imageInput = document.getElementById('electionImage');
+    if (imageInput.files.length > 0) {
+        formData.append('image', imageInput.files[0]);
+    }
+
+    fetch('http://localhost/voting_system/server/controller/election/election_post.php?action=create', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert('Election added successfully!');
+            closePopup();
+            // Optionally reload or update the election list
+        } else {
+            alert('Failed to add election: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while adding the election.');
+    });
+});
