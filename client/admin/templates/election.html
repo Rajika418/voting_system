@@ -25,8 +25,10 @@
                     <th>No</th>
                     <th>Election Name</th>
                     <th>Year</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
+                    <th>Nomination Start Date</th>
+                    <th> Nomination End Date</th>
+                    <th>Election Start Date</th>
+                    <th> Election End Date</th>
                     <th>Details</th>
                     <th>Actions</th>
                 </tr>
@@ -42,5 +44,35 @@
             <button id="nextPage">Next</button>
         </div>
     </div>
+
+    <!-- Update Election Modal -->
+<div id="updateModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Edit Election</h2>
+        <form id="updateForm">
+            <label for="updateElectionName">Election Name:</label>
+            <input type="text" id="updateElectionName" name="electionName" required>
+            
+            <label for="updateYear">Year:</label>
+            <input type="number" id="updateYear" name="year" required>
+
+            <label for="updateNomStart">Nomination Start Date:</label>
+            <input type="date" id="updateNomStart" name="nominationStart" required>
+
+            <label for="updateNomEnd">Nomination End Date:</label>
+            <input type="date" id="updateNomEnd" name="nominationEnd" required>
+
+            <label for="updateEleStart">Election Start Date:</label>
+            <input type="date" id="updateEleStart" name="electionStart" required>
+
+            <label for="updateEleEnd">Election End Date:</label>
+            <input type="date" id="updateEleEnd" name="electionEnd" required>
+
+            <button type="submit">Update Election</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>

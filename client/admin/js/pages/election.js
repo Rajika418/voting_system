@@ -63,6 +63,8 @@ function renderElections(elections) {
             <td>${(state.currentPage - 1) * 10 + index + 1}</td>
             <td>${election.election_name}</td>
             <td>${election.year}</td>
+             <td>${new Date(election.nom_start_date).toLocaleDateString()}</td>
+            <td>${new Date(election.nom_end_date).toLocaleDateString()}</td>
             <td>${new Date(election.ele_start_date).toLocaleDateString()}</td>
             <td>${new Date(election.ele_end_date).toLocaleDateString()}</td>
             <td>
@@ -121,14 +123,6 @@ function restoreState() {
     updateSortArrow();
 }
 
-// Placeholder functions for editing and deleting elections
-function editElection(id) {
-    alert('Edit election with ID: ' + id);
-}
-
-function deleteElection(id) {
-    alert('Delete election with ID: ' + id);
-}
 
 export function render() {
     console.log("Rendering election page");
@@ -150,3 +144,118 @@ export function init() {
     }
     render();
 }
+
+let selectedElectionId = null; // Track the election ID for editing
+
+// Function to open the edit modal and pre-fill data
+function editElection(id) {
+    selectedElectionId = id;
+
+    // Fetch election details from the server to pre-fill the form
+    fetch(`http://localhost/voting_system/server/controller/election/election_get.php?id=${id}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                // Pre-fill the form
+                document.getElementById('updateElectionName').value = data.data.election_name;
+                document.getElementById('updateYear').value = data.data.year;
+                document.getElementById('updateNomStart').value = data.data.nom_start_date.split(' ')[0];
+                document.getElementById('updateNomEnd').value = data.data.nom_end_date.split(' ')[0];
+                document.getElementById('updateEleStart').value = data.data.ele_start_date.split(' ')[0];
+                document.getElementById('updateEleEnd').value = data.data.ele_end_date.split(' ')[0];
+
+                // Show modal
+                document.getElementById('updateModal').style.display = 'block';
+            } else {
+                showToast('Failed to load election data', 'error');
+            }
+        });
+}
+
+// Function to close the modal
+function closeModal() {
+    document.getElementById('updateModal').style.display = 'none';
+    selectedElectionId = null;
+}
+
+// Handle the update form submission
+document.getElementById('updateForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const formData = new FormData(this);
+    formData.append('_method', 'PUT');
+
+    fetch(`http://localhost/voting_system/server/controller/election/election_update.php/${selectedElectionId}`, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            showToast('Election updated successfully', 'success');
+            closeModal();
+            fetchElections(); // Reload election data
+        } else {
+            showToast(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        showToast('Error updating election', 'error');
+    });
+});
+
+// Function to delete an election
+function deleteElection(id) {
+    if (confirm('Are you sure you want to delete this election?')) {
+        fetch(`http://localhost/voting_system/server/controller/election/election_delete.php?id=${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                showToast('Election deleted successfully', 'success');
+                fetchElections(); // Reload election data
+            } else {
+                showToast(data.message, 'error');
+            }
+        })
+        .catch(error => {
+            showToast('Error deleting election', 'error');
+        });
+    }
+}
+
+// Function to show toast notifications
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerText = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
+// CSS for Toast
+const style = document.createElement('style');
+style.innerHTML = `
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    opacity: 0.9;
+    z-index: 1000;
+}
+.toast.success {
+    background-color: #4CAF50;
+}
+.toast.error {
+    background-color: #f44336;
+}
+`;
+document.head.appendChild(style);
