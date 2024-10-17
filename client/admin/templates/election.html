@@ -3,85 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Election Management</title>
-    <link rel="stylesheet" href="../styles/election.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+    <title>Elections Management</title>
 </head>
 <body>
-    <!-- Top Navigation -->
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#candidates">Candidates</a></li>
-                <li><a href="#results">Election Results</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Election Section -->
-    <main>
-        <h1>Election Management</h1>
-        <div class="buttons">
-            <button id="addElectionBtn">Add Election</button>
-           
-            <button id="nominationBtn">Nomination</button>
-        </div>
-
-
-         <!-- Election Table -->
-         <table id="electionTable">
-            <thead>
-                <tr>
-                    <th>Year</th>
-                    <th>Election Name</th>
-                    <th>Nomination Start Date</th>
-                    <th>Nomination End Date</th>
-                    <th>Election Start Date</th>
-                    <th>Election End Date</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody id="electionTableBody">
-                <!-- Dynamic Election Rows Will Be Inserted Here -->
-            </tbody>
-        </table>
-
+    <div class="container1">
+        <h1>Elections Management</h1>
         
-        <!-- Add Election Popup Modal -->
-        <div id="addElectionModal" class="modal"> 
-            <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2>Add New Election</h2>
-                <form id="electionForm" enctype="multipart/form-data">
-                
-                    <label for="year">Election Year:</label>
-                    <input type="number" id="year" name="year" min="2000" max="2099" step="1" required>
-        
-                    <label for="electionName">Election Name:</label>
-                    <input type="text" id="electionName" name="electionName" required>
-        
-                    <label for="nominationStart">Nomination Start Date:</label>
-                    <input type="date" id="nominationStart" name="nominationStart" required>
-        
-                    <label for="nominationEnd">Nomination End Date:</label>
-                    <input type="date" id="nominationEnd" name="nominationEnd" required>
-        
-                    <label for="electionStart">Election Start Date:</label>
-                    <input type="date" id="electionStart" name="electionStart" required>
-        
-                    <label for="electionEnd">Election End Date:</label>
-                    <input type="date" id="electionEnd" name="electionEnd" required>
-
-                    <label for="image">Election logo:</label>
-                    <input type="file" id="image" name="image" accept="image/*">
-        
-                    <button type="submit">Add Election</button>
-                </form>
+        <div class="controls">
+            <div class="sort-controls">
+                <label for="sortOrder">Sort by Year:</label>
+                <button id="sortButton" class="sort-button">Sort <span id="sortArrow">⬇️</span></button>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search by Year">
             </div>
         </div>
         
-       
-    </main>
+        <table id="electionTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Election Name</th>
+                    <th>Year</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Details</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="electionBody">
+                <!-- Election data will be populated here -->
+            </tbody>
+        </table>
 
+        <div class="pagination">
+            <button id="prevPage">Previous</button>
+            <span id="pageInfo"></span>
+            <button id="nextPage">Next</button>
+        </div>
+    </div>
 </body>
 </html>

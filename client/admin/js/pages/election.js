@@ -1,142 +1,106 @@
-// Get modal elements
-const addElectionModal = document.getElementById('addElectionModal');
-const addElectionBtn = document.getElementById('addElectionBtn');
-const closeModal = document.getElementsByClassName('close')[0];
-const form = document.getElementById('electionForm');
-const electionTableBody = document.getElementById('electionTableBody');
 
-// Show the Add Election Modal
-addElectionBtn.onclick = function() {
-    addElectionModal.style.display = 'flex';
-}
+    const electionBody = document.getElementById('electionBody');
+    const sortButton = document.getElementById('sortButton');
+    const searchInput = document.getElementById('searchInput');
+    const prevPageButton = document.getElementById('prevPage');
+    const nextPageButton = document.getElementById('nextPage');
+    const pageInfo = document.getElementById('pageInfo');
 
-// Close the Modal when 'X' is clicked
-closeModal.onclick = function() {
-    addElectionModal.style.display = 'none';
-}
+    let currentPage = 1;
+    let totalPages = 1;
+    let sortOrder = 'DESC';
+    let yearFilter = null;
 
-// Close Modal when clicked outside of the modal content
-window.onclick = function(event) {
-    if (event.target == addElectionModal) {
-        addElectionModal.style.display = 'none';
+    console.log("election");
+    
+    // Function to fetch elections
+    async function fetchElections() {
+        const url = new URL('http://localhost/voting_system/server/controller/election/election_get.php');
+        url.searchParams.append('page', currentPage);
+        url.searchParams.append('limit', 10);
+        url.searchParams.append('sortOrder', sortOrder);
+        if (yearFilter) {
+            url.searchParams.append('year', yearFilter);
+        }
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            renderElections(data.data);
+            totalPages = data.totalPages;
+            pageInfo.innerText = `Page ${currentPage} of ${totalPages}`;
+            prevPageButton.disabled = currentPage === 1;
+            nextPageButton.disabled = currentPage === totalPages;
+        }
     }
-}
 
-// Fetch election details and populate the table
-document.addEventListener('DOMContentLoaded', function () {
-    // Fetch election data when the page loads
-    fetchElections();
-});
-
-function fetchElections() {
-    axios.get('http://localhost/voting_system/server/controller/election/election_get.php?action=read')
-        .then(function (response) {
-            const elections = response.data;
-            const electionTableBody = document.getElementById('electionTableBody');
-            electionTableBody.innerHTML = '';  // Clear previous content
-
-            elections.forEach((election, index) => {
-                // Create a new row
-                const row = document.createElement('tr');
-
-                // Column 1: No (Order number)
-                const noCell = document.createElement('td');
-                noCell.textContent = index + 1;  // Add row number
-                row.appendChild(noCell);
-
-                // Column 2: Image
-                const imageCell = document.createElement('td');
-                const imgElement = document.createElement('img');
-                if (election.image) {
-                    imgElement.src = `/uploads/${election.image}`;  // Path to image
-                    imgElement.alt = 'Election Logo';
-                    imgElement.style.width = '50px';  // Set a width for the image
-                    imgElement.style.height = '50px';  // Set a height for the image
-                } else {
-                    imgElement.src = 'default_image.png';  // Default image if none is uploaded
-                    imgElement.alt = 'No Image';
-                }
-                imageCell.appendChild(imgElement);
-                row.appendChild(imageCell);
-
-                // Column 3: Year
-                const yearCell = document.createElement('td');
-                yearCell.textContent = election.year;
-                row.appendChild(yearCell);
-
-                // Column 4: Election Name
-                const electionNameCell = document.createElement('td');
-                electionNameCell.textContent = election.election_name;
-                row.appendChild(electionNameCell);
-
-                // Column 5: Nomination Start Date
-                const nominationStartCell = document.createElement('td');
-                nominationStartCell.textContent = election.nom_start_date;
-                row.appendChild(nominationStartCell);
-
-                // Column 6: Nomination End Date
-                const nominationEndCell = document.createElement('td');
-                nominationEndCell.textContent = election.nom_end_date;
-                row.appendChild(nominationEndCell);
-
-                // Column 7: Election Start Date
-                const electionStartCell = document.createElement('td');
-                electionStartCell.textContent = election.ele_start_date;
-                row.appendChild(electionStartCell);
-
-                // Column 8: Election End Date
-                const electionEndCell = document.createElement('td');
-                electionEndCell.textContent = election.ele_end_date;
-                row.appendChild(electionEndCell);
-
-                // Column 9: Actions (For future edit/delete functionality)
-                const actionsCell = document.createElement('td');
-                actionsCell.innerHTML = '<button>Edit</button> <button>Delete</button>';
-                row.appendChild(actionsCell);
-
-                // Append the row to the table body
-                electionTableBody.appendChild(row);
-            });
-        })
-        .catch(function (error) {
-            console.error('Error fetching elections:', error);
+    // Function to render election data in the table
+    function renderElections(elections) {
+        electionBody.innerHTML = '';
+        elections.forEach((election, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${(currentPage - 1) * 10 + index + 1}</td>
+                <td>${election.election_name}</td>
+                <td>${election.year}</td>
+                <td>${new Date(election.ele_start_date).toLocaleDateString()}</td>
+                <td>${new Date(election.ele_end_date).toLocaleDateString()}</td>
+                <td>
+                    <a href="#/elections/nominations/${election.id}">Nominations</a> | 
+                    <a href="#/elections/candidates/${election.id}">Candidates</a>
+                </td>
+                <td>
+                    <a href="#" onclick="editElection(${election.id})">Edit</a> | 
+                    <a href="#" onclick="deleteElection(${election.id})">Delete</a>
+                </td>
+            `;
+            electionBody.appendChild(row);
         });
+    }
+
+    // Function to handle sorting
+    sortButton.addEventListener('click', () => {
+        // Toggle sort order
+        sortOrder = (sortOrder === 'DESC') ? 'ASC' : 'DESC';
+        sortArrow.innerText = (sortOrder === 'ASC') ? '⬆️' : '⬇️'; // Update arrow direction
+        fetchElections();
+    });
+
+    // Function to handle searching
+    searchInput.addEventListener('input', () => {
+        yearFilter = searchInput.value ? parseInt(searchInput.value) : null;
+        fetchElections();
+    });
+    // Pagination controls
+    prevPageButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            fetchElections();
+        }
+    });
+
+    nextPageButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            fetchElections();
+        }
+    });
+
+    // Initial fetch
+    fetchElections();
+
+
+// Placeholder functions for editing and deleting elections
+function editElection(id) {
+    alert('Edit election with ID: ' + id);
 }
 
-// Handle form submission
-form.addEventListener("submit", function(event) {
-    event.preventDefault();  // Prevent the default form submission
-
-    const electionData = {
-        year: document.getElementById("year").value,
-        electionName: document.getElementById("electionName").value,
-        nominationStart: document.getElementById("nominationStart").value,
-        nominationEnd: document.getElementById("nominationEnd").value,
-        electionStart: document.getElementById("electionStart").value,
-        electionEnd: document.getElementById("electionEnd").value
-    };
-
-    // Make the API request
-    fetch("http://localhost/voting_system/server/controller/election/election_post.php?action=create", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(electionData),
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        addElectionModal.style.display = "none";  // Close the modal
-        form.reset();  // Clear the form
-        fetchElections();  // Reload the elections table (use fetchElections instead of loadElections)
-    })
-    .catch(error => {
-        console.error("Error:", error);
-    });
-});
-
-// Initial load
-fetchElections();  // Use fetchElections instead of loadElections
+function deleteElection(id) {
+    alert('Delete election with ID: ' + id);
+}
 
 
+export function init() {
+    fetchElections();
+  }
