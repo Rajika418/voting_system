@@ -1,18 +1,12 @@
-let electionBody, sortButton, searchInput, prevPageButton, nextPageButton, pageInfo, sortArrow;
-let currentPage = 1;
-let totalPages = 1;
-let sortOrder = 'DESC';
-let yearFilter = null;
-
 // State management
 const state = {
-    get currentPage() { return currentPage; },
-    set currentPage(value) { currentPage = value; },
-    get sortOrder() { return sortOrder; },
-    set sortOrder(value) { sortOrder = value; },
-    get yearFilter() { return yearFilter; },
-    set yearFilter(value) { yearFilter = value; }
+    currentPage: 1,
+    totalPages: 1,
+    sortOrder: 'DESC',
+    yearFilter: null
 };
+
+let electionBody, sortButton, searchInput, prevPageButton, nextPageButton, pageInfo, sortArrow;
 
 function initializeElements() {
     electionBody = document.getElementById('electionBody');
@@ -45,7 +39,7 @@ async function fetchElections() {
 
         if (data.status === 'success') {
             renderElections(data.data);
-            totalPages = data.totalPages;
+            state.totalPages = data.totalPages;
             updatePagination();
         } else {
             console.error('Failed to fetch elections:', data.message);
@@ -59,11 +53,19 @@ function renderElections(elections) {
     electionBody.innerHTML = '';
     elections.forEach((election, index) => {
         const row = document.createElement('tr');
+        row.id = `election-${election.id}`;
+        row.dataset.name = election.election_name;
+        row.dataset.year = election.year;
+        row.dataset.nomStart = election.nom_start_date;
+        row.dataset.nomEnd = election.nom_end_date;
+        row.dataset.eleStart = election.ele_start_date;
+        row.dataset.eleEnd = election.ele_end_date;
+
         row.innerHTML = `
             <td>${(state.currentPage - 1) * 10 + index + 1}</td>
             <td>${election.election_name}</td>
             <td>${election.year}</td>
-             <td>${new Date(election.nom_start_date).toLocaleDateString()}</td>
+            <td>${new Date(election.nom_start_date).toLocaleDateString()}</td>
             <td>${new Date(election.nom_end_date).toLocaleDateString()}</td>
             <td>${new Date(election.ele_start_date).toLocaleDateString()}</td>
             <td>${new Date(election.ele_end_date).toLocaleDateString()}</td>
@@ -72,8 +74,8 @@ function renderElections(elections) {
                 <a href="#/elections/candidates/${election.id}">Candidates</a>
             </td>
             <td>
-                <a href="#" onclick="editElection(${election.id})">Edit</a> |
-                <a href="#" onclick="deleteElection(${election.id})">Delete</a>
+                <button class="editbtn" data-id="${election.id}">Edit</button>
+                <button class="deletebtn" data-id="${election.id}">Delete</button>
             </td>
         `;
         electionBody.appendChild(row);
@@ -81,9 +83,9 @@ function renderElections(elections) {
 }
 
 function updatePagination() {
-    pageInfo.innerText = `Page ${state.currentPage} of ${totalPages}`;
+    pageInfo.innerText = `Page ${state.currentPage} of ${state.totalPages}`;
     prevPageButton.disabled = state.currentPage === 1;
-    nextPageButton.disabled = state.currentPage === totalPages;
+    nextPageButton.disabled = state.currentPage === state.totalPages;
 }
 
 function updateSortArrow() {
@@ -99,7 +101,7 @@ function setupEventListeners() {
 
     searchInput.addEventListener('input', () => {
         state.yearFilter = searchInput.value ? parseInt(searchInput.value) : null;
-        state.currentPage = 1; // Reset to first page when searching
+        state.currentPage = 1; 
         fetchElections();
     });
 
@@ -111,81 +113,54 @@ function setupEventListeners() {
     });
 
     nextPageButton.addEventListener('click', () => {
-        if (state.currentPage < totalPages) {
+        if (state.currentPage < state.totalPages) {
             state.currentPage++;
             fetchElections();
         }
     });
+
+    electionBody.addEventListener('click', function(event) {
+        const target = event.target;
+        if (target.classList.contains('editbtn')) {
+            const electionId = target.getAttribute('data-id');
+            editElection(electionId);
+        }
+        if (target.classList.contains('deletebtn')) {
+            const electionId = target.getAttribute('data-id');
+            deleteElection(electionId);
+        }
+    });
+
+    document.getElementById('addElectionButton').addEventListener('click', () => {
+        document.getElementById('addModal').style.display = 'block';
+    });
+
+    document.getElementById('addElectionForm').addEventListener('submit', addElection);
 }
 
-function restoreState() {
-    searchInput.value = state.yearFilter || '';
-    updateSortArrow();
-}
-
-
-export function render() {
-    console.log("Rendering election page");
-    if (initializeElements()) {
-        restoreState();
-        setupEventListeners();
-        fetchElections();
-    }
-}
-
-export function init() {
-    console.log("Initializing election page");
-    // Reset state to default values only on first load
-    if (!window.electionPageInitialized) {
-        state.currentPage = 1;
-        state.sortOrder = 'DESC';
-        state.yearFilter = null;
-        window.electionPageInitialized = true;
-    }
-    render();
-}
-
-let selectedElectionId = null; // Track the election ID for editing
-
-// Function to open the edit modal and pre-fill data
 function editElection(id) {
-    selectedElectionId = id;
+    const electionRow = document.getElementById(`election-${id}`);
+    if (electionRow) {
+        document.getElementById('updateElectionName').value = electionRow.dataset.name;
+        document.getElementById('updateYear').value = electionRow.dataset.year;
+        document.getElementById('updateNomStart').value = electionRow.dataset.nomStart.split(' ')[0];
+        document.getElementById('updateNomEnd').value = electionRow.dataset.nomEnd.split(' ')[0];
+        document.getElementById('updateEleStart').value = electionRow.dataset.eleStart.split(' ')[0];
+        document.getElementById('updateEleEnd').value = electionRow.dataset.eleEnd.split(' ')[0];
 
-    // Fetch election details from the server to pre-fill the form
-    fetch(`http://localhost/voting_system/server/controller/election/election_get.php?id=${id}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.status === 'success') {
-                // Pre-fill the form
-                document.getElementById('updateElectionName').value = data.data.election_name;
-                document.getElementById('updateYear').value = data.data.year;
-                document.getElementById('updateNomStart').value = data.data.nom_start_date.split(' ')[0];
-                document.getElementById('updateNomEnd').value = data.data.nom_end_date.split(' ')[0];
-                document.getElementById('updateEleStart').value = data.data.ele_start_date.split(' ')[0];
-                document.getElementById('updateEleEnd').value = data.data.ele_end_date.split(' ')[0];
-
-                // Show modal
-                document.getElementById('updateModal').style.display = 'block';
-            } else {
-                showToast('Failed to load election data', 'error');
-            }
-        });
+        document.getElementById('updateModal').style.display = 'block';
+        document.getElementById('updateForm').onsubmit = (event) => updateElection(event, id);
+    } else {
+        showToast('Election data not found', 'error');
+    }
 }
 
-// Function to close the modal
-function closeModal() {
-    document.getElementById('updateModal').style.display = 'none';
-    selectedElectionId = null;
-}
-
-// Handle the update form submission
-document.getElementById('updateForm').addEventListener('submit', function(event) {
+function updateElection(event, id) {
     event.preventDefault();
-
-    const formData = new FormData(this);
+    const formData = new FormData(event.target);
     formData.append('_method', 'PUT');
 
-    fetch(`http://localhost/voting_system/server/controller/election/election_update.php/${selectedElectionId}`, {
+    fetch(`http://localhost/voting_system/server/controller/election/election_update.php/${id}`, {
         method: 'POST',
         body: formData
     })
@@ -193,8 +168,8 @@ document.getElementById('updateForm').addEventListener('submit', function(event)
     .then(data => {
         if (data.status === 'success') {
             showToast('Election updated successfully', 'success');
-            closeModal();
-            fetchElections(); // Reload election data
+            closeModal('updateModal');
+            fetchElections();
         } else {
             showToast(data.message, 'error');
         }
@@ -202,9 +177,8 @@ document.getElementById('updateForm').addEventListener('submit', function(event)
     .catch(error => {
         showToast('Error updating election', 'error');
     });
-});
+}
 
-// Function to delete an election
 function deleteElection(id) {
     if (confirm('Are you sure you want to delete this election?')) {
         fetch(`http://localhost/voting_system/server/controller/election/election_delete.php?id=${id}`, {
@@ -214,7 +188,7 @@ function deleteElection(id) {
         .then(data => {
             if (data.status === 'success') {
                 showToast('Election deleted successfully', 'success');
-                fetchElections(); // Reload election data
+                fetchElections();
             } else {
                 showToast(data.message, 'error');
             }
@@ -225,58 +199,10 @@ function deleteElection(id) {
     }
 }
 
-// Function to show toast notifications
-function showToast(message, type) {
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerText = message;
-    document.body.appendChild(toast);
+function addElection(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
 
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
-}
-
-// CSS for Toast
-const style = document.createElement('style');
-style.innerHTML = `
-.toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #333;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    opacity: 0.9;
-    z-index: 1000;
-}
-.toast.success {
-    background-color: #4CAF50;
-}
-.toast.error {
-    background-color: #f44336;
-}
-`;
-document.head.appendChild(style);
-
-
-// add popup
-
-document.getElementById('addElectionButton').addEventListener('click', function () {
-    document.getElementById('addModal').style.display = 'block';
-});
-
-function closePopup() {
-    document.getElementById('addModal').style.display = 'none';
-}
-
-document.getElementById('addElectionForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
-    const formData = new FormData(this);
-
-    // Include the image if uploaded
     const imageInput = document.getElementById('electionImage');
     if (imageInput.files.length > 0) {
         formData.append('image', imageInput.files[0]);
@@ -289,15 +215,62 @@ document.getElementById('addElectionForm').addEventListener('submit', function (
     .then(response => response.json())
     .then(data => {
         if (data.status === 'success') {
-            alert('Election added successfully!');
-            closePopup();
-            // Optionally reload or update the election list
+            showToast('Election added successfully!', 'success');
+            closeModal('addModal');
+            fetchElections();
         } else {
-            alert('Failed to add election: ' + data.message);
+            showToast('Failed to add election: ' + data.message, 'error');
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred while adding the election.');
+        showToast('An error occurred while adding the election.', 'error');
     });
-});
+}
+
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerText = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+}
+
+function setupModalClosing() {
+    const closeButtons = document.querySelectorAll('.close');
+    closeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const modalId = this.closest('.modal').id;
+            closeModal(modalId);
+        });
+    });
+}
+
+function init() {
+    if (initializeElements()) {
+        setupEventListeners();
+        setupModalClosing();
+        fetchElections();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', init);
+
+
+// Expose necessary functions to the global scope
+window.closeModal = closeModal;
+window.editElection = editElection;
+window.deleteElection = deleteElection;
+
+// Export the init function
+export { init };
+
+

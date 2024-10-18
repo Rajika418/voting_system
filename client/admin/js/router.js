@@ -52,7 +52,6 @@ const routes = {
 };
 
 function matchRoute(hash) {
-  console.log("Matching route for hash:", hash);
   const routes = Object.keys(window.routes || routes);
   for (const route of routes) {
     const paramNames = [];
@@ -67,7 +66,6 @@ function matchRoute(hash) {
       paramNames.forEach((name, index) => {
         params[name] = match[index + 1];
       });
-      console.log("Matched route:", route, "with params:", params);
       return { route, params };
     }
   }
@@ -76,7 +74,6 @@ function matchRoute(hash) {
 }
 
 function loadRoute(hash) {
-  console.log("Loading route for hash:", hash);
   const app = document.getElementById("app");
   if (!app) {
     console.error("App element not found");
@@ -132,7 +129,6 @@ function loadRoute(hash) {
       const jsFiles = Array.isArray(js) ? js : [js]; // Ensure js is always an array
 
       const jsPromises = jsFiles.map((jsFile) => {
-        console.log(`Loading JS file: ${jsFile}`);
         return import(`./pages/${jsFile}`).catch(e => {
           console.error(`Error loading ${jsFile}:`, e);
           throw e;
@@ -143,11 +139,9 @@ function loadRoute(hash) {
         .then((modules) => {
           modules.forEach((module) => {
             if (module.render) {
-              console.log("Calling render function");
               module.render(params);
             }
-            if (module.init) {
-              console.log("Calling init function");
+            if (module.init) {            
               module.init(params);
             }
           });
@@ -165,13 +159,11 @@ function loadRoute(hash) {
 
 // Initial load
 window.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM content loaded");
   loadRoute(window.location.hash || "#/");
 });
 
 // Handle route changes
 window.addEventListener("hashchange", () => {
-  console.log("Hash changed:", window.location.hash);
   loadRoute(window.location.hash);
 });
 
