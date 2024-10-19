@@ -95,30 +95,10 @@ try {
         ];
     }
 
-    // Prepare SQL query to get all subjects for the given year (A/L or O/L)
-    $subject_sql = "SELECT subject_id, subject_name FROM subjects";
-    if (!is_null($year_param)) {
-        $subject_sql .= " WHERE year = :year_param";
-    }
-
-    // Prepare and execute the subject query
-    $subject_stmt = $conn->prepare($subject_sql);
-
-    if (!is_null($year_param)) {
-        $subject_stmt->bindParam(':year_param', $year_param, PDO::PARAM_STR);
-    }
-
-    $subject_stmt->execute();
-    $subjects = $subject_stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    // Re-index the array to return as a list
-    $data = array_values($data);
-
     // Return the data as JSON with the subjects list
     header('Content-Type: application/json');
     echo json_encode([
         'data' => $data,
-        'subjects' => $subjects,  // Include the list of subjects for the given year
         'page' => $page,
         'limit' => $limit
     ]);
