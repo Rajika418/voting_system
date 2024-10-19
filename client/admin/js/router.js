@@ -22,7 +22,6 @@ const routes = {
   "#/results": {
     title: "Results",
     js: [
-      // "results.js",
       "tab.js",
       "popup.js",
       "admission_popup.js",
