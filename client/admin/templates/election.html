@@ -9,6 +9,8 @@
     <div class="container1">
         <h1>Elections Management</h1>
         
+        <button id="addElectionButton" class="add-button">Add Election</button>
+
         <div class="controls">
             <div class="sort-controls">
                 <label for="sortOrder">Sort by Year:</label>
@@ -39,8 +41,8 @@
         </table>
 
     </div>
-    <button id="addElectionButton" class="add-button">Add Election</button>
-</div>
+  
+
 
         <div class="pagination">
             <button id="prevPage">Previous</button>
@@ -86,7 +88,7 @@
     <!-- Update Election Modal -->
 <div id="updateModal" class="modal" style="display:none;">
     <div class="modal-content">
-        <span  class="close-modal" onclick="closeModal()">&times;</span>
+        <span  class="close" onclick="closeModal()">&times;</span>
         <h2>Edit Election</h2>
         <form id="updateForm">
             <label for="updateElectionName">Election Name:</label>
