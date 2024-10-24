@@ -199,6 +199,18 @@ function deleteElection(id) {
     }
 }
 
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerText = message;
+    document.body.appendChild(toast);
+
+    // Automatically remove the toast after 3 seconds
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+
 function addElection(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -228,16 +240,6 @@ function addElection(event) {
     });
 }
 
-function showToast(message, type) {
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerText = message;
-    document.body.appendChild(toast);
-
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
-}
 
 
 function closeModal(modalId) {

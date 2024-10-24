@@ -246,3 +246,59 @@ table th {
   background-color: #f2f2f2;
   color: black;
 }
+
+/* Controls (Search & Sorting Buttons) */
+.controls {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#search-box {
+  padding: 5px;
+  font-size: 14px;
+  width: 200px;
+}
+
+#sort-asc, #sort-desc {
+  padding: 5px 10px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+#sort-asc:hover, #sort-desc:hover {
+  background-color: #ddd;
+}
+
+/* Basic table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Pagination Controls */
+.pagination-controls {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination-controls button {
+  padding: 5px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  background-color: #f0f0f0;
+}
+
+.pagination-controls button:hover {
+  background-color: #ddd;
+}
