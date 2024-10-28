@@ -10,10 +10,10 @@ if (isset($_SESSION['user_id'])) {
     session_destroy();
 
     // Redirect to the login page (or another page)
-    header("Location: ../../client/login.html"); // Change to your login page
+    header("Location: ../../client"); // Change to your login page
     exit();
 } else {
     // If the user is not logged in, redirect to the login page
-    header("Location: login.php"); // Change to your login page
+    header("Location: ../../client"); // Change to your login page
     exit();
 }
