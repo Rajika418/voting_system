@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 10, 2024 at 01:09 PM
+-- Generation Time: Oct 16, 2024 at 05:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -28,35 +28,42 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `candidate` (
-  `candidate_id` int(11) NOT NULL,
-  `nomination_id` int(11) DEFAULT NULL,
-  `candidate_number` varchar(20) NOT NULL
+  `id` int(11) NOT NULL,
+  `nomination_id` int(11) NOT NULL,
+  `total_votes` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `candidate`
+--
+
+INSERT INTO `candidate` (`id`, `nomination_id`, `total_votes`) VALUES
+(1, 2, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `election`
+-- Table structure for table `elections`
 --
 
-CREATE TABLE `election` (
-  `election_id` int(11) NOT NULL,
+CREATE TABLE `elections` (
+  `id` int(11) NOT NULL,
+  `year` int(11) NOT NULL,
   `election_name` varchar(255) NOT NULL,
-  `start_date` date NOT NULL,
-  `end_date` date NOT NULL
+  `nom_start_date` date NOT NULL,
+  `nom_end_date` date NOT NULL,
+  `ele_start_date` date NOT NULL,
+  `ele_end_date` date NOT NULL,
+  `image` blob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- --------------------------------------------------------
-
 --
--- Table structure for table `election_candidate`
+-- Dumping data for table `elections`
 --
 
-CREATE TABLE `election_candidate` (
-  `election_candidate_id` int(11) NOT NULL,
-  `candidate_id` int(11) DEFAULT NULL,
-  `election_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `elections` (`id`, `year`, `election_name`, `nom_start_date`, `nom_end_date`, `ele_start_date`, `ele_end_date`, `image`) VALUES
+(4, 2024, 'School Parliament Election', '2024-10-15', '2024-10-16', '2024-10-20', '2024-10-21', 0x36373064396139346230633936362e34303630373232382e6a7067),
+(5, 2024, 'Student Parliament Election', '2024-01-01', '2024-01-10', '2024-01-15', '2024-01-20', 0x61633938313530666332326130373934396530663133643033356134336266352e706e67);
 
 -- --------------------------------------------------------
 
@@ -132,9 +139,19 @@ INSERT INTO `grade` (`grade_id`, `grade_name`, `teacher_id`, `year`) VALUES
 --
 
 CREATE TABLE `nomination` (
-  `nomination_id` int(11) NOT NULL,
-  `student_id` int(11) DEFAULT NULL
+  `id` int(11) NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `why` varchar(255) NOT NULL,
+  `motive` varchar(255) NOT NULL,
+  `what` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `nomination`
+--
+
+INSERT INTO `nomination` (`id`, `student_id`, `why`, `motive`, `what`) VALUES
+(2, 21, 'dugvihk', 'xhvjh', 'szgfhg');
 
 -- --------------------------------------------------------
 
@@ -168,15 +185,21 @@ INSERT INTO `results` (`result_id`, `subject_id`, `result`, `exam_id`) VALUES
 (37, 35, 'A', 14),
 (38, 36, 'A', 14),
 (39, 45, 'C', 14),
-(40, 1, 'C', 15),
-(41, 2, 'A', 15),
-(42, 30, 'B', 15),
-(43, 31, 'B', 15),
-(44, 4, 'A', 15),
-(45, 8, 'A', 15),
-(46, 11, 'A', 15),
-(47, 15, 'A', 15),
-(48, 29, 'A', 15);
+(49, 1, 'B', 16),
+(50, 2, 'B', 16),
+(51, 8, 'B', 16),
+(52, 30, 'B', 16),
+(53, 31, 'B', 16),
+(54, 4, 'B', 16),
+(55, 11, 'A', 16),
+(56, 15, 'A', 16),
+(57, 26, 'B', 16),
+(58, 46, 'A', 17),
+(59, 47, 'A', 17),
+(60, 48, 'A', 17),
+(61, 35, 'A', 17),
+(62, 37, 'B', 17),
+(63, 36, 'B', 17);
 
 -- --------------------------------------------------------
 
@@ -276,7 +299,8 @@ CREATE TABLE `student_exam` (
 INSERT INTO `student_exam` (`id`, `student_id`, `exam_name`, `year`, `index_no`, `nic`) VALUES
 (12, 24, 'General Certificate of Education - Ordinary Level (G.C.E(O/L))', '2024', '12345', '123456789'),
 (14, 21, 'General Certificate of Education - Advanced Level (G.C.E(A/L))', '2024', '5461', '7894562'),
-(15, 23, 'General Certificate of Education - Ordinary Level (G.C.E(O/L))', '2024', '3698', '7894562');
+(16, 23, 'General Certificate of Education - Ordinary Level (G.C.E(O/L))', '2024', '1478', '200060901020'),
+(17, 22, 'General Certificate of Education - Advanced Level (G.C.E(A/L))', '2024', '2478', '200060901020');
 
 -- --------------------------------------------------------
 
@@ -298,22 +322,16 @@ CREATE TABLE `subjects` (
 INSERT INTO `subjects` (`subject_id`, `year`, `section`, `subject_name`) VALUES
 (1, 'o/l', '', 'English'),
 (2, 'o/l', '', 'Mathematics'),
-(3, 'o/l', 'Religions', 'Buddhism'),
 (4, 'o/l', 'Religions', 'Saivaneri'),
-(5, 'o/l', 'Religions', 'Catholicism'),
 (6, 'o/l', 'Religions', 'Christianily'),
 (7, 'o/l', 'Religions', 'Islam'),
 (8, 'o/l', '', 'Tamil Language & Literature'),
 (10, 'o/l', '1st Subject Group', 'Business & Accounting Studies'),
 (11, 'o/l', '1st Subject Group', 'Geography'),
-(13, 'o/l', '1st Subject Group', 'Second Language (Sinhala)'),
 (14, 'o/l', '1st Subject Group', 'Civic Education'),
 (15, 'o/l', '2nd Subject Group', 'Music (Carnatic)'),
 (16, 'o/l', '2nd Subject Group', 'Art'),
-(19, 'o/l', '2nd Subject Group', 'Tamil Literature'),
 (22, 'o/l', '3rd Subject Group', 'Information & Communication Technology'),
-(23, 'o/l', '3rd Subject Group', 'Aquatic Bioresources Technology'),
-(25, 'o/l', '3rd Subject Group', 'Home Economics'),
 (26, 'o/l', '3rd Subject Group', 'Health & Physical Education'),
 (29, 'o/l', '3rd Subject Group', 'Agriculture & Food Technology'),
 (30, 'o/l', NULL, 'History'),
@@ -322,11 +340,7 @@ INSERT INTO `subjects` (`subject_id`, `year`, `section`, `subject_name`) VALUES
 (36, 'A/L', 'Subject 1', 'Political Sceince'),
 (37, 'A/L', 'Subject 1', 'Logic & Scientific Method'),
 (38, 'A/L', 'Subject 1', 'Hindu Civilization'),
-(39, 'A/L', 'Subject 1', 'Christian Civilization'),
-(40, 'A/L', 'Subject 1', 'Islam Civilization'),
 (42, 'A/L', 'Subject 1', 'Carnatic Music(A/L)'),
-(43, 'A/L', 'Subject 1', 'Dancing (Bharatha)(A/L)'),
-(44, 'A/L', 'Subject 1', 'History(A/L)'),
 (45, 'A/L', 'Subject 1', 'Geography(A/L)'),
 (46, 'A/L', NULL, 'General English'),
 (47, 'A/L', NULL, 'General Knowladage'),
@@ -416,22 +430,14 @@ INSERT INTO `users` (`user_id`, `user_name`, `password`, `email`, `role_id`, `im
 -- Indexes for table `candidate`
 --
 ALTER TABLE `candidate`
-  ADD PRIMARY KEY (`candidate_id`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `nomination_id` (`nomination_id`);
 
 --
--- Indexes for table `election`
+-- Indexes for table `elections`
 --
-ALTER TABLE `election`
-  ADD PRIMARY KEY (`election_id`);
-
---
--- Indexes for table `election_candidate`
---
-ALTER TABLE `election_candidate`
-  ADD PRIMARY KEY (`election_candidate_id`),
-  ADD KEY `candidate_id` (`candidate_id`),
-  ADD KEY `election_id` (`election_id`);
+ALTER TABLE `elections`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `grade`
@@ -444,7 +450,7 @@ ALTER TABLE `grade`
 -- Indexes for table `nomination`
 --
 ALTER TABLE `nomination`
-  ADD PRIMARY KEY (`nomination_id`),
+  ADD PRIMARY KEY (`id`),
   ADD KEY `student_id` (`student_id`);
 
 --
@@ -519,19 +525,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `candidate`
 --
 ALTER TABLE `candidate`
-  MODIFY `candidate_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `election`
+-- AUTO_INCREMENT for table `elections`
 --
-ALTER TABLE `election`
-  MODIFY `election_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `election_candidate`
---
-ALTER TABLE `election_candidate`
-  MODIFY `election_candidate_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `elections`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `grade`
@@ -543,13 +543,13 @@ ALTER TABLE `grade`
 -- AUTO_INCREMENT for table `nomination`
 --
 ALTER TABLE `nomination`
-  MODIFY `nomination_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `results`
 --
 ALTER TABLE `results`
-  MODIFY `result_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `result_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -573,7 +573,7 @@ ALTER TABLE `student`
 -- AUTO_INCREMENT for table `student_exam`
 --
 ALTER TABLE `student_exam`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `subjects`
@@ -607,14 +607,7 @@ ALTER TABLE `users`
 -- Constraints for table `candidate`
 --
 ALTER TABLE `candidate`
-  ADD CONSTRAINT `candidate_ibfk_1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`nomination_id`);
-
---
--- Constraints for table `election_candidate`
---
-ALTER TABLE `election_candidate`
-  ADD CONSTRAINT `election_candidate_ibfk_1` FOREIGN KEY (`candidate_id`) REFERENCES `candidate` (`candidate_id`),
-  ADD CONSTRAINT `election_candidate_ibfk_2` FOREIGN KEY (`election_id`) REFERENCES `election` (`election_id`);
+  ADD CONSTRAINT `candidate_ibfk_1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`id`);
 
 --
 -- Constraints for table `grade`

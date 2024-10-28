@@ -1,42 +1,38 @@
 body {
   font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0px;
+  padding: 0;
 }
 
-h1{
+h1 {
   margin-bottom: 50px;
   display: block;
-font-size: 1.5em;
-margin-block-start: 0.83em;
-margin-block-end: 0.83em;
-margin-inline-start: 0px;
-margin-inline-end: 0px;
-font-weight: bold;
-unicode-bidi: isolate;
-
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  unicode-bidi: isolate;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
 }
 
-table,
-th,
-td {
+table, th, td {
   border: 1px solid black;
 }
 
-th,
-td {
-  padding: 10px;
+th, td {
+  padding: 5px;
   text-align: left;
 }
 
 th {
   cursor: pointer;
   background-color: #f2f2f2;
-  
 }
 
 table tr:nth-child(even) {
@@ -44,12 +40,13 @@ table tr:nth-child(even) {
 }
 
 table tr:nth-child(odd) {
-  background-color: #ffffff ;
+  background-color: #ffffff;
 }
 
 th:hover {
   background-color: #ddd;
 }
+
 th.sort-asc::after {
   content: " ▲";
 }
@@ -58,8 +55,7 @@ th.sort-desc::after {
   content: " ▼";
 }
 
-.search-box,
-.sort-box {
+.search-box, .sort-box {
   margin-bottom: 20px;
 }
 
@@ -78,12 +74,13 @@ th.sort-desc::after {
   border-radius: 4px;
 }
 
-.actions{
+.actions {
   display: flex;
 }
-/* Style for Edit Button */
+
+/* Edit Button */
 .edit-btn {
-  background-color: #6988dd; /* Green */
+  background-color: #6988dd;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -95,14 +92,13 @@ th.sort-desc::after {
   width: 60px;
 }
 
-/* Hover effect for Edit Button */
 .edit-btn:hover {
-  background-color: #45a049; /* Darker Green */
+  background-color: #45a049;
 }
 
-/* Style for Delete Button */
+/* Delete Button */
 .delete-btn {
-  background-color: #bb1e1e; /* Red */
+  background-color: #bb1e1e;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -110,15 +106,15 @@ th.sort-desc::after {
   font-size: 14px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
-  margin: 10px; /* Optional space between buttons */
+  margin: 10px;
   width: 60px;
 }
 
-/* Hover effect for Delete Button */
 .delete-btn:hover {
-  background-color: #a53b3b; /* Darker Red */
+  background-color: #a53b3b;
 }
 
+/* Pagination */
 .pagination {
   margin-top: 10px;
   display: flex;
@@ -133,6 +129,7 @@ th.sort-desc::after {
   background-color: #6988dd;
 }
 
+/* Popup Form */
 .popup-form {
   position: fixed;
   top: 50%;
@@ -145,7 +142,7 @@ th.sort-desc::after {
   width: 90%; /* Responsive width */
   max-width: 350px;
   margin-top: 10px;
-  max-height: 80vh; /* Ensures popup doesn't go beyond 80% of the viewport height */
+  max-height: 80vh;
   overflow-y: auto;
 }
 
@@ -164,8 +161,7 @@ th.sort-desc::after {
   font-weight: bold;
 }
 
-.form-group input,
-.form-group select {
+.form-group input, .form-group select {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -173,6 +169,7 @@ th.sort-desc::after {
   width: 100%; /* Full width for responsive inputs */
 }
 
+/* Button Styling */
 button {
   padding: 10px 15px;
   border: none;
@@ -196,6 +193,7 @@ button[type="button"] + button:hover {
   background-color: #e41f1f;
 }
 
+/* Toast */
 .toast {
   visibility: hidden;
   min-width: 250px;
@@ -234,7 +232,7 @@ button[type="button"] + button:hover {
     opacity: 1;
   }
   to {
-    top:0;
+    top: 0;
     opacity: 0;
   }
 }
@@ -246,33 +244,61 @@ button[type="button"] + button:hover {
 /* Responsive Design */
 @media (max-width: 768px) {
   body {
-    padding: 10px; /* Reduce padding on smaller screens */
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 1.3em;
   }
 
   .search-box input {
-    padding: 10px; /* Increase padding for usability */
+    width: 100%; /* Full width on smaller screens */
+    padding: 10px;
+  }
+
+  .actions {
+    flex-direction: column;
   }
 
   table {
-    font-size: 14px; /* Reduce font size for table on smaller screens */
+    font-size: 14px;
   }
 
-  th,
-  td {
-    padding: 8px; /* Reduce padding for table cells */
+  th, td {
+    padding: 8px;
   }
 
   button {
-    font-size: 14px; /* Smaller button font size */
-    padding: 8px 12px; /* Adjust button padding */
+    font-size: 14px;
+    padding: 8px 12px;
   }
 
   .pagination button {
-    padding: 8px 12px; /* Adjust pagination button size */
+    padding: 8px 12px;
   }
 
   .popup-form {
-    width: 90%; /* Full width for smaller screens */
-    max-width: none; /* Remove max width for full use of screen */
+    width: 100%; /* Full width for smaller screens */
+    max-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  th, td {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .search-box input {
+    padding: 8px;
+  }
+
+  h1 {
+    font-size: 1.2em;
+  }
+
+  button {
+    font-size: 12px;
+    padding: 8px 10px;
   }
 }
