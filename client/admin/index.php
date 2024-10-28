@@ -6,7 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kalaimahal School Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <?php
+    // Dynamic CSS inclusion based on the page
+    if (isset($_GET['page'])) {
+        $page = $_GET['page'];
+        switch ($page) {
+            case 'dashboard':
+                echo '<link rel="stylesheet" href="./assets/css/dashboard.css" />';
+                break;
+            case 'teachers':
+                echo '<link rel="stylesheet" href="./assets/css/teacherlist.css" />';
+                break;
+            case 'students':
+                echo '<link rel="stylesheet" href="./assets/css/studentlist.css" />';
+                break;
+            case 'election':
+                echo '<link rel="stylesheet" href="./assets/css/election.css" />';
+                break;
+            case 'result':
+                echo '<link rel="stylesheet" href="./assets/css/result.css" />';
+                break;
+            case 'settings':
+                echo '<link rel="stylesheet" href="./assets/css/settings.css" />';
+                break;
+            default:
+                echo '<link rel="stylesheet" href="./assets/css/style.css" />';
+                break;
+        }
+    } else {
+        echo '<link rel="stylesheet" href="./assets/css/style.css" />';
+    }
+    ?>
 </head>
 
 <body>
@@ -23,11 +54,6 @@
         </div>
 
         <div class="header-right">
-            <!-- <div class="header-search">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Search...">
-            </div> -->
-
             <div class="header-actions">
                 <a href="?page=settings" class="user-profile">
                     <div class="user-avatar">AD</div>
@@ -43,6 +69,7 @@
                     </a>
                 </div>
             </div>
+        </div>
     </header>
 
     <!-- Sidebar -->
@@ -135,7 +162,35 @@
         </div>
     </footer>
 
+    <!-- Dynamic JS inclusion based on the page -->
     <script src="./js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+    <?php
+    switch ($page) {
+        case 'dashboard':
+            echo '<script src="./js/dashboard.js"></script>';
+            break;
+        case 'teachers':
+            echo '<script src="./js/teacherlist.js"></script>';
+            echo '<script src="./js/classAssignPopup.js"></script>';
+            break;
+        case 'students':
+            echo '<script src="./js/studentlist.js" ></script>';
+            break;
+        case 'election':
+            echo '<script src="./js/election.js" defer></script>';
+            break;
+        case 'result':
+            echo '<script src="./js/tab.js" defer></script>';
+            echo '<script src="./js/popup.js" defer></script>';
+            echo '<script src="./js/admission_popup.js" defer></script>';
+            echo '<script src="./js/add_result.js" defer></script>';
+            break;
+        case 'settings':
+            echo '<script src="./js/settings.js"></script>';
+            break;
+    }
+    ?>
 </body>
 
 </html>

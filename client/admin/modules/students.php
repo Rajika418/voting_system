@@ -1,14 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student List</title>
-    <link rel="stylesheet" href="./assets/css/studentlist.css" />
-    <script src="./js/studentlist.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
-  </head>
-  <body>
+
     <h1>Student List</h1>
 
     <div class="search-box">
@@ -125,5 +115,3 @@
 
     <!-- Toast Messages -->
     <div id="toast" class="toast"></div>
-  </body>
-</html>
