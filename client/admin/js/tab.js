@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
         } else {
             currentSortField = field;
-            currentSortOrder = 'desc';
+            currentSortOrder = 'asc'; // Reset to ascending for new sort field
         }
         updateSortButtons();
         fetchResults();
@@ -80,21 +80,21 @@ document.addEventListener('DOMContentLoaded', function() {
         let paginationHTML = '';
         
         // Previous button
-        paginationHTML += `
+        paginationHTML += ` 
             <button class="pagination-button" ${currentPage === 1 ? 'disabled' : ''} 
                     onclick="changePage(${currentPage - 1})">Previous</button>
         `;
         
         // Page numbers
         for (let i = 1; i <= totalPages; i++) {
-            paginationHTML += `
+            paginationHTML += ` 
                 <button class="pagination-button ${currentPage === i ? 'active' : ''}" 
                         onclick="changePage(${i})">${i}</button>
             `;
         }
         
         // Next button
-        paginationHTML += `
+        paginationHTML += ` 
             <button class="pagination-button" ${currentPage === totalPages ? 'disabled' : ''} 
                     onclick="changePage(${currentPage + 1})">Next</button>
         `;
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                     
                     responseData.data.forEach((student, index) => {
-                        const startingNumber = (currentPage - 1) * 10 + index + 1
+                        const startingNumber = (currentPage - 1) * 10 + index + 1;
                         tableHTML += `
                             <tr>
                                 <td>${startingNumber}</td>

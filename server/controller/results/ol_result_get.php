@@ -81,7 +81,7 @@ try {
     $total_pages = ceil($total_records / $limit);
 
     // Modify the SQL query to sort by index_no and then exam year
-    $sql .= " ORDER BY se.index_no ASC, se.year DESC";
+    $sql .= " ORDER BY {$sort_field} {$sort_order}";
     $sql .= " LIMIT :limit OFFSET :offset";
 
     // Prepare and execute main query
