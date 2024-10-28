@@ -267,12 +267,3 @@ function init() {
 document.addEventListener('DOMContentLoaded', init);
 
 
-// Expose necessary functions to the global scope
-window.closeModal = closeModal;
-window.editElection = editElection;
-window.deleteElection = deleteElection;
-
-// Export the init function
-export { init };
-
-
