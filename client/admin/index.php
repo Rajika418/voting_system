@@ -29,15 +29,20 @@
             </div> -->
 
             <div class="header-actions">
-                <div class="user-profile">
+                <a href="?page=settings" class="user-profile">
                     <div class="user-avatar">AD</div>
                     <div class="user-info">
                         <h4>Raji</h4>
                         <p>Administrator</p>
                     </div>
+                </a>
+                <!-- Logout icon -->
+                <div class="logout-icon">
+                    <a href="../../server/controller/logout.php" title="Logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
                 </div>
             </div>
-        </div>
     </header>
 
     <!-- Sidebar -->
