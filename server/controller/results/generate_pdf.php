@@ -102,7 +102,7 @@ try {
     }
 
     // Output PDF
-    $pdf->Output('D', $student_data['student_name'] . '_results.pdf');
+    $pdf->Output('D', $student_data['student_name'] .'_'.$student_data['year']. '_results.pdf');
 
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());

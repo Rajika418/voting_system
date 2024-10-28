@@ -14,9 +14,11 @@
 </head>
 
 <body>
-    <!-- Admission Button -->
-    <button type="button" id="openAdmissionForm">Admission</button>
-
+    <div class="form-btn">
+        <!-- Admission Button -->
+        <button type="button" id="openAdmissionForm">Add Admission</button>
+        <button type="button" id="openResultsForm">Enter Results</button>
+    </div>
     <!-- Popup Form for Admission -->
     <div id="admissionPopup" class="popup-form" style="display: none">
         <button type="button" class="close-button" id="closeAdmissionForm">
@@ -58,10 +60,6 @@
             </fieldset>
         </form>
     </div>
-
-    <!-- Results Button -->
-    <button type="button" id="openResultsForm">Enter Results</button>
-
     <!-- Popup Form for Results -->
     <div id="resultsPopup" class="popup-form" style="display: none">
         <button type="button" class="close-button" id="closeResultsForm">

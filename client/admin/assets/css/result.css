@@ -2,10 +2,47 @@
 .tab-container {
   padding: 1rem;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 10px auto;
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Button Container Styles */
+.form-btn {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Button Styles */
+#openAdmissionForm,
+#openResultsForm {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 150px; /* Fixed width for consistency */
+}
+
+#openAdmissionForm {
+  background: #2563eb;
+}
+
+#openResultsForm {
+  background: #059669;
+}
+
+#openAdmissionForm:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+#openResultsForm:hover {
+  background: #047857;
+  transform: translateY(-1px);
 }
 
 /* Tab Buttons */
@@ -36,6 +73,16 @@
   color: white;
 }
 
+/* Tab Content */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
 /* Controls Section */
 .controls {
   display: flex;
@@ -54,11 +101,21 @@
 
 #sort-asc,
 #sort-desc {
-  padding: 0.5rem 1rem;
+  padding: 0rem 1rem;
   background: #f3f4f6;
   border: 1px solid #e5e7eb;
   border-radius: 4px;
   cursor: pointer;
+  color: #4b5563;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  height: 32px;
+}
+
+#sort-asc:hover,
+#sort-desc:hover {
+  background: #e5e7eb;
+  color: #1f2937;
 }
 
 /* Table Styles */
@@ -95,17 +152,31 @@ th {
   width: 500px;
   max-height: 90vh;
   overflow-y: auto;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .close-button {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: none;
+  width: 2rem;
+  height: 2rem;
+  background: #f3f4f6;
   border: none;
-  font-size: 1.5rem;
+  border-radius: 50%;
+  font-size: 1.25rem;
+  color: #4b5563;
   cursor: pointer;
-  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.close-button:hover {
+  background: #e5e7eb;
+  color: #1f2937;
 }
 
 /* Form Fields */
@@ -128,166 +199,6 @@ select {
   margin-bottom: 1rem;
   border: 1px solid #e5e7eb;
   border-radius: 4px;
-}
-
-/* Subject Sections */
-.section {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  background: #f8fafc;
-  border-radius: 6px;
-}
-
-.section-title {
-  font-weight: 600;
-  margin-bottom: 1rem;
-  color: #374151;
-}
-
-.subject-row {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 0.5rem;
-  align-items: center;
-}
-
-.subject-name {
-  flex: 1;
-  min-width: 150px;
-}
-
-/* Pagination Controls */
-.pagination-controls {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.pagination-controls button {
-  padding: 0.5rem 1rem;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .tab-container {
-    padding: 0.5rem;
-  }
-
-  .controls {
-    flex-direction: column;
-  }
-
-  #search-box {
-    width: 100%;
-  }
-
-  .subject-row {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .subject-name {
-    width: 100%;
-  }
-
-  table {
-    display: block;
-    overflow-x: auto;
-  }
-
-  th,
-  td {
-    min-width: 120px;
-  }
-}
-
-@media (max-width: 480px) {
-  .tab-buttons {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .popup-form {
-    width: 95%;
-    padding: 1rem;
-  }
-
-  .section {
-    padding: 0.5rem;
-  }
-}
-
-/* Utility Classes */
-.hidden {
-  display: none;
-}
-
-.text-center {
-  text-align: center;
-}
-
-/* Animation */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.popup-form {
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-
-/* All previous CSS remains the same */
-
-/* Global Button Styles */
-button {
-  font-family: inherit;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-}
-
-/* Primary Action Buttons (Admission & Enter Results) */
-#openAdmissionForm,
-#openResultsForm {
-  position: fixed;
-  right: 2rem;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  font-weight: 500;
-  color: white;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 100;
-}
-
-#openAdmissionForm {
-  top: 2rem;
-  background: #2563eb;
-}
-
-#openResultsForm {
-  top: 5rem;
-  background: #059669;
-}
-
-#openAdmissionForm:hover {
-  background: #1d4ed8;
-  transform: translateY(-1px);
-}
-
-#openResultsForm:hover {
-  background: #047857;
-  transform: translateY(-1px);
 }
 
 /* Popup Form Action Buttons */
@@ -336,58 +247,40 @@ button {
   transform: translateY(-1px);
 }
 
-/* Close Buttons for Popups */
-.close-button {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 2rem;
-  height: 2rem;
-  background: #f3f4f6;
-  border: none;
-  border-radius: 50%;
-  font-size: 1.25rem;
-  color: #4b5563;
-  cursor: pointer;
+/* Subject Sections */
+.section {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: #f8fafc;
+  border-radius: 6px;
+}
+
+.section-title {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #374151;
+}
+
+.subject-row {
   display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
   align-items: center;
+}
+
+.subject-name {
+  flex: 1;
+  min-width: 150px;
+}
+
+/* Pagination Controls */
+.pagination-controls {
+  display: flex;
   justify-content: center;
-  transition: all 0.2s ease;
+  gap: 1rem;
+  margin-top: 1.5rem;
 }
 
-.close-button:hover {
-  background: #e5e7eb;
-  color: #1f2937;
-}
-
-/* Sort Buttons */
-#sort-asc,
-#sort-desc {
-  padding: 0.5rem 1rem;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  border-radius: 4px;
-  cursor: pointer;
-  color: #4b5563;
-  font-weight: 500;
-  transition: all 0.2s ease;
-}
-
-#sort-asc:hover,
-#sort-desc:hover {
-  background: #e5e7eb;
-  color: #1f2937;
-}
-
-/* Disabled Button States */
-button:disabled {
-  background: #e5e7eb !important;
-  color: #9ca3af !important;
-  cursor: not-allowed !important;
-  transform: none !important;
-}
-
-/* Pagination Buttons */
 .pagination-controls button {
   padding: 0.5rem 1rem;
   background: #f3f4f6;
@@ -404,10 +297,49 @@ button:disabled {
   color: #1f2937;
 }
 
-/* Active Button States */
-button.active {
-  background: #2563eb;
+/* Toast Notifications */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
   color: white;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.toast.success {
+  background: #059669;
+}
+
+.toast.error {
+  background: #dc2626;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Disabled Button States */
+button:disabled {
+  background: #e5e7eb !important;
+  color: #9ca3af !important;
+  cursor: not-allowed !important;
+  transform: none !important;
 }
 
 /* Focus States */
@@ -442,30 +374,78 @@ button.loading::after {
   to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Responsive Adjustments */
+/* Responsive Design */
 @media (max-width: 768px) {
+  .tab-container {
+    padding: 0.5rem;
+  }
+
+  .form-btn {
+    position: static;
+    flex-direction: row;
+    justify-content: center;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
   #openAdmissionForm,
   #openResultsForm {
-    position: static;
-    width: 100%;
-    margin-bottom: 0.5rem;
+    width: auto;
   }
 
-  #olButton,
-  #alButton,
-  #ol_Button,
-  #al_Button {
-    width: 100%;
-    margin: 0.25rem 0;
+  .controls {
+    flex-direction: column;
   }
 
-  .pagination-controls button {
-    padding: 0.5rem;
-    font-size: 0.875rem;
+  #search-box {
+    width: 100%;
+  }
+
+  .subject-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .subject-name {
+    width: 100%;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  th,
+  td {
+    min-width: 120px;
   }
 }
 
 @media (max-width: 480px) {
+  .tab-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-btn {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #openAdmissionForm,
+  #openResultsForm {
+    width: 100%;
+  }
+
+  .popup-form {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  .section {
+    padding: 0.5rem;
+  }
+
   button {
     font-size: 0.875rem;
     padding: 0.5rem 1rem;
@@ -480,29 +460,11 @@ button.loading::after {
   }
 }
 
-/* Toast Notifications */
-.toast {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  padding: 1rem 1.5rem;
-  border-radius: 6px;
-  color: white;
-  opacity: 0;
-  transform: translateY(100%);
-  transition: all 0.3s ease;
-  z-index: 1000;
+/* Utility Classes */
+.hidden {
+  display: none;
 }
 
-.toast.success {
-  background: #059669;
-}
-
-.toast.error {
-  background: #dc2626;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateY(0);
+.text-center {
+  text-align: center;
 }
