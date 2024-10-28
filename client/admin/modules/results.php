@@ -5,8 +5,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>General Certificate of Education</title>
-    <link rel="stylesheet" href="./styles/result.css" />
-
+    <link rel="stylesheet" href="./assets/css/result.css" />
+    <script src="./js/tab.js" defer></script>
+    <script src="./js/popup.js" defer></script>
+    <script src="./js/admission_popup.js" defer></script>
+    <script src="./js/add_result.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
 </head>
 

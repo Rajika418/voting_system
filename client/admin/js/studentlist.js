@@ -4,7 +4,7 @@ let sortDirection = "asc";
 let sortColumn = "grade_name";
 let searchQuery = "";
 
-window.fetchStudents = async function fetchStudents() {
+fetchStudents = async function fetchStudents() {
   const searchElement = document.getElementById("search");
   searchQuery = searchElement ? searchElement.value : "";
 
@@ -64,7 +64,7 @@ function renderTable(students) {
   updateSortButtons();
 }
 
-window.sortStudent = function sortStudent(column) {
+sortStudent = function sortStudent(column) {
   if (sortColumn === column) {
     sortDirection = sortDirection === "asc" ? "desc" : "asc";
   } else {
@@ -75,7 +75,7 @@ window.sortStudent = function sortStudent(column) {
   fetchStudents();
 };
 
-window.sortGrade = function sortGrade(column) {
+sortGrade = function sortGrade(column) {
   if (sortColumn === column) {
     sortDirection = sortDirection === "asc" ? "desc" : "asc";
   } else {
@@ -108,19 +108,19 @@ function updateSortButtons() {
   }
 }
 
-window.studentNextPage = function nextPage() {
+studentNextPage = function nextPage() {
   currentPage++;
   fetchStudents();
 };
 
-window.studentPreviousPage = function previousPage() {
+studentPreviousPage = function previousPage() {
   if (currentPage > 1) {
     currentPage--;
     fetchStudents();
   }
 };
 
-window.editStudent = function editStudent(studentId, button) {
+editStudent = function editStudent(studentId, button) {
   const updateForm = document.getElementById("updateForm");
   const editPopup = document.getElementById("editPopup");
 
@@ -145,11 +145,11 @@ window.editStudent = function editStudent(studentId, button) {
   editPopup.style.display = "block";
 };
 
-window.closeStudentPopup = function closePopup() {
+closeStudentPopup = function closePopup() {
   document.getElementById("editPopup").style.display = "none";
 };
 
-window.updateStudent = async function updateStudent() {
+updateStudent = async function updateStudent() {
   const studentId = document.getElementById("editPopup").dataset.studentId;
   const formData = new FormData();
 
@@ -196,7 +196,7 @@ window.updateStudent = async function updateStudent() {
   }
 };
 
-window.deleteStudent = async function deleteStudent(studentId) {
+deleteStudent = async function deleteStudent(studentId) {
   if (confirm("Are you sure you want to delete this student?")) {
     try {
       console.log(studentId, "kk");
@@ -230,6 +230,6 @@ function showToast(message, type ) {
   await fetchStudents();
 })();
 
-export function init() {
-  fetchStudents();
-}
+fetchStudents();
+
+

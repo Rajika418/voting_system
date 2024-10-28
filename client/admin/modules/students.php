@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student List</title>
-    <link rel="stylesheet" href="./styles/studentlist.css" />
-    <script src="../js/pages/studentlist.js" defer></script>
+    <link rel="stylesheet" href="./assets/css/studentlist.css" />
+    <script src="./js/studentlist.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
   </head>
   <body>

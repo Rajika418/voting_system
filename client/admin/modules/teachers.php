@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teacher List</title>
-    <link rel="stylesheet" href="./styles/teacherlist.css" />
+    <link rel="stylesheet" href="./assets/css/teacherlist.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
 </head>
 
@@ -134,5 +134,7 @@
     <div id="toastContainer"></div>
     <div class="toast-show"></div>
 </body>
+<script src="./js/teacherlist.js"> </script>
+<script src="./js/classAssignPopup.js"> </script>
 
 </html>

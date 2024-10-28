@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Elections Management</title>
+    <link rel="stylesheet" href="./assets/css/election.css" />
+    <script src="./js/election.js" defer></script>
 </head>
 
 <body>

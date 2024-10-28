@@ -3,7 +3,7 @@ const resultsPerPage = 8;
 let sortOrder = "ASC";
 let searchQuery = "";
 
-window.fetchTeachers = async function fetchTeachers() {
+fetchTeachers = async function fetchTeachers() {
   const searchInputElement = document.getElementById("searchInput");
   searchQuery = searchInputElement
     ? searchInputElement.value.toLowerCase()
@@ -22,7 +22,7 @@ window.fetchTeachers = async function fetchTeachers() {
       }
     );
 
-    const data = response.data;    
+    const data = response.data;
     if (data.data) {
       displayTable(data.data, data.pagination);
     } else {
@@ -38,9 +38,10 @@ function displayTable(teachers, pagination) {
 
   tableBody.innerHTML = ""; // Clear existing rows
   teachers.forEach((teacher, index) => {
-    const grades = (teacher.grades && teacher.grades.length > 0)
-    ? teacher.grades.join(", ") 
-    : "No grade assigned";
+    const grades =
+      teacher.grades && teacher.grades.length > 0
+        ? teacher.grades.join(", ")
+        : "No grade assigned";
 
     const row = `
             <tr data-id="${teacher.teacher_id}">
@@ -87,16 +88,16 @@ function displayPagination(pagination) {
   }
 }
 
-window.searchTeacher = function searchTeacher() {
+searchTeacher = function searchTeacher() {
   fetchTeachers();
 };
 
-window.sortTeacher = function sortTable(order) {
+sortTeacher = function sortTable(order) {
   sortOrder = order;
   fetchTeachers();
 };
 
-window.updateTeacher = async function updateTeacher() {
+updateTeacher = async function updateTeacher() {
   const teacherId = document.getElementById("popupForm").dataset.teacherId;
   const formData = new FormData();
   formData.append("teacher_id", teacherId);
@@ -168,7 +169,7 @@ function openPopup(row) {
   overlay.classList.add("active");
 }
 
-window.closeTeacherPopup = function closePopup() {
+closeTeacherPopup = function closePopup() {
   document.getElementById("popupForm").classList.remove("active");
   document.getElementById("popupOverlay").classList.remove("active");
 };
@@ -230,10 +231,8 @@ function showToast(message, type) {
   }, 5000); // Keep toast visible for 10 seconds
 }
 
+fetchTeachers();
+
 (async function init() {
   await fetchTeachers();
 })();
-
-export function init() {
-  fetchTeachers(); 
-}

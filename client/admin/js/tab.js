@@ -123,6 +123,5 @@ function renderPagination(currentPage, limit) {
 // Set the first tab as active by default
 document.querySelector(".tab-button").click();
 
-export function init() {
-    fetchResults(); 
-}
+fetchResults(); 
+

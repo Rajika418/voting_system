@@ -19,6 +19,5 @@
         });
 
     }
-        export function init() {
-            fetchDashboard(); 
-        }
+
+    fetchDashboard(); 
