@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabButtons = document.querySelectorAll(".tab-button");
     const tabContents = document.querySelectorAll(".tab-content");
     const searchBox = document.getElementById('search-box');
+    const yearSortBtn = document.getElementById('sort-year');
+    const nameSortBtn = document.getElementById('sort-name');
     
     let currentPage = 1;
     let currentSortField = 'exam_year';
@@ -37,6 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Sort button click handlers
+    yearSortBtn.addEventListener('click', () => handleSortClick('exam_year'));
+    nameSortBtn.addEventListener('click', () => handleSortClick('student_name'));
+    
     function handleSortClick(field) {
         if (currentSortField === field) {
             currentSortOrder = currentSortOrder === 'asc' ? 'desc' : 'asc';
@@ -50,9 +55,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Update sort button appearance
     function updateSortButtons() {
-        const yearSortBtn = document.getElementById('sort-year');
-        const nameSortBtn = document.getElementById('sort-name');
-        
         // Reset all buttons
         [yearSortBtn, nameSortBtn].forEach(btn => {
             btn.querySelector('.up-arrow').style.display = 'none';
@@ -111,14 +113,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    
     function fetchResults() {
         const resultsTable = document.getElementById(currentTab === 'o/l' ? 'olResultsTable' : 'alResultsTable');
         resultsTable.innerHTML = '<p>Loading...</p>';
         
         const url = new URL('http://localhost/voting_system/server/controller/results/ol_result_get.php');
-        url.searchParams.append('action', 'read');
-        url.searchParams.append('year', currentTab);
+        // url.searchParams.append('year', currentTab);
         url.searchParams.append('page', currentPage);
         url.searchParams.append('sort_field', currentSortField);
         url.searchParams.append('sort_order', currentSortOrder);
@@ -129,6 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(url)
             .then(response => response.json())
             .then(responseData => {
+                console.log(responseData);        
                 if (responseData && responseData.data && Object.keys(responseData.data).length > 0) {
                     let tableHTML = `
                         <table>
@@ -137,7 +138,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <th>No</th>
                                     <th>Index No</th>
                                     <th>Student Name</th>
-                                    <th>Year</th>
+                                    <th>
+                                        <span>Year</span>
+                                        <span class="sort-icon">
+                                            <i class="up-arrow">▲</i>
+                                            <i class="down-arrow">▼</i>
+                                        </span>
+                                    </th>
                                     <th>NIC</th>
                                     <th>Results</th>
                                     <th>Download Results</th>

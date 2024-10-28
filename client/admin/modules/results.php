@@ -95,8 +95,18 @@
 
         <div class="controls">
             <input type="text" id="search-box" placeholder="Search ...">
-            <button id="sort-asc">Sort Ascending</button>
-            <button id="sort-desc">Sort Descending</button>
+            <button id="sort-year">Sort by Exam Year
+                <span class="sort-icon">
+                    <i class="up-arrow">▲</i>
+                    <i class="down-arrow">▼</i>
+                </span>
+            </button>
+            <button id="sort-name">Sort by Name
+                <span class="sort-icon">
+                    <i class="up-arrow">▲</i>
+                    <i class="down-arrow">▼</i>
+                </span>
+            </button>
         </div>
 
         <!-- Tab content: O/L Results -->
