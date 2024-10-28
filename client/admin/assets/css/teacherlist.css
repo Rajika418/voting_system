@@ -1,203 +1,246 @@
-/* Basic table styling */
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-th,
-td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
-  color: black;
-}
-
-td {
-  display: table-cell;
-  vertical-align: inherit;
-  unicode-bidi: isolate;
-}
-
-h2 {
-  display: block;
-  font-size: 1.5em;
-  margin-block-start: 0.83em;
-  margin-block-end: 0.83em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  font-weight: bold;
-  unicode-bidi: isolate;
-  color: #333;
-}
-
-th {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
-  color: black;
-  background-color: #ffffff;
-}
-
-table tr:nth-child(even) {
-  background-color: #ffffff;
-}
-
-table tr:nth-child(odd) {
-  background-color: #f2f2f2;
-}
-
-th:hover {
-  background-color: #ddd;
-}
-
-/* Pagination styling */
-.pagination {
-  margin-top: 10px;
+/* Teacher List Container Styles */
+.search-container {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0;
+  gap: 20px;
 }
 
-.pagination button {
-  margin: 0 5px;
-  padding: 5px 10px;
-  cursor: pointer;
-  background-color: #6988dd;
+.search-container input {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 300px;
+  font-size: 14px;
 }
 
 .classAssing-btn {
-  color: #f5f3f3;
-  background-color: #3b87ce;
-  margin-left: 550px;
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
   cursor: pointer;
-  padding: 10px 5px;
+  font-size: 14px;
+  transition: background-color 0.3s;
 }
 
-.search-container {
+.classAssing-btn:hover {
+  background-color: #45a049;
+}
+
+/* Sort Container */
+.sort-container {
   display: flex;
-  justify-content: flex-start;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  gap: 15px;
 }
 
-#searchInput {
+.sortbutton button {
+  padding: 8px 15px;
   margin-right: 10px;
-  padding: 5px;
-  width: 300px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
+.sortbutton button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Table Styles */
+#teacherTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+#teacherTable th,
+#teacherTable td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#teacherTable th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+}
+
+#teacherTable tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+#teacherTable img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Action Buttons */
 .action {
   display: flex;
+  gap: 10px;
+  height: 103px;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Edit button styling */
-.edit-btn {
-  background-color: #6988dd;
-  color: white;
-  padding: 5px 10px;
+.edit-btn,
+.delete-btn {
+  padding: 6px 12px;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
-  width: 60px;
-  margin: 10px;
+  font-size: 13px;
+  transition: background-color 0.3s;
+  height: auto;
+}
+
+.edit-btn {
+  background-color: #2196f3;
+  color: white;
 }
 
 .delete-btn {
-  background-color: #bb1e1e;
+  background-color: #f44336;
   color: white;
-  padding: 5px 10px;
-  border: none;
-  cursor: pointer;
-  width: 60px;
-  margin: 10px;
 }
 
-/* Popup form styling */
-#popupForm {
-  display: none;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+.edit-btn:hover {
+  background-color: #1976d2;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
   background-color: white;
-  padding: 20px;
-  border: 2px solid black;
-  z-index: 1000;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s;
 }
 
-#popupForm.active {
-  display: block;
+.pagination button:hover {
+  background-color: #f0f0f0;
 }
 
+/* Popup Styles */
 .popup-overlay {
   display: none;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: 1000;
 }
 
 .popup-overlay.active {
   display: block;
 }
 
+#popupForm,
+#assignPopupForm {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1001;
+  width: 90%;
+  max-width: 500px;
+}
+
+#popupForm.active,
+#assignPopupForm.active {
+  display: block;
+}
+
 .form-group {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
 }
 
 .form-group label {
   display: block;
   margin-bottom: 5px;
+  font-weight: 500;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
   width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 .form-actions {
-  margin-top: 15px;
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
 }
 
-/* Toast container styling */
+.form-actions button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.form-actions button:first-child {
+  background-color: #f0f0f0;
+}
+
+.update-btn,
+.assign-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Toast Notifications */
 #toastContainer {
   position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  pointer-events: none;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1002;
 }
 
-/* Toast styling */
 .toast {
-  padding: 10px 20px;
+  padding: 12px 24px;
+  border-radius: 4px;
+  margin-bottom: 10px;
   color: white;
-  background-color: #333;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   opacity: 0;
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  transform: translateY(-20px);
-  pointer-events: auto;
+  transform: translateY(100%);
+  transition: all 0.5s ease;
 }
 
-.toast-show {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-/* Specific toast types */
 .toast.success {
   background-color: #4caf50;
 }
@@ -206,135 +249,74 @@ th:hover {
   background-color: #f44336;
 }
 
-/* Slide down animation */
-@keyframes slideDown {
-  from {
-    transform: translateX(-50%) translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(-50%) translateY(0);
-    opacity: 1;
-  }
+.toast.toast-show {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-/* Fade out animation */
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-/* Assign popup */
-#assignPopupForm {
-  display: none;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
-  border: 2px solid black;
-  z-index: 1000;
-}
-
-#assignPopupForm.active {
-  display: block;
-}
-
-.form-group select {
-  width: 100%;
-  padding: 8px;
-  box-sizing: border-box;
-}
-
-.assign-btn {
-  background-color: #5abce2;
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  cursor: pointer;
-}
-
-.sort-container {
+/* Grades Display */
+#grades_list {
   display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
 }
 
-.sortbutton button {
-  background-color: #3b87ce;
-  color: white;
-  border: none;
-  cursor: pointer;
-  margin-right: 10px;
-  padding: 5px 10px;
+#grades_list span {
+  background-color: #e0e0e0;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 13px;
 }
 
-/* Responsive adjustments */
-@media screen and (max-width: 768px) {
-  .classAssing-btn {
-    margin-left: 0;
-    width: 100%;
-    text-align: center;
-  }
-
+/* Responsive Styles */
+@media (max-width: 1024px) {
   .search-container {
     flex-direction: column;
     align-items: stretch;
   }
 
-  #searchInput {
+  .search-container input {
     width: 100%;
-    margin-bottom: 10px;
   }
 
-  .pagination {
+  #teacherTable {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .sort-container {
     flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sortbutton {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
   }
 
   .action {
     flex-direction: column;
   }
 
-  .edit-btn,
-  .delete-btn {
-    width: 100%;
-    margin: 5px 0;
-  }
-
-  th,
-  td {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  .sortbutton button {
-    width: 100%;
-    margin-bottom: 10px;
+  #popupForm,
+  #assignPopupForm {
+    width: 95%;
+    padding: 15px;
   }
 }
 
-@media screen and (max-width: 480px) {
-  th,
-  td {
-    padding: 5px;
-    font-size: 12px;
+@media (max-width: 480px) {
+  .pagination {
+    flex-wrap: wrap;
   }
 
-  h2,
-  p {
-    font-size: 1.2em;
-  }
-
-  #searchInput {
-    width: 100%;
-  }
-
-  .pagination button {
-    padding: 5px;
+  .toast {
+    width: 90%;
+    left: 5%;
+    right: 5%;
   }
 }

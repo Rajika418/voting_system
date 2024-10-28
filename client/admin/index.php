@@ -23,10 +23,10 @@
         </div>
 
         <div class="header-right">
-            <div class="header-search">
+            <!-- <div class="header-search">
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Search...">
-            </div>
+            </div> -->
 
             <div class="header-actions">
                 <div class="user-profile">
