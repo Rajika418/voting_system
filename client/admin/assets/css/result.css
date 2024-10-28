@@ -83,40 +83,71 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Controls Section */
 .controls {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px; /* Space between controls */
+  padding: 10px; /* Padding around the controls */
+}
+
+.controls input{
+  margin-bottom: 0%;
 }
 
 #search-box {
-  flex: 1;
-  min-width: 200px;
-  padding: 0.5rem;
-  border: 1px solid #e5e7eb;
-  border-radius: 4px;
+  padding: 8px 12px; /* Padding for the search box */
+  border: 1px solid #ccc; /* Border for the search box */
+  border-radius: 4px; /* Rounded corners */
+  width: 200px; /* Width of the search box */
+  font-size: 14px; /* Font size */
 }
 
-#sort-asc,
-#sort-desc {
-  padding: 0rem 1rem;
-  background: #f3f4f6;
-  border: 1px solid #e5e7eb;
-  border-radius: 4px;
-  cursor: pointer;
-  color: #4b5563;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  height: 32px;
+button {
+  padding: 8px 16px; /* Padding for buttons */
+  border: none; /* Remove default border */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #007bff; /* Button background color */
+  color: white; /* Text color */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 14px; /* Font size */
+  transition: background-color 0.3s ease; /* Smooth transition for hover */
 }
 
-#sort-asc:hover,
-#sort-desc:hover {
-  background: #e5e7eb;
-  color: #1f2937;
+button:hover {
+  background-color: #0056b3; /* Darker background on hover */
 }
+
+.sort-icon {
+  margin-left: 5px; /* Space between text and sort icon */
+  display: inline-flex; /* Flexbox for sorting icons */
+  align-items: center; /* Center icons vertically */
+}
+
+.up-arrow, .down-arrow {
+  font-size: 12px; /* Font size for arrows */
+  display: none; /* Hide arrows by default */
+}
+
+button.active .up-arrow {
+  display: inline; /* Show up arrow when button is active */
+}
+
+button.active .down-arrow {
+  display: inline; /* Show down arrow when button is active */
+}
+
+button.active .up-arrow + .down-arrow {
+  display: none; /* Hide down arrow when up arrow is shown */
+}
+
+button:not(.active) .down-arrow {
+  display: inline; /* Show down arrow when button is not active */
+}
+
+button:not(.active) .up-arrow {
+  display: none; /* Hide up arrow when down arrow is shown */
+}
+
 
 /* Table Styles */
 table {

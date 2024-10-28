@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
         resultsTable.innerHTML = '<p>Loading...</p>';
         
         const url = new URL('http://localhost/voting_system/server/controller/results/ol_result_get.php');
-        // url.searchParams.append('year', currentTab);
+        url.searchParams.append('year', currentTab);
         url.searchParams.append('page', currentPage);
         url.searchParams.append('sort_field', currentSortField);
         url.searchParams.append('sort_order', currentSortOrder);
