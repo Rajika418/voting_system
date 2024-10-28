@@ -11,9 +11,6 @@ try {
     // Set sorting parameters
     $sort_field = isset($_GET['sort_field']) ? $_GET['sort_field'] : 'exam_year';
     $sort_order = isset($_GET['sort_order']) && in_array($_GET['sort_order'], ['asc', 'desc']) ? $_GET['sort_order'] : 'desc';
-    
-    // Secondary sort by index_no
-    $secondary_sort = "se.index_no ASC";
 
     // Get search query for student name or index_no
     $search_query = isset($_GET['search']) ? $_GET['search'] : '';
@@ -21,7 +18,7 @@ try {
     // Get year parameter (e.g., "A/L" or "O/L") from query string
     $year_param = isset($_GET['year']) ? $_GET['year'] : null;
 
-    // Base SQL query
+    // Base SQL query for fetching results
     $sql = "
         SELECT DISTINCT
             se.id,
@@ -30,11 +27,8 @@ try {
             se.year AS exam_year,
             se.nic,
             s.student_name,
-            r.result,
             r.subject_id,
-            r.exam_id,
-            sub.subject_name,
-            sub.year AS subject_year
+            r.result
         FROM 
             student_exam se
         LEFT JOIN 
@@ -55,10 +49,25 @@ try {
         $sql .= " AND sub.year = :year_param";
     }
 
-    // Count total records for pagination
-    $count_sql = preg_replace('/SELECT DISTINCT.*?FROM/', 'SELECT COUNT(DISTINCT se.id) FROM', $sql);
+    // Count total distinct index_no for pagination
+    $count_sql = "
+        SELECT COUNT(DISTINCT se.index_no) 
+        FROM student_exam se
+        LEFT JOIN student s ON se.student_id = s.student_id
+        LEFT JOIN results r ON se.id = r.exam_id
+        LEFT JOIN subjects sub ON r.subject_id = sub.subject_id
+        WHERE 1=1";
+
+    // Add the same search and year conditions to the count query
+    if (!empty($search_query)) {
+        $count_sql .= " AND (s.student_name LIKE :search_query OR se.index_no LIKE :search_query)";
+    }
+    if (!is_null($year_param)) {
+        $count_sql .= " AND sub.year = :year_param";
+    }
+
     $count_stmt = $conn->prepare($count_sql);
-    
+
     if (!empty($search_query)) {
         $search_term = '%' . $search_query . '%';
         $count_stmt->bindParam(':search_query', $search_term, PDO::PARAM_STR);
@@ -66,18 +75,18 @@ try {
     if (!is_null($year_param)) {
         $count_stmt->bindParam(':year_param', $year_param, PDO::PARAM_STR);
     }
-    
+
     $count_stmt->execute();
     $total_records = $count_stmt->fetchColumn();
     $total_pages = ceil($total_records / $limit);
 
-    // Add sorting and pagination to main query
-    $sql .= " ORDER BY " . ($sort_field === 'exam_year' ? "se.year $sort_order" : "se.index_no ASC");
+    // Modify the SQL query to sort by index_no and then exam year
+    $sql .= " ORDER BY se.index_no ASC, se.year DESC";
     $sql .= " LIMIT :limit OFFSET :offset";
 
     // Prepare and execute main query
     $stmt = $conn->prepare($sql);
-    
+
     // Bind parameters
     if (!empty($search_query)) {
         $search_term = '%' . $search_query . '%';
@@ -91,9 +100,10 @@ try {
 
     $stmt->execute();
 
-    // Fetch and group data
+    // Fetch data
     $data = [];
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // Initialize data structure for each index_no
         if (!isset($data[$row['index_no']])) {
             $data[$row['index_no']] = [
                 'id' => $row['id'],
@@ -102,23 +112,24 @@ try {
                 'student_name' => $row['student_name'],
                 'year' => $row['exam_year'],
                 'nic' => $row['nic'],
-                'results' => []
+                'results' => [] // Initialize results array
             ];
         }
 
-        if ($row['subject_id']) {
-            $data[$row['index_no']]['results'][] = [
-                'subject_id' => $row['subject_id'],
-                'subject_name' => $row['subject_name'],
-                'result' => $row['result']
-            ];
-        }
+        // Append results for each subject
+        $data[$row['index_no']]['results'][] = [
+            'subject_id' => $row['subject_id'],
+            'result' => $row['result']
+        ];
     }
+
+    // Reset data to be an indexed array instead of associative by index_no
+    $data = array_values($data);
 
     // Return response with pagination metadata
     header('Content-Type: application/json');
     echo json_encode([
-        'data' => array_values($data),
+        'data' => $data,
         'pagination' => [
             'current_page' => $page,
             'total_pages' => $total_pages,
@@ -130,7 +141,6 @@ try {
             'order' => $sort_order
         ]
     ]);
-
 } catch (PDOException $e) {
     http_response_code(500);
     echo json_encode([

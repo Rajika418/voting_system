@@ -146,7 +146,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                         </span>
                                     </th>
                                     <th>NIC</th>
-                                    <th>Results</th>
                                     <th>Download Results</th>
                                 </tr>
                             </thead>
@@ -154,13 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     `;
                     
                     responseData.data.forEach((student, index) => {
-                        const startingNumber = (currentPage - 1) * 10 + index + 1;
-                        let resultsHTML = '<div style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start;">';
-                        student.results.forEach(result => {
-                            resultsHTML += `<div>${result.subject_name}: ${result.result}</div>`;
-                        });
-                        resultsHTML += '</div>';
-                        
+                        const startingNumber = (currentPage - 1) * 10 + index + 1
                         tableHTML += `
                             <tr>
                                 <td>${startingNumber}</td>
@@ -168,7 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <td>${student.student_name}</td>
                                 <td>${student.year}</td>
                                 <td>${student.nic}</td>
-                                <td>${resultsHTML}</td>
                                 <td>
                                     <a href="http://localhost/voting_system/server/controller/results/generate_pdf.php?student_id=${student.student_id}" 
                                        target="_blank">
