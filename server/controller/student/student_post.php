@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "message" => "Student registration successful",
             "received_data" => $received_data
         ]);
-
+        // header("Location: ../../../client/index.php?registration=success");
     } catch (Exception $e) {
         // Rollback the transaction in case of error
         $conn->rollBack();

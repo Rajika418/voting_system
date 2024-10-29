@@ -1,4 +1,4 @@
-<?php 
+<?php
 require "../../db_config.php";
 
 // Check if the necessary POST data is provided
@@ -21,7 +21,7 @@ $subject_id = isset($_POST['subject_id']) ? $_POST['subject_id'] : null;
 // Handle the image upload
 $image = null;
 $image_dir = '../../../uploads/';
-$base_url = 'http://localhost/voting_system/uploads/'; 
+$base_url = 'http://localhost/voting_system/uploads/';
 
 // Create the directory if it doesn't exist
 if (!is_dir($image_dir)) {
@@ -64,7 +64,7 @@ try {
         $image_path = $image_dir . $unique_image_name;
 
         if (move_uploaded_file($image_tmp_name, $image_path)) {
-            $image = $base_url . $unique_image_name;
+            $image = $base_url . $unique_image_name; // Store the URL
         } else {
             echo json_encode(["success" => false, "message" => "Image upload failed"]);
             exit();
@@ -132,7 +132,6 @@ try {
 } catch (Exception $e) {
     // Rollback transaction if something went wrong
     $conn->rollBack();
-    
+
     echo json_encode(["success" => false, "message" => "Update failed: " . $e->getMessage()]);
 }
-?>

@@ -109,7 +109,7 @@ try {
     // Commit transaction
     $conn->commit();
     // Redirect to login page with success parameter
-    header("Location: ../../../client/login.html?registration=success");
+    header("Location: ../../../client/index.php?registration=success");
     exit();
 } catch (Exception $e) {
     // Rollback transaction if something went wrong
@@ -117,4 +117,7 @@ try {
 
     // Encode error message and redirect back to registration page
     $error_message = urlencode("Registration failed: " . $e->getMessage());
+    header("Location: ../../../client/?error=" . $error_message);
+    exit();
 }
+?>
