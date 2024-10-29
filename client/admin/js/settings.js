@@ -1,3 +1,6 @@
+// Global variables
+const API_BASE_URL = "http://localhost/voting_system/server/controller/admin";
+
 // Function to show success message
 function showSuccess(message) {
   const successMessage = document.getElementById("successMessage");
@@ -8,42 +11,107 @@ function showSuccess(message) {
   }, 3000);
 }
 
+// Function to handle API errors
+function handleApiError(error) {
+  console.error("API Error:", error);
+  showSuccess("An error occurred. Please try again.");
+}
+
 // Function to change profile image
-function changeImage() {
+async function changeImage() {
   const input = document.createElement("input");
   input.type = "file";
   input.accept = "image/*";
-  input.onchange = function (e) {
+
+  input.onchange = async function (e) {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        document.getElementById("profileImage").src = event.target.result;
-        showSuccess("Profile image updated successfully!");
-      };
-      reader.readAsDataURL(file);
+      try {
+        const formData = new FormData();
+        formData.append("image", file);
+        formData.append("user_id", userId);
+
+        const response = await fetch(`${API_BASE_URL}/user_update.php`, {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await response.json();
+
+        if (data.status === "success") {
+          const reader = new FileReader();
+          reader.onload = function (event) {
+            document.getElementById("profileImage").src = event.target.result;
+          };
+          reader.readAsDataURL(file);
+          showSuccess("Profile image updated successfully!");
+        } else {
+          showSuccess(data.message || "Failed to update image");
+        }
+      } catch (error) {
+        handleApiError(error);
+      }
     }
   };
+
   input.click();
 }
 
 // Function to delete profile image
-function deleteImage() {
-  document.getElementById("profileImage").src =
-    "https://via.placeholder.com/150";
-  showSuccess("Profile image removed!");
+async function deleteImage() {
+  try {
+    const formData = new FormData();
+    formData.append("user_id", userId);
+
+    const response = await fetch(`${API_BASE_URL}/delete_image.php`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (data.status === "success") {
+      document.getElementById("profileImage").src =
+        "http://localhost/voting_system/uploads/default-avatar.png;'";
+      showSuccess("Profile image removed successfully!");
+    } else {
+      showSuccess(data.message || "Failed to delete image");
+    }
+  } catch (error) {
+    handleApiError(error);
+  }
 }
 
 // Function to update profile details
-function updateProfile() {
-  const name = document.getElementById("fullName").value;
-  const email = document.getElementById("email").value;
+async function updateProfile() {
+  try {
+    const formData = new FormData();
+    formData.append("user_id", userId);
+    formData.append("user_name", document.getElementById("fullName").value);
+    formData.append("email", document.getElementById("email").value);
+    formData.append("phone", document.getElementById("phone").value);
+    formData.append("location", document.getElementById("location").value);
 
-  // Update display name and email
-  document.getElementById("userName").textContent = name;
-  document.getElementById("userEmail").textContent = email;
+    const response = await fetch(`${API_BASE_URL}/user_update.php`, {
+      method: "POST",
+      body: formData,
+    });
 
-  showSuccess("Profile details updated successfully!");
+    const data = await response.json();
+
+    if (data.status === "success") {
+      // Update display name and email
+      document.getElementById("userName").textContent =
+        document.getElementById("fullName").value;
+      document.getElementById("userEmail").textContent =
+        document.getElementById("email").value;
+      showSuccess("Profile details updated successfully!");
+    } else {
+      showSuccess(data.message || "Failed to update profile");
+    }
+  } catch (error) {
+    handleApiError(error);
+  }
 }
 
 // Function to show password modal
@@ -58,22 +126,68 @@ function closeModal() {
 }
 
 // Function to change password
-function changePassword() {
+async function changePassword() {
   const currentPassword = document.getElementById("currentPassword").value;
   const newPassword = document.getElementById("newPassword").value;
   const confirmPassword = document.getElementById("confirmPassword").value;
 
   if (!currentPassword || !newPassword || !confirmPassword) {
-    alert("Please fill in all password fields");
+    showSuccess("Please fill in all password fields");
     return;
   }
 
   if (newPassword !== confirmPassword) {
-    alert("New passwords do not match");
+    showSuccess("New passwords do not match");
     return;
   }
 
-  // Here you would typically make an API call to update the password
-  closeModal();
-  showSuccess("Password updated successfully!");
+  try {
+    const formData = new FormData();
+    formData.append("user_id", userId);
+    formData.append("current_password", currentPassword);
+    formData.append("new_password", newPassword);
+
+    const response = await fetch(`${API_BASE_URL}/user_update.php`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (data.status === "success") {
+      closeModal();
+      showSuccess("Password updated successfully!");
+    } else {
+      showSuccess(data.message || "Failed to update password");
+    }
+  } catch (error) {
+    handleApiError(error);
+  }
 }
+
+// Function to get user details from the API
+async function getUserDetails() {
+  try {
+    const response = await fetch(
+      `${API_BASE_URL}/user_get.php/user_id=${userId}`
+    );
+    const data = await response.json();
+
+    if (data.status === "success") {
+      // Populate user details
+      document.getElementById("fullName").value = data.data.user_name;
+      document.getElementById("email").value = data.data.email;
+      document.getElementById("profileImage").src =
+        data.data.image || "http://localhost/voting_system/uploads/default-avatar.png;'";
+      document.getElementById("userName").textContent = data.data.user_name;
+      document.getElementById("userEmail").textContent = data.data.email;
+    } else {
+      showSuccess(data.message || "Failed to fetch user details");
+    }
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
+// Initialize the page
+window.onload = getUserDetails;

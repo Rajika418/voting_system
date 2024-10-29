@@ -31,16 +31,6 @@
                     <input type="email" id="email" class="form-input" value="john.doe@example.com">
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" for="phone">Phone</label>
-                    <input type="tel" id="phone" class="form-input" value="+1 234 567 890">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="location">Location</label>
-                    <input type="text" id="location" class="form-input" value="New York, USA">
-                </div>
-
                 <div class="button-group">
                     <button type="button" class="btn btn-primary" onclick="updateProfile()">Update Details</button>
                     <button type="button" class="btn btn-outline" onclick="showChangePasswordModal()">Change Password</button>

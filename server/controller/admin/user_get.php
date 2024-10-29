@@ -2,15 +2,19 @@
 
 require '../../db_config.php';
 
-// Check if request method is GET
+// Check if the request method is GET
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-    // Check if user_id is provided
-    if (empty($_GET['user_id'])) {
-        echo json_encode(['status' => 'error', 'message' => 'Missing user ID']);
+    // Get the path info from the URL
+    $path_info = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+    
+    // The last segment of the URL is assumed to be the user_id
+    $user_id = end($path_info);
+
+    // Check if user_id is provided and is numeric
+    if (empty($user_id) || !is_numeric($user_id)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid or missing user ID']);
         exit();
     }
-
-    $user_id = $_GET['user_id'];
 
     // Prepare SQL statement to select user data
     $stmt = $conn->prepare("SELECT user_id, user_name, email, image FROM users WHERE user_id = ?");

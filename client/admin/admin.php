@@ -8,6 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+$userId = $_SESSION['user_id'] ?? '';
 $userName = $_SESSION['user_name'] ?? 'User';
 $roleName = $_SESSION['role_name'] ?? 'Role';
 $imageUrl = $_SESSION['image'] ?? 'Profile';
@@ -197,6 +198,7 @@ $imageUrl = $_SESSION['image'] ?? 'Profile';
             echo '<script src="./js/add_result.js" defer></script>';
             break;
         case 'settings':
+            echo '<script>const userId = ' . json_encode($_SESSION['user_id']) . ';</script>';
             echo '<script src="./js/settings.js"></script>';
             break;
         default:
