@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nomination Form</title>
+    <link rel="stylesheet" href="nomination.css">
+    <script src="nomination.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Nomination Form</h1>
+        
+        <!-- Registration Number Input -->
+        <div class="input-group">
+            <label for="registration_number">Enter Registration Number:</label>
+            <input type="text" id="registration_number" placeholder="e.g., REG123463">
+            <button onclick="fetchStudentInfo()">Get Info</button>
+        </div>
+        
+        <!-- Student Information Display -->
+        <div id="student-info" class="student-info">
+            <img id="student-image" src="" alt="Student Image" style="display:none;">
+            <p id="student-name"></p>
+            <p id="student-grade"></p>
+        </div>
+        
+        <!-- Nomination Form -->
+        <form id="nominationForm" onsubmit="submitNomination(event)">
+            <input type="hidden" id="student_id">
+            <input type="hidden" id="election_id" value="1"> <!-- Assume election_id is predefined -->
+            
+            <label for="why">Why are you applying?</label>
+            <textarea id="why" required></textarea>
+            
+            <label for="motive">What is your motive?</label>
+            <textarea id="motive" required></textarea>
+            
+            <label for="what">What will you contribute?</label>
+            <textarea id="what" required></textarea>
+            
+            <button type="submit">Submit Nomination</button>
+        </form>
+        
+        <!-- Message Display -->
+        <div id="message"></div>
+    </div>
+    
+ 
+</body>
+</html>
