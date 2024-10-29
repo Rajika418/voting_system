@@ -1,96 +1,81 @@
+/* Reset and base styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Arial", sans-serif;
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: linear-gradient(45deg, #499285, #917bf1);
-}
-
-/* Header with logo and school name */
-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  padding: 15px 50px;
-  background-color: rgba(31, 54, 82, 0.8);
-  color: #fff;
-  display: flex;
-  align-items: center;
-}
-
-header img {
-  width: 60px;
-  height: auto;
-  border-radius: 50%;
-  margin-right: 15px;
-}
-
-header h1 {
-  font-size: 24px;
-  position: absolute;
-  top: 15px;
-  right: 50px;
-}
-
-header h2 {
-  font-size: 22px;
-  color: white;
-  font-weight: bold;
-  margin: 0;
-  line-height: 1.2;
-  float: right;
-}
-
-.container {
-  width: 100%;
-  max-width: 800px;
-  background-color: rgba(224, 197, 197, 0.8);
-  border-radius: 10px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 20px;
-  margin-top: 200px;
-}
-
-.form-wrapper {
-  width: 100%;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-  font-size: 24px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f5f5f5;
   color: #333;
 }
 
+/* Header styles */
+header {
+  background-color: #2c3e50;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+header img {
+  max-width: 100px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
+
+header h2 {
+  font-size: 1.4rem;
+}
+
+/* Container and form wrapper */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.form-wrapper {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.form-wrapper h1 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+}
+
+/* Form layout */
 .form-row {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .form-group {
-  flex: 1;
-  margin-right: 50px;
+  flex: 1 1 300px;
 }
 
-.form-group:last-child {
-  margin-right: 0;
-}
-
+/* Form elements */
 label {
   display: block;
-  margin-bottom: 5px;
-  font-size: 14px;
-  color: #080808;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
 }
 
 input[type="text"],
@@ -98,12 +83,13 @@ input[type="password"],
 input[type="email"],
 input[type="tel"],
 input[type="date"],
-input[type="file"] {
+select {
   width: 100%;
-  padding: 10px;
+  padding: 0.8rem;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 14px;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
 }
 
 input[type="text"]:focus,
@@ -111,112 +97,180 @@ input[type="password"]:focus,
 input[type="email"]:focus,
 input[type="tel"]:focus,
 input[type="date"]:focus,
-input[type="file"]:focus {
-  border-color: #007bff;
+select:focus {
+  border-color: #3498db;
   outline: none;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+/* Select dropdown styling */
+select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.7rem center;
+  background-size: 1em;
+  padding-right: 2.5rem;
+}
+
+/* Checkbox styling */
+input[type="checkbox"] {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #3498db;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  position: relative;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #3498db;
+}
+
+input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: white;
+  font-size: 14px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* File input styling */
+input[type="file"] {
+  padding: 0.5rem 0;
+}
+
+input[type="file"]::file-selector-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #2980b9;
+}
+
+/* Submit button */
+.form-group-submit {
+  text-align: center;
+  margin-top: 2rem;
 }
 
 button[type="submit"] {
-  width: 100%;
-  background-color: #007bff;
+  background-color: #2ecc71;
   color: white;
-  padding: 10px;
+  padding: 1rem 2.5rem;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 4px;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s ease;
 }
 
 button[type="submit"]:hover {
-  background-color: #218838;
+  background-color: #27ae60;
 }
 
-.form-group-submit {
-  text-align: center;
-  margin-top: 20px;
-}
+/* Responsive breakpoints */
+@media screen and (max-width: 768px) {
+  .form-wrapper {
+    padding: 1.5rem;
+  }
 
-/* Basic styling for the select element */
-#grade_name {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #f9f9f9;
-  color: #333;
-  font-size: 16px;
-  appearance: none;
-  cursor: pointer;
-}
-
-/* Placeholder option styling */
-#grade_name option[value=""] {
-  color: #888;
-}
-
-/* Option styling */
-#grade_name option {
-  padding: 8px;
-  color: #333;
-  background-color: #fff;
-}
-
-/* Hover effect for options (only in some browsers) */
-#grade_name option:hover {
-  background-color: #e6e6e6;
-}
-
-/* Focus styling */
-#grade_name:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-/* Media Query for smaller screens */
-@media (max-width: 768px) {
   .form-row {
     flex-direction: column;
+    gap: 1rem;
   }
 
   .form-group {
-    margin-right: 0;
-    margin-bottom: 15px;
+    flex: 1 1 100%;
   }
 
   header h1 {
-    font-size: 20px;
+    font-size: 1.5rem;
   }
 
   header h2 {
-    font-size: 18px;
-  }
-
-  .container {
-    margin-top: 150px;
-    padding: 10px;
+    font-size: 1.2rem;
   }
 }
 
-/* Media Query for extra small screens */
-@media (max-width: 480px) {
-  header h1 {
-    font-size: 18px;
+@media screen and (max-width: 480px) {
+  .form-wrapper {
+    padding: 1rem;
   }
 
-  header h2 {
-    font-size: 16px;
+  header {
+    padding: 0.8rem;
   }
 
-  .container {
-    margin-top: 150px;
-    padding: 5px;
+  header img {
+    max-width: 80px;
+  }
+
+  .form-wrapper h1 {
+    font-size: 1.5rem;
   }
 
   button[type="submit"] {
-    font-size: 12px;
-    padding: 8px;
+    width: 100%;
+    padding: 0.8rem;
   }
+}
+
+/* Add these styles to your existing CSS */
+.parent-fields,
+.guardian-fields {
+  transition: all 0.3s ease;
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-label {
+  margin-left: 0.5rem;
+  font-weight: normal;
+}
+
+/* Custom checkbox styling */
+input[type="checkbox"] {
+  margin: 0;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.fade-out {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.fade-in {
+  opacity: 1;
+  height: auto;
+  margin-bottom: 1.5rem;
 }

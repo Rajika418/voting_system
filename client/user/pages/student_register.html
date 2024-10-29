@@ -5,145 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Registration</title>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          // Function to populate the grade dropdown as before
-          function populateGradeDropdown() {
-              const dropdown = document.getElementById('grade_name');
+      document.addEventListener("DOMContentLoaded", function () {
+        // Function to populate the grade dropdown as before
+        function populateGradeDropdown() {
+          const dropdown = document.getElementById("grade_name");
 
-              fetch('http://localhost/voting_system/server/controller/grade/grade_get.php')
-                  .then(response => response.json())
-                  .then(data => {
-                      if (data.status === 'success') {
-                          dropdown.innerHTML = '';
-                          const placeholderOption = document.createElement('option');
-                          placeholderOption.value = '';
-                          placeholderOption.text = 'Select a grade';
-                          dropdown.appendChild(placeholderOption);
+          fetch(
+            "http://localhost/voting_system/server/controller/grade/grade_get.php"
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.status === "success") {
+                dropdown.innerHTML = "";
+                const placeholderOption = document.createElement("option");
+                placeholderOption.value = "";
+                placeholderOption.text = "Select a grade";
+                dropdown.appendChild(placeholderOption);
 
-                          data.grades.forEach(grade => {
-                              const option = document.createElement('option');
-                              option.value = grade.grade_id;
-                              option.text = grade.grade_name;
-                              dropdown.appendChild(option);
-                          });
-                      } else {
-                          console.error('Failed to retrieve grades:', data.message);
-                      }
-                  })
-                  .catch(error => console.error('Error fetching grades:', error));
-          }
+                data.grades.forEach((grade) => {
+                  const option = document.createElement("option");
+                  option.value = grade.grade_id;
+                  option.text = grade.grade_name;
+                  dropdown.appendChild(option);
+                });
+              } else {
+                console.error("Failed to retrieve grades:", data.message);
+              }
+            })
+            .catch((error) => console.error("Error fetching grades:", error));
+        }
 
-          populateGradeDropdown();
+        populateGradeDropdown();
 
-          // Handle form submission
-          document.querySelector('form').addEventListener('submit', function(event) {
-              event.preventDefault(); // Prevent default form submission
+        // Handle form submission
+        document
+          .querySelector("form")
+          .addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
 
-              const formData = new FormData(this);
-              fetch('../../../server/controller/student/student_post.php', {
-                  method: 'POST',
-                  body: formData
+            const formData = new FormData(this);
+            fetch("../../../server/controller/student/student_post.php", {
+              method: "POST",
+              body: formData,
+            })
+              .then((response) => {
+                if (response.redirected) {
+                  window.location.href = response.url;
+                  return;
+                }
+
+                const contentType = response.headers.get("content-type");
+                if (
+                  contentType &&
+                  contentType.indexOf("application/json") !== -1
+                ) {
+                  return response.json();
+                } else {
+                  return response.text().then((text) => {
+                    throw new Error("Received non-JSON response: " + text);
+                  });
+                }
               })
-              .then(response => {
-                  if (response.redirected) {
-                      window.location.href = response.url;
-                      return;
-                  }
-
-                  const contentType = response.headers.get("content-type");
-                  if (contentType && contentType.indexOf("application/json") !== -1) {
-                      return response.json();
-                  } else {
-                      return response.text().then(text => {
-                          throw new Error('Received non-JSON response: ' + text);
-                      });
-                  }
+              .then((data) => {
+                if (data && data.message) {
+                  alert(data.message);
+                }
               })
-              .then(data => {
-                  if (data && data.message) {
-                      alert(data.message);
-                  }
-              })
-              .catch(error => {
-                  console.error('Error:', error);
-                  alert('An error occurred during registration: ' + error.message);
+              .catch((error) => {
+                console.error("Error:", error);
+                alert(
+                  "An error occurred during registration: " + error.message
+                );
               });
           });
       });
 
-              // Function to populate the dropdown menu
-              function populateGradeDropdown() {
-                  const dropdown = document.getElementById('grade_name');
+      // Function to populate the dropdown menu
+      function populateGradeDropdown() {
+        const dropdown = document.getElementById("grade_name");
 
-                  // Make an AJAX request to the API endpoint
-                  fetch('http://localhost/voting_system/server/controller/grade/grade_get.php')
-                      .then(response => response.json())
-                      .then(data => {
-                          if (data.status === 'success') {
-                              // Clear existing options
-                              dropdown.innerHTML = '';
+        // Make an AJAX request to the API endpoint
+        fetch(
+          "http://localhost/voting_system/server/controller/grade/grade_get.php"
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.status === "success") {
+              // Clear existing options
+              dropdown.innerHTML = "";
 
-                              // Add a default placeholder option
-                              const placeholderOption = document.createElement('option');
-                              placeholderOption.value = '';
-                              placeholderOption.text = 'Select a grade';
-                              dropdown.appendChild(placeholderOption);
+              // Add a default placeholder option
+              const placeholderOption = document.createElement("option");
+              placeholderOption.value = "";
+              placeholderOption.text = "Select a grade";
+              dropdown.appendChild(placeholderOption);
 
-                              // Add new options from the API response
-                              data.grades.forEach(grade => {
-                                  const option = document.createElement('option');
-                                  option.value = grade.grade_id;
-                                  option.text = grade.grade_name;
-                                  dropdown.appendChild(option);
-                              });
-                          } else {
-                              console.error('Failed to retrieve grades:', data.message);
-                          }
-                      })
-                      .catch(error => console.error('Error fetching grades:', error));
-              }
-
-              // Function to handle the guardian checkbox toggle
-              function toggleGuardianField() {
-                  const guardianField = document.getElementById('guardian_field');
-                  const fatherField = document.getElementById('father_name_field');
-                  const guardianCheckbox = document.getElementById('guardian_checkbox');
-
-                  if (guardianCheckbox.checked) {
-                      guardianField.style.display = 'block';
-                      fatherField.style.display = 'none';
-                  } else {
-                      guardianField.style.display = 'none';
-                      fatherField.style.display = 'block';
-                  }
-              }
-
-              // Add event listener to the checkbox for toggling
-              document.getElementById('guardian_checkbox').addEventListener('change', toggleGuardianField);
-
-              // Populate the grade dropdown on page load
-              populateGradeDropdown();
-
-
-              // Listen to form submission to log relevant fields
-              document.querySelector('form').addEventListener('submit', function(event) {
-                  event.preventDefault(); // Prevent the form from submitting immediately
-
-                  const fatherName = document.getElementById('father_name').value;
-                  const guardianName = document.getElementById('guardian').value;
-                  const useGuardian = document.getElementById('guardian_checkbox').checked;
-
-                  console.log('Father\'s Name:', fatherName);
-                  console.log('Use Guardian:', useGuardian);
-
-                  if (useGuardian) {
-                      console.log('Guardian Name:', guardianName);
-                  }
-
-                  // After logging, you can submit the form manually if needed
-                  this.submit();
+              // Add new options from the API response
+              data.grades.forEach((grade) => {
+                const option = document.createElement("option");
+                option.value = grade.grade_id;
+                option.text = grade.grade_name;
+                dropdown.appendChild(option);
               });
-          
+            } else {
+              console.error("Failed to retrieve grades:", data.message);
+            }
+          })
+          .catch((error) => console.error("Error fetching grades:", error));
+      }
+
+      const guardianCheckbox = document.getElementById("guardian_checkbox");
+      const fatherNameInput = document.getElementById("father_name");
+      const parentFields = document.querySelector(".parent-fields");
+      const guardianFields = document.querySelector(".guardian-fields");
+      const guardianInput = document.getElementById("guardian");
+
+      function toggleGuardianField() {
+        if (guardianCheckbox.checked) {
+          // Show guardian field, hide father's name
+          guardianFields.style.display = "flex";
+          fatherNameInput.required = false;
+          guardianInput.required = true;
+
+          // Add animation classes
+          parentFields.classList.add("fade-out");
+          guardianFields.classList.add("fade-in");
+
+          // Clear father's name value
+          fatherNameInput.value = "";
+        } else {
+          // Show father's name, hide guardian
+          guardianFields.style.display = "none";
+          fatherNameInput.required = true;
+          guardianInput.required = false;
+
+          // Remove animation classes
+          parentFields.classList.remove("fade-out");
+          guardianFields.classList.remove("fade-in");
+
+          // Clear guardian value
+          guardianInput.value = "";
+        }
+      }
+
+      // Initialize the form state
+      toggleGuardianField();
+
+      // Add event listener to checkbox
+      guardianCheckbox.addEventListener("change", toggleGuardianField);
+
+      // Add form submission handler to validate fields
+      document
+        .querySelector("form")
+        .addEventListener("submit", function (event) {
+          if (guardianCheckbox.checked && !guardianInput.value) {
+            event.preventDefault();
+            alert("Please enter Guardian Name");
+          } else if (!guardianCheckbox.checked && !fatherNameInput.value) {
+            event.preventDefault();
+            alert("Please enter Father's Name");
+          }
+        });
+
+      // Populate the grade dropdown on page load
+      populateGradeDropdown();
+
+      // Listen to form submission to log relevant fields
+      document
+        .querySelector("form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent the form from submitting immediately
+
+          const fatherName = document.getElementById("father_name").value;
+          const guardianName = document.getElementById("guardian").value;
+          const useGuardian =
+            document.getElementById("guardian_checkbox").checked;
+
+          console.log("Father's Name:", fatherName);
+          console.log("Use Guardian:", useGuardian);
+
+          if (useGuardian) {
+            console.log("Guardian Name:", guardianName);
+          }
+
+          // After logging, you can submit the form manually if needed
+          this.submit();
+        });
     </script>
     <link rel="stylesheet" href="../css/student_register.css" />
   </head>
@@ -228,27 +275,27 @@
           </div>
 
           <!-- Father's Name Field -->
-          <div class="form-row" id="father_name_field">
+          <div class="form-row parent-fields">
             <div class="form-group">
               <label for="father_name">Father's Name with Initial</label>
               <input type="text" id="father_name" name="father_name" />
             </div>
 
-            <!-- Guardian Checkbox and Guardian Field -->
-
-            <div class="form-group">
-              <input
-                type="checkbox"
-                id="guardian_checkbox"
-                name="use_guardian"
-              />
-              <label for="guardian_checkbox"
-                >Use Guardian instead of Father</label
-              >
+            <div class="form-group checkbox-group">
+              <label class="checkbox-wrapper">
+                <input
+                  type="checkbox"
+                  id="guardian_checkbox"
+                  name="use_guardian"
+                />
+                <span class="checkbox-label"
+                  >Use Guardian instead of Father</span
+                >
+              </label>
             </div>
           </div>
 
-          <div class="form-row" id="guardian_field" style="display: none">
+          <div class="form-row guardian-fields" style="display: none">
             <div class="form-group">
               <label for="guardian">Guardian Name</label>
               <input type="text" id="guardian" name="guardian" />
