@@ -16,6 +16,7 @@ if (isset($_SESSION['user_id'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +26,9 @@ if (isset($_SESSION['user_id'])) {
             var toast = document.getElementById("toast");
             toast.textContent = message;
             toast.className = "show";
-            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+            setTimeout(function() {
+                toast.className = toast.className.replace("show", "");
+            }, 3000);
         }
 
         window.onload = function() {
@@ -76,10 +79,48 @@ if (isset($_SESSION['user_id'])) {
                     registerPopup.style.display = 'none';
                 }
             });
+
+            // Get forgot password elements
+            const forgotPasswordLink = document.querySelector('.remember-forgot a');
+            const forgotPasswordPopup = document.getElementById('forgotPasswordPopup');
+            const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+
+            // Add click event to forgot password link
+            forgotPasswordLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                forgotPasswordPopup.style.display = 'flex';
+            });
+
+            // Close forgot password popup when clicking outside
+            forgotPasswordPopup.addEventListener('click', function(event) {
+                if (event.target === forgotPasswordPopup) {
+                    forgotPasswordPopup.style.display = 'none';
+                }
+            });
+
+            // Close button functionality for forgot password popup
+            const forgotPasswordClose = forgotPasswordPopup.querySelector('.popup-close');
+            forgotPasswordClose.addEventListener('click', function() {
+                forgotPasswordPopup.style.display = 'none';
+            });
+
+            // Handle forgot password form submission
+            forgotPasswordForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const email = this.querySelector('input[name="email"]').value;
+
+                // Here you would typically make an API call to handle password reset
+                // For now, we'll just show a success message
+                showToast("Password reset link sent to your email!");
+                forgotPasswordPopup.style.display = 'none';
+                this.reset();
+            });
+
         };
     </script>
     <link rel="stylesheet" href="login.css">
 </head>
+
 <body>
     <header>
         <img src="../client/admin/assets/images/school.png" alt="School Logo">
@@ -124,12 +165,23 @@ if (isset($_SESSION['user_id'])) {
             <h2>Select Registration Type</h2>
             <button id="studentBtn" class="popup-btn">Student</button>
             <button id="teacherBtn" class="popup-btn">Teacher</button>
-            <button id="closePopup" class="popup-close">Close</button>
+            <button id="closePopup" class="popup-close"></button>
         </div>
     </div>
 
     <!-- Toast Notification -->
     <div id="toast"></div>
 
+    <div id="forgotPasswordPopup" class="popup">
+        <div class="popup-content">
+            <button class="popup-close"></button>
+            <h2>Reset Password</h2>
+            <form class="popup-form" id="forgotPasswordForm">
+                <input type="email" name="email" placeholder="Enter your email" required>
+                <button type="submit" class="popup-btn">Reset Password</button>
+            </form>
+        </div>
+    </div>
 </body>
+
 </html>
