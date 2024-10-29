@@ -4,14 +4,17 @@ require '../../db_config.php';
 
 // Check if request method is POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Check if user_id is provided
-    if (empty($_POST['user_id'])) {
-        echo json_encode(["status" => "error", "message" => "Missing user ID"]);
+    // Extract the user_id from the URL
+    $path_info = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+    $user_id = end($path_info);
+
+    // Check if user_id is provided and is numeric
+    if (empty($user_id) || !is_numeric($user_id)) {
+        echo json_encode(["status" => "error", "message" => "Invalid or missing user ID"]);
         exit();
     }
 
     // Retrieve form data
-    $user_id = $_POST['user_id'];
     $user_name = $_POST['user_name'] ?? null;
     $email = $_POST['email'] ?? null;
     $password = $_POST['password'] ?? null;

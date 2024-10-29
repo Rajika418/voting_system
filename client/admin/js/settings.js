@@ -29,9 +29,8 @@ async function changeImage() {
       try {
         const formData = new FormData();
         formData.append("image", file);
-        formData.append("user_id", userId);
 
-        const response = await fetch(`${API_BASE_URL}/user_update.php`, {
+        const response = await fetch(`${API_BASE_URL}/user_update.php/${userId}`, {
           method: "POST",
           body: formData,
         });
@@ -60,19 +59,14 @@ async function changeImage() {
 // Function to delete profile image
 async function deleteImage() {
   try {
-    const formData = new FormData();
-    formData.append("user_id", userId);
-
-    const response = await fetch(`${API_BASE_URL}/delete_image.php`, {
-      method: "POST",
-      body: formData,
+    const response = await fetch(`${API_BASE_URL}/delete_image.php/${userId}`, {
+      method: "DELETE",
     });
-
     const data = await response.json();
 
     if (data.status === "success") {
       document.getElementById("profileImage").src =
-        "http://localhost/voting_system/uploads/default-avatar.png;'";
+        "http://localhost/voting_system/uploads/default-avatar.png";
       showSuccess("Profile image removed successfully!");
     } else {
       showSuccess(data.message || "Failed to delete image");
@@ -86,13 +80,10 @@ async function deleteImage() {
 async function updateProfile() {
   try {
     const formData = new FormData();
-    formData.append("user_id", userId);
     formData.append("user_name", document.getElementById("fullName").value);
     formData.append("email", document.getElementById("email").value);
-    formData.append("phone", document.getElementById("phone").value);
-    formData.append("location", document.getElementById("location").value);
 
-    const response = await fetch(`${API_BASE_URL}/user_update.php`, {
+    const response = await fetch(`${API_BASE_URL}/user_update.php/${userId}`, {
       method: "POST",
       body: formData,
     });
@@ -143,11 +134,10 @@ async function changePassword() {
 
   try {
     const formData = new FormData();
-    formData.append("user_id", userId);
     formData.append("current_password", currentPassword);
     formData.append("new_password", newPassword);
 
-    const response = await fetch(`${API_BASE_URL}/user_update.php`, {
+    const response = await fetch(`${API_BASE_URL}/change_password.php/${userId}`, {
       method: "POST",
       body: formData,
     });
@@ -169,7 +159,7 @@ async function changePassword() {
 async function getUserDetails() {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/user_get.php/user_id=${userId}`
+      `${API_BASE_URL}/user_get.php/${userId}`
     );
     const data = await response.json();
 
@@ -178,7 +168,7 @@ async function getUserDetails() {
       document.getElementById("fullName").value = data.data.user_name;
       document.getElementById("email").value = data.data.email;
       document.getElementById("profileImage").src =
-        data.data.image || "http://localhost/voting_system/uploads/default-avatar.png;'";
+        data.data.image || "http://localhost/voting_system/uploads/default-avatar.png";
       document.getElementById("userName").textContent = data.data.user_name;
       document.getElementById("userEmail").textContent = data.data.email;
     } else {

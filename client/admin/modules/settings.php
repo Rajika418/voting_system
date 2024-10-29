@@ -22,7 +22,7 @@
 
             <form id="profileForm">
                 <div class="form-group">
-                    <label class="form-label" for="fullName">Full Name</label>
+                    <label class="form-label" for="fullName">User Name</label>
                     <input type="text" id="fullName" class="form-input" value="John Doe">
                 </div>
 
