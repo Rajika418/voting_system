@@ -35,7 +35,7 @@
             document.querySelector('form').addEventListener('submit', function (event) {
                 event.preventDefault();
                 const formData = new FormData(this);
-                fetch('../../../server/controller/teacher/', {
+                fetch('../../../server/controller/teacher/teacher_post.php', {
                     method: 'POST',
                     body: formData
                 })

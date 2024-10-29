@@ -65,12 +65,12 @@ if (isset($_SESSION['user_id'])) {
 
             // Redirect to the student registration page
             studentBtn.addEventListener('click', function() {
-                window.location.href = 'http://localhost/voting_system/client/userUI/student/register.html'; // Replace with your student registration URL
+                window.location.href = 'http://localhost/voting_system/client/user/pages/student_register.html'; // Replace with your student registration URL
             });
 
             // Redirect to the teacher registration page
             teacherBtn.addEventListener('click', function() {
-                window.location.href = 'http://localhost/voting_system/client/userUI/teacher/register.html'; // Replace with your teacher registration URL
+                window.location.href = 'http://localhost/voting_system/client/user/pages/teacher_register.html'; // Replace with your teacher registration URL
             });
 
             // Close the popup if clicked outside the content
@@ -162,10 +162,12 @@ if (isset($_SESSION['user_id'])) {
     <!-- Popup HTML -->
     <div id="registerPopup" class="popup" style="display: none;">
         <div class="popup-content">
+            <button class="popup-close" id="closePopup"></button>
             <h2>Select Registration Type</h2>
-            <button id="studentBtn" class="popup-btn">Student</button>
-            <button id="teacherBtn" class="popup-btn">Teacher</button>
-            <button id="closePopup" class="popup-close"></button>
+            <div class="btns">
+                <button id="studentBtn" class="popup-btn">Student</button>
+                <button id="teacherBtn" class="popup-btn">Teacher</button>
+            </div>
         </div>
     </div>
 

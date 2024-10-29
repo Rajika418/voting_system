@@ -1,4 +1,4 @@
-<?php 
+<?php
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Origin: *');
@@ -116,13 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Commit the transaction
         $conn->commit();
-
-        echo json_encode([
-            "status" => "success",
-            "message" => "Student registration successful",
-            "received_data" => $received_data
-        ]);
-        // header("Location: ../../../client/index.php?registration=success");
+        header("Location: ../../../client/index.php?registration=success");
     } catch (Exception $e) {
         // Rollback the transaction in case of error
         $conn->rollBack();
@@ -133,4 +127,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
     }
 }
-?>

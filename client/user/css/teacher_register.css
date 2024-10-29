@@ -110,6 +110,39 @@ form {
     background-color: #218838;
 }
 
+/* Style the select dropdown */
+#subject {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 16px;
+    appearance: none; /* Removes default browser styling */
+    cursor: pointer;
+}
+
+/* Style individual options */
+#subject option {
+    padding: 8px;
+    background-color: #fff;
+    color: #333;
+}
+
+/* Style hover effect on options in supported browsers */
+#subject option:hover {
+    background-color: #e6e6e6;
+}
+
+/* Optionally, add focus style to the select dropdown */
+#subject:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
 /* Responsive Design for Smaller Screens */
 @media screen and (max-width: 768px) {
     .form-row {

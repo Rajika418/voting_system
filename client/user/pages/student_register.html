@@ -1,190 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Registration</title>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Function to populate the dropdown menu
-        function populateGradeDropdown() {
-            const dropdown = document.getElementById('grade_name');
-            
-            // Make an AJAX request to the API endpoint
-            fetch('http://localhost/voting_system/server/controller/grade/grade_get.php?action=read')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        // Clear existing options
-                        dropdown.innerHTML = '';
-                        
-                        // Add a default placeholder option
-                        const placeholderOption = document.createElement('option');
-                        placeholderOption.value = '';
-                        placeholderOption.text = 'Select a grade';
-                        dropdown.appendChild(placeholderOption);
+      document.addEventListener('DOMContentLoaded', function() {
+          // Function to populate the grade dropdown as before
+          function populateGradeDropdown() {
+              const dropdown = document.getElementById('grade_name');
 
-                        // Add new options from the API response
-                        data.grades.forEach(grade => {
-                            const option = document.createElement('option');
-                            option.value = grade.grade_id;
-                            option.text = grade.grade_name;
-                            dropdown.appendChild(option);
-                        });
-                    } else {
-                        console.error('Failed to retrieve grades:', data.message);
-                    }
-                })
-                .catch(error => console.error('Error fetching grades:', error));
-        }
+              fetch('http://localhost/voting_system/server/controller/grade/grade_get.php')
+                  .then(response => response.json())
+                  .then(data => {
+                      if (data.status === 'success') {
+                          dropdown.innerHTML = '';
+                          const placeholderOption = document.createElement('option');
+                          placeholderOption.value = '';
+                          placeholderOption.text = 'Select a grade';
+                          dropdown.appendChild(placeholderOption);
 
-        // Function to handle the guardian checkbox toggle
-        function toggleGuardianField() {
-            const guardianField = document.getElementById('guardian_field');
-            const fatherField = document.getElementById('father_name_field');
-            const guardianCheckbox = document.getElementById('guardian_checkbox');
+                          data.grades.forEach(grade => {
+                              const option = document.createElement('option');
+                              option.value = grade.grade_id;
+                              option.text = grade.grade_name;
+                              dropdown.appendChild(option);
+                          });
+                      } else {
+                          console.error('Failed to retrieve grades:', data.message);
+                      }
+                  })
+                  .catch(error => console.error('Error fetching grades:', error));
+          }
 
-            if (guardianCheckbox.checked) {
-                guardianField.style.display = 'block';
-                fatherField.style.display = 'none';
-            } else {
-                guardianField.style.display = 'none';
-                fatherField.style.display = 'block';
-            }
-        }
+          populateGradeDropdown();
 
-        // Add event listener to the checkbox for toggling
-        document.getElementById('guardian_checkbox').addEventListener('change', toggleGuardianField);
+          // Handle form submission
+          document.querySelector('form').addEventListener('submit', function(event) {
+              event.preventDefault(); // Prevent default form submission
 
-        // Populate the grade dropdown on page load
-        populateGradeDropdown();
+              const formData = new FormData(this);
+              fetch('../../../server/controller/student/student_post.php', {
+                  method: 'POST',
+                  body: formData
+              })
+              .then(response => {
+                  if (response.redirected) {
+                      window.location.href = response.url;
+                      return;
+                  }
+
+                  const contentType = response.headers.get("content-type");
+                  if (contentType && contentType.indexOf("application/json") !== -1) {
+                      return response.json();
+                  } else {
+                      return response.text().then(text => {
+                          throw new Error('Received non-JSON response: ' + text);
+                      });
+                  }
+              })
+              .then(data => {
+                  if (data && data.message) {
+                      alert(data.message);
+                  }
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+                  alert('An error occurred during registration: ' + error.message);
+              });
+          });
+      });
+
+              // Function to populate the dropdown menu
+              function populateGradeDropdown() {
+                  const dropdown = document.getElementById('grade_name');
+
+                  // Make an AJAX request to the API endpoint
+                  fetch('http://localhost/voting_system/server/controller/grade/grade_get.php')
+                      .then(response => response.json())
+                      .then(data => {
+                          if (data.status === 'success') {
+                              // Clear existing options
+                              dropdown.innerHTML = '';
+
+                              // Add a default placeholder option
+                              const placeholderOption = document.createElement('option');
+                              placeholderOption.value = '';
+                              placeholderOption.text = 'Select a grade';
+                              dropdown.appendChild(placeholderOption);
+
+                              // Add new options from the API response
+                              data.grades.forEach(grade => {
+                                  const option = document.createElement('option');
+                                  option.value = grade.grade_id;
+                                  option.text = grade.grade_name;
+                                  dropdown.appendChild(option);
+                              });
+                          } else {
+                              console.error('Failed to retrieve grades:', data.message);
+                          }
+                      })
+                      .catch(error => console.error('Error fetching grades:', error));
+              }
+
+              // Function to handle the guardian checkbox toggle
+              function toggleGuardianField() {
+                  const guardianField = document.getElementById('guardian_field');
+                  const fatherField = document.getElementById('father_name_field');
+                  const guardianCheckbox = document.getElementById('guardian_checkbox');
+
+                  if (guardianCheckbox.checked) {
+                      guardianField.style.display = 'block';
+                      fatherField.style.display = 'none';
+                  } else {
+                      guardianField.style.display = 'none';
+                      fatherField.style.display = 'block';
+                  }
+              }
+
+              // Add event listener to the checkbox for toggling
+              document.getElementById('guardian_checkbox').addEventListener('change', toggleGuardianField);
+
+              // Populate the grade dropdown on page load
+              populateGradeDropdown();
 
 
-        // Listen to form submission to log relevant fields
-        document.querySelector('form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting immediately
+              // Listen to form submission to log relevant fields
+              document.querySelector('form').addEventListener('submit', function(event) {
+                  event.preventDefault(); // Prevent the form from submitting immediately
 
-            const fatherName = document.getElementById('father_name').value;
-            const guardianName = document.getElementById('guardian').value;
-            const useGuardian = document.getElementById('guardian_checkbox').checked;
+                  const fatherName = document.getElementById('father_name').value;
+                  const guardianName = document.getElementById('guardian').value;
+                  const useGuardian = document.getElementById('guardian_checkbox').checked;
 
-            console.log('Father\'s Name:', fatherName);
-            console.log('Use Guardian:', useGuardian);
+                  console.log('Father\'s Name:', fatherName);
+                  console.log('Use Guardian:', useGuardian);
 
-            if (useGuardian) {
-                console.log('Guardian Name:', guardianName);
-            }
+                  if (useGuardian) {
+                      console.log('Guardian Name:', guardianName);
+                  }
 
-            // After logging, you can submit the form manually if needed
-            this.submit();
-        });
-    });
+                  // After logging, you can submit the form manually if needed
+                  this.submit();
+              });
+          
     </script>
-    <link rel="stylesheet" href="../css/student_register.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/student_register.css" />
+  </head>
+  <body>
     <header>
-        <img src="../../admin/assets/images/school.png" alt="School Logo">
-        <h2>Kalaimahal TMV.Hopton</h2>
-        <h1>School Management System</h1>
+      <img src="../../admin/assets/images/school.png" alt="School Logo" />
+      <h2>Kalaimahal TMV.Hopton</h2>
+      <h1>School Management System</h1>
     </header>
 
-
     <div class="container">
-        <div class="form-wrapper">
-            <h1>Student Registration</h1>
-            <form action="../../../server/controller/student/student_post.php" method="POST" enctype="multipart/form-data">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="student_name">Student Name</label>
-                        <input type="text" id="student_name" name="student_name" required>
-                    </div>
+      <div class="form-wrapper">
+        <h1>Student Registration</h1>
+        <form
+          action="../../../server/controller/student/student_post.php"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <div class="form-row">
+            <div class="form-group">
+              <label for="student_name">Student Name</label>
+              <input
+                type="text"
+                id="student_name"
+                name="student_name"
+                required
+              />
+            </div>
 
-                    <div class="form-group">
-                        <label for="user_name">Username</label>
-                        <input type="text" id="user_name" name="user_name" required>
-                    </div>
-                </div>
+            <div class="form-group">
+              <label for="user_name">Username</label>
+              <input type="text" id="user_name" name="user_name" required />
+            </div>
+          </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="address">Address</label>
-                        <input type="text" id="address" name="address" required>
-                    </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="address">Address</label>
+              <input type="text" id="address" name="address" required />
+            </div>
 
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-                </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required />
+            </div>
+          </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="contact_number">Contact Number</label>
-                        <input type="tel" id="contact_number" name="contact_number" required>
-                    </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="contact_number">Contact Number</label>
+              <input
+                type="tel"
+                id="contact_number"
+                name="contact_number"
+                required
+              />
+            </div>
 
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required />
+            </div>
+          </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="registration_number">Registration Number</label>
-                        <input type="text" id="registration_number" name="registration_number" required>
-                    </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="registration_number">Registration Number</label>
+              <input
+                type="text"
+                id="registration_number"
+                name="registration_number"
+                required
+              />
+            </div>
 
-                    <div class="form-group">
-                        <label for="grade_name">Grade Name (if applicable):</label>
-                        <select id="grade_name" name="grade_id">
-                            <!-- Options will be populated here -->
-                        </select>
-                    </div>
-                </div>
+            <div class="form-group">
+              <label for="grade_name">Grade Name (if applicable):</label>
+              <select id="grade_name" name="grade_id">
+                <!-- Options will be populated here -->
+              </select>
+            </div>
+          </div>
 
-                <!-- Father's Name Field -->
-                <div class="form-row" id="father_name_field">
-                    <div class="form-group">
-                        <label for="father_name">Father's Name with Initial</label>
-                        <input type="text" id="father_name" name="father_name">
-                    </div>
-                
+          <!-- Father's Name Field -->
+          <div class="form-row" id="father_name_field">
+            <div class="form-group">
+              <label for="father_name">Father's Name with Initial</label>
+              <input type="text" id="father_name" name="father_name" />
+            </div>
 
-                <!-- Guardian Checkbox and Guardian Field -->
-                
-                    <div class="form-group">
-                        <input type="checkbox" id="guardian_checkbox" name="use_guardian">
-                        <label for="guardian_checkbox">Use Guardian instead of Father</label>
-                    </div>
-                </div>
+            <!-- Guardian Checkbox and Guardian Field -->
 
-                <div class="form-row" id="guardian_field" style="display: none;">
-                    <div class="form-group">
-                        <label for="guardian">Guardian Name</label>
-                        <input type="text" id="guardian" name="guardian">
-                    </div>   
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                    <label for="join_date">Join Date</label>
-                    <input type="date" id="join_date" name="join_date" required>
-                
-                </div>
-               
-                    <div class="form-group">
-                        <label for="image">Upload Image (optional)</label>
-                        <input type="file" id="image" name="image" accept="image/*">
-                    </div>
-                </div>
-               
-                <div class="form-group-submit">
-                    <button type="submit">Register</button>
-                </div>
-            </form>
-        </div>
+            <div class="form-group">
+              <input
+                type="checkbox"
+                id="guardian_checkbox"
+                name="use_guardian"
+              />
+              <label for="guardian_checkbox"
+                >Use Guardian instead of Father</label
+              >
+            </div>
+          </div>
+
+          <div class="form-row" id="guardian_field" style="display: none">
+            <div class="form-group">
+              <label for="guardian">Guardian Name</label>
+              <input type="text" id="guardian" name="guardian" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="join_date">Join Date</label>
+              <input type="date" id="join_date" name="join_date" required />
+            </div>
+
+            <div class="form-group">
+              <label for="image">Upload Image (optional)</label>
+              <input type="file" id="image" name="image" accept="image/*" />
+            </div>
+          </div>
+
+          <div class="form-group-submit">
+            <button type="submit">Register</button>
+          </div>
+        </form>
+      </div>
     </div>
-</body>
+  </body>
 </html>
