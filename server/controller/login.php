@@ -20,8 +20,10 @@ try {
 
         // Check if user exists and password is correct
         if ($user && password_verify($user_password, $user['password'])) {
-            // Password matches; store user ID in session and set login success
-            $_SESSION['user_id'] = $user['id'];
+            // Password matches; store user details in session
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['user_name'] = $user['user_name'];
+            $_SESSION['role_id'] = $user['role_id'];
             $_SESSION['login_success'] = true;
 
             // Determine redirection based on role_id
@@ -33,17 +35,18 @@ try {
             exit();
         } else {
             // Invalid credentials; redirect with error message
-            header("Location: ../../client/login.html?error=invalid");
+            header("Location: ../../client/index.php?error=invalid");
             exit();
         }
     } else {
         // Invalid request method; redirect with error
-        header("Location: ../../client/login.html?error=method");
+        header("Location: ../../client/index.php?error=method");
         exit();
     }
 } catch (PDOException $e) {
     // Log database errors
     error_log("Database error: " . $e->getMessage(), 3, '../log/error_log.log');
-    header("Location: ../../client/login.html?error=database");
+    header("Location: ../../client/index.php?error=database");
     exit();
 }
+?>

@@ -1,3 +1,19 @@
+<?php
+session_start();
+
+// Check if the user is already logged in
+if (isset($_SESSION['user_id'])) {
+    // Check the user's role to determine the redirection
+    if ($_SESSION['role_id'] == "1") {
+        header("Location: http://localhost/voting_system/client/admin/");
+        exit();
+    } else {
+        header("Location: http://localhost/voting_system/client/user/");
+        exit();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

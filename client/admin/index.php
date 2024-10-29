@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+// Check if the user is not logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to the login page
+    header("Location: http://localhost/voting_system/client/");
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,34 +19,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
     <?php
+    // Default to 'dashboard' if no page parameter is set
+    $page = $_GET['page'] ?? 'dashboard';
+
     // Dynamic CSS inclusion based on the page
-    if (isset($_GET['page'])) {
-        $page = $_GET['page'];
-        switch ($page) {
-            case 'dashboard':
-                echo '<link rel="stylesheet" href="./assets/css/dashboard.css" />';
-                break;
-            case 'teachers':
-                echo '<link rel="stylesheet" href="./assets/css/teacherlist.css" />';
-                break;
-            case 'students':
-                echo '<link rel="stylesheet" href="./assets/css/studentlist.css" />';
-                break;
-            case 'election':
-                echo '<link rel="stylesheet" href="./assets/css/election.css" />';
-                break;
-            case 'result':
-                echo '<link rel="stylesheet" href="./assets/css/result.css" />';
-                break;
-            case 'settings':
-                echo '<link rel="stylesheet" href="./assets/css/settings.css" />';
-                break;
-            default:
-                echo '<link rel="stylesheet" href="./assets/css/style.css" />';
-                break;
-        }
-    } else {
-        echo '<link rel="stylesheet" href="./assets/css/style.css" />';
+    switch ($page) {
+        case 'dashboard':
+            echo '<link rel="stylesheet" href="./assets/css/dashboard.css" />';
+            break;
+        case 'teachers':
+            echo '<link rel="stylesheet" href="./assets/css/teacherlist.css" />';
+            break;
+        case 'students':
+            echo '<link rel="stylesheet" href="./assets/css/studentlist.css" />';
+            break;
+        case 'election':
+            echo '<link rel="stylesheet" href="./assets/css/election.css" />';
+            break;
+        case 'result':
+            echo '<link rel="stylesheet" href="./assets/css/result.css" />';
+            break;
+        case 'settings':
+            echo '<link rel="stylesheet" href="./assets/css/settings.css" />';
+            break;
+        default:
+            echo '<link rel="stylesheet" href="./assets/css/dashboard.css" />';
+            break;
     }
     ?>
 </head>
@@ -77,37 +86,37 @@
         <div class="nav-section">
             <ul class="nav-items">
                 <li class="nav-item">
-                    <a href="?page=dashboard" class="nav-link active">
+                    <a href="?page=dashboard" class="nav-link <?= $page === 'dashboard' ? 'active' : '' ?>">
                         <i class="fas fa-home-alt"></i>
                         <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="?page=teachers" class="nav-link">
+                    <a href="?page=teachers" class="nav-link <?= $page === 'teachers' ? 'active' : '' ?>">
                         <i class="fas fa-chalkboard-teacher"></i>
                         <span class="nav-text">Teachers</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="?page=students" class="nav-link">
+                    <a href="?page=students" class="nav-link <?= $page === 'students' ? 'active' : '' ?>">
                         <i class="fas fa-user-graduate"></i>
                         <span class="nav-text">Students</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="?page=election" class="nav-link">
+                    <a href="?page=election" class="nav-link <?= $page === 'election' ? 'active' : '' ?>">
                         <i class="fas fa-vote-yea"></i>
                         <span class="nav-text">Election</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="?page=result" class="nav-link">
+                    <a href="?page=result" class="nav-link <?= $page === 'result' ? 'active' : '' ?>">
                         <i class="fas fa-clipboard-list"></i>
                         <span class="nav-text">Result</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="?page=settings" class="nav-link">
+                    <a href="?page=settings" class="nav-link <?= $page === 'settings' ? 'active' : '' ?>">
                         <i class="fas fa-cog"></i>
                         <span class="nav-text">Settings</span>
                     </a>
@@ -119,33 +128,29 @@
     <!-- Main Content -->
     <main class="main-content" id="mainContent">
         <?php
-        if (isset($_GET['page'])) {
-            $page = $_GET['page'];
-            switch ($page) {
-                case 'dashboard':
-                    include 'dashboard.php';
-                    break;
-                case 'teachers':
-                    include './modules/teachers.php';
-                    break;
-                case 'students':
-                    include './modules/students.php';
-                    break;
-                case 'election':
-                    include './modules/election.php';
-                    break;
-                case 'result':
-                    include './modules/results.php';
-                    break;
-                case 'settings':
-                    include './modules/settings.php';
-                    break;
-                default:
-                    echo "<p>Page not found.</p>";
-                    break;
-            }
-        } else {
-            include 'dashboard.php';
+        // Dynamic PHP inclusion based on the page
+        switch ($page) {
+            case 'dashboard':
+                include 'dashboard.php';
+                break;
+            case 'teachers':
+                include './modules/teachers.php';
+                break;
+            case 'students':
+                include './modules/students.php';
+                break;
+            case 'election':
+                include './modules/election.php';
+                break;
+            case 'result':
+                include './modules/results.php';
+                break;
+            case 'settings':
+                include './modules/settings.php';
+                break;
+            default:
+                echo "<p>Page not found.</p>";
+                break;
         }
         ?>
     </main>
@@ -166,6 +171,7 @@
     <script src="./js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
     <?php
+    // Dynamic JavaScript inclusion based on the page
     switch ($page) {
         case 'dashboard':
             echo '<script src="./js/dashboard.js"></script>';
@@ -175,7 +181,7 @@
             echo '<script src="./js/classAssignPopup.js"></script>';
             break;
         case 'students':
-            echo '<script src="./js/studentlist.js" ></script>';
+            echo '<script src="./js/studentlist.js"></script>';
             break;
         case 'election':
             echo '<script src="./js/election.js" defer></script>';
@@ -188,6 +194,9 @@
             break;
         case 'settings':
             echo '<script src="./js/settings.js"></script>';
+            break;
+        default:
+            echo '<script src="./js/dashboard.js"></script>';
             break;
     }
     ?>
