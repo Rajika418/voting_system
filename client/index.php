@@ -5,10 +5,10 @@ session_start();
 if (isset($_SESSION['user_id'])) {
     // Check the user's role to determine the redirection
     if ($_SESSION['role_id'] == "1") {
-        header("Location: http://localhost/voting_system/client/admin/");
+        header("Location: http://localhost/voting_system/client/admin/admin.php");
         exit();
     } else {
-        header("Location: http://localhost/voting_system/client/user/");
+        header("Location: http://localhost/voting_system/client/user/home.php");
         exit();
     }
 }
