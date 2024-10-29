@@ -28,9 +28,9 @@ try {
 
             // Determine redirection based on role_id
             if ($user['role_id'] == "1") {
-                header("Location: http://localhost/voting_system/client/admin/");
+                header("Location: http://localhost/voting_system/client/admin/admin.php");
             } else {
-                header("Location: http://localhost/voting_system/client/user/");
+                header("Location: http://localhost/voting_system/client/user/home.php");
             }
             exit();
         } else {
