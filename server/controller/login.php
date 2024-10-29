@@ -10,8 +10,13 @@ try {
         $user_name = $_POST['user_name'];
         $user_password = $_POST['password'];
 
-        // Prepare and execute the SQL statement to fetch user by username
-        $stmt = $conn->prepare("SELECT * FROM users WHERE user_name = :user_name");
+        // Prepare and execute the SQL statement to fetch user by username with role_name
+        $stmt = $conn->prepare("
+            SELECT users.*, roles.role_name 
+            FROM users 
+            JOIN roles ON users.role_id = roles.role_id 
+            WHERE users.user_name = :user_name
+        ");
         $stmt->bindParam(':user_name', $user_name);
         $stmt->execute();
 
@@ -23,7 +28,9 @@ try {
             // Password matches; store user details in session
             $_SESSION['user_id'] = $user['user_id'];
             $_SESSION['user_name'] = $user['user_name'];
+            $_SESSION['image'] = $user['image'];
             $_SESSION['role_id'] = $user['role_id'];
+            $_SESSION['role_name'] = $user['role_name'];
             $_SESSION['login_success'] = true;
 
             // Determine redirection based on role_id

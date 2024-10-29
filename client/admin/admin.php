@@ -7,6 +7,10 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: http://localhost/voting_system/client/");
     exit();
 }
+
+$userName = $_SESSION['user_name'] ?? 'User';
+$roleName = $_SESSION['role_name'] ?? 'Role';
+$imageUrl = $_SESSION['image'] ?? 'Profile';
 ?>
 
 <!DOCTYPE html>
@@ -65,10 +69,10 @@ if (!isset($_SESSION['user_id'])) {
         <div class="header-right">
             <div class="header-actions">
                 <a href="?page=settings" class="user-profile">
-                    <div class="user-avatar">AD</div>
+                    <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="User Avatar" class="user-avatar" onerror="this.onerror=null; this.src='http://localhost/voting_system/uploads/default-avatar.png;'" />
                     <div class="user-info">
-                        <h4>Raji</h4>
-                        <p>Administrator</p>
+                        <h4><?php echo htmlspecialchars($userName); ?></h4>
+                        <p><?php echo htmlspecialchars($roleName); ?></p>
                     </div>
                 </a>
                 <!-- Logout icon -->

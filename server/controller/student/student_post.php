@@ -43,18 +43,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $grade_id = $_POST['grade_id'] ?? null; // Optional grade ID
 
     // Determine whether to use father_name or guardian based on the checkbox
-// Determine which one is provided: guardian or father_name
-$guardian = isset($_POST['guardian']) && !empty($_POST['guardian']) ? $_POST['guardian'] : null;
-$father_name = isset($_POST['father_name']) && !empty($_POST['father_name']) ? $_POST['father_name'] : null;
+    $guardian = isset($_POST['guardian']) && !empty($_POST['guardian']) ? $_POST['guardian'] : null;
+    $father_name = isset($_POST['father_name']) && !empty($_POST['father_name']) ? $_POST['father_name'] : null;
 
-// Ensure at least one of them is provided
-if (empty($guardian) && empty($father_name)) {
-    echo json_encode([
-        "status" => "error",
-        "message" => "Either father name or guardian must be provided."
-    ]);
-    exit();
-}
+    // Ensure at least one of them is provided
+    if (empty($guardian) && empty($father_name)) {
+        echo json_encode([
+            "status" => "error",
+            "message" => "Either father name or guardian must be provided."
+        ]);
+        exit();
+    }
+
     // Log received data
     $received_data = [
         'student_name' => $student_name,
@@ -63,7 +63,6 @@ if (empty($guardian) && empty($father_name)) {
         'address' => $address,
         'contact_number' => $contact_number,
         'registration_number' => $registration_number,
-       
         'join_date' => $join_date,
         'grade_id' => $grade_id,
         'image' => isset($_FILES['image']) ? 'Provided' : 'Not provided'
@@ -88,6 +87,7 @@ if (empty($guardian) && empty($father_name)) {
         $image_path = $image_dir . $unique_image_name;
 
         if (move_uploaded_file($image_tmp_name, $image_path)) {
+            // Full URL with base URL included
             $image = $base_url . $unique_image_name;
         } else {
             echo json_encode(["message" => "Image upload failed"]);
@@ -102,7 +102,7 @@ if (empty($guardian) && empty($father_name)) {
     $conn->beginTransaction();
 
     try {
-        // Insert user data into the users table
+        // Insert user data into the users table with the image URL
         $stmt_user = $conn->prepare("INSERT INTO users (user_name, password, email, role_id, image) VALUES (?, ?, ?, ?, ?)");
         $role_id = 3; // Fixed role ID for students
         $stmt_user->execute([$user_name, $password, $email, $role_id, $image]);
@@ -123,10 +123,6 @@ if (empty($guardian) && empty($father_name)) {
             "received_data" => $received_data
         ]);
 
-        // Redirect to login page after success
-       header("Location: ../../../client/login.html");
-        exit();
-        
     } catch (Exception $e) {
         // Rollback the transaction in case of error
         $conn->rollBack();
