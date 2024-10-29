@@ -25,6 +25,7 @@ $currentPage = $_GET['page'] ?? 'home';
     <title>User Home - Kalaimahal School Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/election.css" />
 </head>
 
 <body>
@@ -102,32 +103,67 @@ $currentPage = $_GET['page'] ?? 'home';
                         </div>
                     </div>
                 </div>
-            <?php
+                <?php
                 break;
 
             case 'elections':
-            ?>
-                <div class="elections-content">
-                    <h1>Elections</h1>
-                    <div class="elections-list">
-                        <!-- Add your elections listing logic here -->
-                        <div class="election-card">
-                            <h3>Current Elections</h3>
-                            <p>View and participate in ongoing elections</p>
-                            <!-- Add election items dynamically -->
+                // Check if there's a sub-page parameter
+                $electionPage = $_GET['view'] ?? 'list';
+
+                switch ($electionPage) {
+                    case 'current':
+                        // Include the election detail page we created
+                        include 'pages/election.php';
+                        break;
+
+                    default:
+                        // Show the elections listing page
+                ?>
+                        <div class="elections-content">
+                            <h1>Elections</h1>
+                            <div class="elections-list">
+                                <div class="election-card clickable" onclick="window.location.href='?page=elections&view=current'">
+                                    <div class="card-header">
+                                        <i class="fas fa-vote-yea"></i>
+                                        <h3>Current Elections</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>View and participate in ongoing elections</p>
+                                        <div class="election-info">
+                                            <span class="status active">Active</span>
+                                            <span class="deadline">Ends in: 3 days</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn-primary">Participate Now</button>
+                                    </div>
+                                </div>
+
+                                <div class="election-card">
+                                    <div class="card-header">
+                                        <i class="fas fa-calendar"></i>
+                                        <h3>Upcoming Elections</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>See what elections are scheduled</p>
+                                        <div class="election-info">
+                                            <span class="status upcoming">Starting Soon</span>
+                                            <span class="deadline">Starts in: 5 days</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn-secondary" disabled>Coming Soon</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="election-card">
-                            <h3>Upcoming Elections</h3>
-                            <p>See what elections are scheduled</p>
-                            <!-- Add upcoming election items dynamically -->
-                        </div>
-                    </div>
-                </div>
-            <?php
+                <?php
+                        break;
+                }
                 break;
 
             case 'contact':
-            ?>
+                ?>
                 <div class="contact-content">
                     <h1>Contact Us</h1>
                     <div class="contact-form">
@@ -188,6 +224,7 @@ $currentPage = $_GET['page'] ?? 'home';
 
     <!-- JavaScript -->
     <script src="./js/script.js"></script>
+    <script src="./js/election.js"></script>
 </body>
 
 </html>
