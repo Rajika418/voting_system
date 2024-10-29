@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Oct 16, 2024 at 05:27 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: 127.0.0.1:3307
+-- Generation Time: Oct 29, 2024 at 02:12 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -395,7 +395,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `role_id` int(11) DEFAULT NULL,
-  `image` blob DEFAULT NULL
+  `image` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -403,24 +403,23 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `password`, `email`, `role_id`, `image`) VALUES
-(8, 'Raji', '$2y$10$XKq5YFuVV7R4GEE/vk3gzOu.COhi2/I7oAtja7KP7A29QLuN6RZuS', 'raji@example.com', NULL, NULL),
-(9, 'Admin', '$2y$10$LwHrf7BZXG9Y0fhQMGKMWeH2JH7jw2vV5OnMCaMEcPLPqiHe4IBDm', 'admin@example.com', 1, NULL),
-(10, 'teacher', '$2y$10$HfD9i9ysA2XjTvfqp0YwEOAQXHH3pe/Wh6kXSFUlTGOlNtrZ5hVrO', 'teacher@example.com', 2, NULL),
-(11, 'student', '$2y$10$RgS2NmBonL.cXJ1ly/wmkOLTrx1VfViQXNKkqxhhmDGy2RTJIFC4K', 'student@example.com', 3, NULL),
-(12, 'anusha', '$2y$10$76dHSMUt/7cNnYVtgQF53uh7krWDKi9hSXaX1U7ipLlR.5CcWZEbe', 'anusha@example.com', 2, NULL),
-(13, 'pre', '$2y$10$3HiPsuOkwT5485KN3F53fezwNjGBq6jpCzVnjSECGdwihceJ1gGsW', 'pre@example.com', 2, NULL),
-(36, 'divishi', '$2y$10$ziveYIAu8LKYitlT6ddtcuIGndjdKIaFbc5A286wbgcaWfPy8zf3W', 'divishi@example.com', 2, NULL),
-(37, 'nimi', '$2y$10$ZKqjHE6JPm03kWq4vw8IWeRjunokICUdemUADNNXwZYOB/2lmChhu', 'nimi@example.com', 2, NULL),
-(38, 'nimi', '$2y$10$T72pfhoRTz6zT9LxJs1NuewgkYUKYrnZEMKMMffswf6Oa.M3haEUO', 'nimi@example.com', 2, NULL),
-(39, 'nimi', '$2y$10$CWfnu9gGhQ1TcvfwYWz.H.dOpcjl/dubRmSLPOTL6/3/n3POXKNpu', 'nimi@example.com', 2, NULL),
-(40, 'nimi', '$2y$10$xCLwTnfqQPieXUwtTZ7RCO4ny2sba4FJYLu2G/JMi/XiBb0XR3/Hi', 'nimi@example.com', 2, NULL),
-(41, 'nimi', '$2y$10$tUjJDQreur2nSd0EGlKFUukEUJgCZ8OYEvdjX1.I4U3Ndh9w77N1O', 'nimi@example.com', 2, NULL),
-(42, 'nimi', '$2y$10$xyth5JnySE9.PXu9W3BuieYoZuQIOGy./xDd5a5w.jjzEEd6aOR9m', 'nimi@example.com', 2, NULL),
-(51, '', '$2y$10$DTmIbTpKnVoCOScNOYj8AuPOGdZKVQmIQgsjdjyB3Kvu10lihsDkS', '', 3, NULL),
-(62, 'niviya', '$2y$10$CFnsSZiB/2R98daJpIgprOQbqcc9jurTAx6chvklOpZuBuN3itX6m', 'nivi@example.com', 3, 0x687474703a2f2f6c6f63616c686f73742f766f74696e675f73797374656d2f75706c6f6164732f363666643733353939653565325f494d475f3036323220636f70792e6a7067),
-(63, 'kamal', '$2y$10$fnEdCmoRU8Z7OIAr3g30vO4koLsKGjA4.L5NKW/GIZgr7ZptXJolK', 'kamal@example.com', 3, 0x687474703a2f2f6c6f63616c686f73742f766f74696e675f73797374656d2f75706c6f6164732f363666643733636632656439615f4d4a484d303937312e4a5047),
-(64, 'mary', '$2y$10$//cSAYv4by27m/ECuhTZz.cB/AlV.GLTpqfMH5u6O55lzYZsxdW1q', 'mary@example.com', 3, 0x687474703a2f2f6c6f63616c686f73742f766f74696e675f73797374656d2f75706c6f6164732f363666643734623637633034315f4443544c393635382e4a5047),
-(65, 'dhurai', '$2y$10$aLQ6PT.UtcfOsYNaHRnUJ.6hSFD80acTK4B0w4zseqEj4bLeCI.zu', 'dhurai@example.com', 3, 0x687474703a2f2f6c6f63616c686f73742f766f74696e675f73797374656d2f75706c6f6164732f363666643735316264623937365f4443544c393635382e4a5047);
+(8, 'Raji', '$2y$10$gRWFH5I5GMz3PI37jRHJj.q/yZaJdNMORXcL5Ij0lrfuRq9HKb6ym', 'raji@example.com', 2, 'http://localhost/voting_system/uploads/66fcd4ecc08ca_vijay.jpg'),
+(9, 'Rajika', '$2y$10$B9Dxn4jQdgd47Idp/56XuufICDiBXJ9c.Qmb4/0I9EdJ.QsanpSKK', 'rajikakumar18@gmail.com', 1, 'http://localhost/voting_system/uploads/66fcd4ecc08ca_vijay.jpg'),
+(10, 'teacher', '$2y$10$HfD9i9ysA2XjTvfqp0YwEOAQXHH3pe/Wh6kXSFUlTGOlNtrZ5hVrO', 'teacher@example.com', 2, ''),
+(11, 'student', '$2y$10$RgS2NmBonL.cXJ1ly/wmkOLTrx1VfViQXNKkqxhhmDGy2RTJIFC4K', 'student@example.com', 3, ''),
+(12, 'anusha', '$2y$10$76dHSMUt/7cNnYVtgQF53uh7krWDKi9hSXaX1U7ipLlR.5CcWZEbe', 'anusha@example.com', 2, ''),
+(13, 'pre', '$2y$10$3HiPsuOkwT5485KN3F53fezwNjGBq6jpCzVnjSECGdwihceJ1gGsW', 'pre@example.com', 2, ''),
+(36, 'divishi', '$2y$10$ziveYIAu8LKYitlT6ddtcuIGndjdKIaFbc5A286wbgcaWfPy8zf3W', 'divishi@example.com', 2, ''),
+(37, 'nimi', '$2y$10$ZKqjHE6JPm03kWq4vw8IWeRjunokICUdemUADNNXwZYOB/2lmChhu', 'nimi@example.com', 2, ''),
+(38, 'nimi', '$2y$10$T72pfhoRTz6zT9LxJs1NuewgkYUKYrnZEMKMMffswf6Oa.M3haEUO', 'nimi@example.com', 2, ''),
+(39, 'nimi', '$2y$10$CWfnu9gGhQ1TcvfwYWz.H.dOpcjl/dubRmSLPOTL6/3/n3POXKNpu', 'nimi@example.com', 2, ''),
+(40, 'nimi', '$2y$10$xCLwTnfqQPieXUwtTZ7RCO4ny2sba4FJYLu2G/JMi/XiBb0XR3/Hi', 'nimi@example.com', 2, ''),
+(41, 'nimi', '$2y$10$tUjJDQreur2nSd0EGlKFUukEUJgCZ8OYEvdjX1.I4U3Ndh9w77N1O', 'nimi@example.com', 2, ''),
+(42, 'nimi', '$2y$10$xyth5JnySE9.PXu9W3BuieYoZuQIOGy./xDd5a5w.jjzEEd6aOR9m', 'nimi@example.com', 2, ''),
+(62, 'niviya', '$2y$10$CFnsSZiB/2R98daJpIgprOQbqcc9jurTAx6chvklOpZuBuN3itX6m', 'nivi@example.com', 3, ''),
+(63, 'kamal', '$2y$10$fnEdCmoRU8Z7OIAr3g30vO4koLsKGjA4.L5NKW/GIZgr7ZptXJolK', 'kamal@example.com', 3, ''),
+(64, 'mary', '$2y$10$//cSAYv4by27m/ECuhTZz.cB/AlV.GLTpqfMH5u6O55lzYZsxdW1q', 'mary@example.com', 3, ''),
+(65, 'dhurai', '$2y$10$aLQ6PT.UtcfOsYNaHRnUJ.6hSFD80acTK4B0w4zseqEj4bLeCI.zu', 'dhurai@example.com', 3, '');
 
 --
 -- Indexes for dumped tables
