@@ -2,6 +2,17 @@ let currentPage = 1;
 const resultsPerPage = 8;
 let sortOrder = "ASC";
 let searchQuery = "";
+let currentSortOrder = 'ASC';
+
+function toggleSort() {
+    currentSortOrder = currentSortOrder === 'ASC' ? 'DESC' : 'ASC';
+    sortTeacher(currentSortOrder);
+
+    // Update the arrow direction
+    const sortArrow = document.getElementById('sortArrow');
+    sortArrow.textContent = currentSortOrder === 'ASC' ? '▲' : '▼';
+}
+
 
 fetchTeachers = async function fetchTeachers() {
   const searchInputElement = document.getElementById("searchInput");

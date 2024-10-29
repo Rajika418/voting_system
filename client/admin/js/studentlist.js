@@ -91,18 +91,20 @@ function updateSortButtons() {
   const studentNameButton = document.getElementById("sortStudentName");
   const gradeNameButton = document.getElementById("sortGradeName");
 
+  // Define arrow symbols
+  const ascArrow = "▲"; // Up arrow for ascending
+  const descArrow = "▼"; // Down arrow for descending
+
+  // Update student name button text based on sort state
   if (sortColumn === "student_name") {
-    studentNameButton.textContent = `Name ${
-      sortDirection === "asc" ? "Ascending" : "Descending"
-    }`;
+    studentNameButton.innerHTML = `Sort by Name ${sortDirection === "asc" ? ascArrow : descArrow}`;
   } else {
     studentNameButton.textContent = "Sort by Name";
   }
 
+  // Update grade name button text based on sort state
   if (sortColumn === "grade_name") {
-    gradeNameButton.textContent = `Grade ${
-      sortDirection === "asc" ? "Ascending" : "Descending"
-    }`;
+    gradeNameButton.innerHTML = `Sort by Grade ${sortDirection === "asc" ? ascArrow : descArrow}`;
   } else {
     gradeNameButton.textContent = "Sort by Grade";
   }
