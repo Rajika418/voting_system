@@ -73,9 +73,21 @@ $currentPage = $_GET['page'] ?? 'home';
                 </a>
             </li>
             <li class="nav-item">
-                <a href="?page=contact" class="nav-link <?php echo $currentPage === 'contact' ? 'active' : ''; ?>">
-                    <i class="fas fa-envelope"></i>
-                    <span class="nav-text">Contact Us</span>
+                <a href="?page=results" class="nav-link <?php echo $currentPage === 'results' ? 'active' : ''; ?>">
+                    <i class="fas fa-chart-line"></i>
+                    <span class="nav-text">Exam Results</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=teachers" class="nav-link <?php echo $currentPage === 'teachers' ? 'active' : ''; ?>">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span class="nav-text">Teachers</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="?page=profile" class="nav-link <?php echo $currentPage === 'profile' ? 'active' : ''; ?>">
+                    <i class="fas fa-user-cog"></i>
+                    <span class="nav-text">Profile</span>
                 </a>
             </li>
         </ul>
@@ -89,17 +101,26 @@ $currentPage = $_GET['page'] ?? 'home';
         ?>
                 <div class="home-content">
                     <h1>Welcome to the User Home Page!</h1>
-                    <p>This is where users can find information related to their profile and activities.</p>
                     <div class="dashboard-stats">
                         <div class="stat-card">
-                            <i class="fas fa-poll"></i>
-                            <h3>Active Elections</h3>
+                            <i class="fas fa-vote-yea"></i>
+                            <h3>Current Elections</h3>
                             <p>View ongoing elections and cast your vote</p>
                         </div>
                         <div class="stat-card">
-                            <i class="fas fa-history"></i>
-                            <h3>Voting History</h3>
-                            <p>Check your past voting activities</p>
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Exam Results</h3>
+                            <p>Check the latest exam results</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <h3>Teacher Directory</h3>
+                            <p>View information about our teachers</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-user-cog"></i>
+                            <h3>My Profile</h3>
+                            <p>Manage your account and settings</p>
                         </div>
                     </div>
                 </div>
@@ -138,23 +159,6 @@ $currentPage = $_GET['page'] ?? 'home';
                                         <button class="btn-primary">Participate Now</button>
                                     </div>
                                 </div>
-
-                                <div class="election-card">
-                                    <div class="card-header">
-                                        <i class="fas fa-calendar"></i>
-                                        <h3>Upcoming Elections</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <p>See what elections are scheduled</p>
-                                        <div class="election-info">
-                                            <span class="status upcoming">Starting Soon</span>
-                                            <span class="deadline">Starts in: 5 days</span>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer">
-                                        <button class="btn-secondary" disabled>Coming Soon</button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                 <?php
@@ -162,33 +166,35 @@ $currentPage = $_GET['page'] ?? 'home';
                 }
                 break;
 
-            case 'contact':
+            case 'results':
+                // Show exam results page
                 ?>
-                <div class="contact-content">
-                    <h1>Contact Us</h1>
-                    <div class="contact-form">
-                        <form action="process_contact.php" method="POST">
-                            <div class="form-group">
-                                <label for="subject">Subject</label>
-                                <input type="text" id="subject" name="subject" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="message">Message</label>
-                                <textarea id="message" name="message" rows="5" required></textarea>
-                            </div>
-                            <button type="submit" class="btn-submit">Send Message</button>
-                        </form>
-                    </div>
+                <div class="results-content">
+                    <h1>Exam Results</h1>
+                    <p>View the latest exam results for your classes.</p>
+                    <!-- Add exam results content here -->
                 </div>
             <?php
                 break;
 
-            case 'settings':
+            case 'teachers':
+                // Show teacher directory page
             ?>
-                <div class="settings-content">
-                    <h1>User Settings</h1>
-                    <div class="settings-form">
-                        <form action="update_settings.php" method="POST" enctype="multipart/form-data">
+                <div class="teachers-content">
+                    <h1>Teacher Directory</h1>
+                    <p>Get information about our talented teaching staff.</p>
+                    <!-- Add teacher directory content here -->
+                </div>
+            <?php
+                break;
+
+            case 'profile':
+                // Show user profile page
+            ?>
+                <div class="profile-content">
+                    <h1>My Profile</h1>
+                    <div class="profile-form">
+                        <form action="update_profile.php" method="POST" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="profile-image">Profile Image</label>
                                 <input type="file" id="profile-image" name="profile_image" accept="image/*">
@@ -216,6 +222,7 @@ $currentPage = $_GET['page'] ?? 'home';
         }
         ?>
     </main>
+
 
     <!-- Footer -->
     <footer class="footer">
