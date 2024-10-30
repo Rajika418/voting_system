@@ -127,88 +127,214 @@ $currentPage = $_GET['page'] ?? 'home';
                 <?php
                 break;
 
-            case 'elections':
-                // Check if there's a sub-page parameter
-                $electionPage = $_GET['view'] ?? 'list';
-
-                switch ($electionPage) {
-                    case 'current':
-                        // Include the election detail page we created
-                        include 'pages/election.php';
-                        break;
-
-                    default:
-                        // Show the elections listing page
-                ?>
-                        <div class="elections-content">
-                            <h1>Elections</h1>
-                            <div class="elections-list">
-                                <div class="election-card clickable" onclick="window.location.href='?page=elections&view=current'">
+                case 'elections':
+                    $electionPage = $_GET['view'] ?? 'list';
+        
+                    switch ($electionPage) {
+                        case 'current':
+                            // Include the election detail page we created
+                            include 'pages/election.php';
+                            break;
+        
+                        case 'apply-nomination':
+                            // Show the application for nomination page
+                            ?>
+                            <div class="elections-content">
+                                <h1>Apply for Nomination</h1>
+                                <div class="election-card">
                                     <div class="card-header">
                                         <i class="fas fa-vote-yea"></i>
-                                        <h3>Current Elections</h3>
+                                        <h3>Upcoming Election</h3>
                                     </div>
                                     <div class="card-body">
-                                        <p>View and participate in ongoing elections</p>
+                                        <p>Election Date: June 15, 2024</p>
+                                        <p>Nomination Period: May 1 - May 15, 2024</p>
                                         <div class="election-info">
-                                            <span class="status active">Active</span>
-                                            <span class="deadline">Ends in: 3 days</span>
+                                            <span class="status upcoming">Nomination Open</span>
                                         </div>
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn-primary">Participate Now</button>
+                                        <button class="btn-primary">Apply for Nomination</button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                <?php
-                        break;
-                }
-                break;
-
-            case 'results':
-                // Show exam results page
-                ?>
-                <div class="results-content">
-                    <h1>Exam Results</h1>
-                    <p>View the latest exam results for your classes.</p>
-                    <!-- Add exam results content here -->
-                </div>
-            <?php
-                break;
-
-            case 'teachers':
-                // Show teacher directory page
-            ?>
-                <div class="teachers-content">
-                    <h1>Teacher Directory</h1>
-                    <p>Get information about our talented teaching staff.</p>
-                    <!-- Add teacher directory content here -->
-                </div>
-            <?php
-                break;
-
-            case 'profile':
-                // Show user profile page
-            ?>
-                <div class="profile-content">
-                    <h1>My Profile</h1>
-                    <div class="profile-form">
-                        <form action="update_profile.php" method="POST" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="profile-image">Profile Image</label>
-                                <input type="file" id="profile-image" name="profile_image" accept="image/*">
+                            <?php
+                            break;
+        
+                        case 'results':
+                            // Show the election results page
+                            ?>
+                            <div class="elections-content">
+                                <h1>Election Results</h1>
+                                <div class="election-card">
+                                    <div class="card-header">
+                                        <i class="fas fa-chart-line"></i>
+                                        <h3>Latest Election Results</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <p>Election Date: June 1, 2024</p>
+                                        <div class="election-info">
+                                            <span class="status active">Completed</span>
+                                        </div>
+                                        <!-- Add election result details here -->
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($userName); ?>" required>
+                            <?php
+                            break;
+        
+                        default:
+                            // Show the elections listing page
+                            ?>
+                            <div class="elections-content">
+                                <h1>Elections</h1>
+                                <div class="elections-list">
+                                    <div class="election-card clickable" onclick="window.location.href='?page=elections&view=current'">
+                                        <div class="card-header">
+                                            <i class="fas fa-vote-yea"></i>
+                                            <h3>Current Elections</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>View and participate in ongoing elections</p>
+                                            <div class="election-info">
+                                                <span class="status active">Active</span>
+                                                <span class="deadline">Ends in: 3 days</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn-primary">Participate Now</button>
+                                        </div>
+                                    </div>
+                                    <div class="election-card clickable" onclick="window.location.href='?page=elections&view=apply-nomination'">
+                                        <div class="card-header">
+                                            <i class="fas fa-edit"></i>
+                                            <h3>Apply for Nomination</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>Submit your application to run for election</p>
+                                            <div class="election-info">
+                                                <span class="status upcoming">Nomination Open</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn-primary">Apply Now</button>
+                                        </div>
+                                    </div>
+                                    <div class="election-card clickable" onclick="window.location.href='?page=elections&view=results'">
+                                        <div class="card-header">
+                                            <i class="fas fa-chart-line"></i>
+                                            <h3>Election Results</h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>View the latest election results</p>
+                                            <div class="election-info">
+                                                <span class="status active">Available</span>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button class="btn-primary">View Results</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" class="btn-submit">Save Changes</button>
-                        </form>
+                            <?php
+                            break;
+                    }
+                    break;
+
+  case 'results':
+            // Show exam results page
+            ?>
+            <div class="results-content">
+                <h1>Exam Results</h1>
+                <div class="results-year-tabs">
+                    <button class="btn-primary active">2024</button>
+                    <button class="btn-primary">2021</button>
+                    <button class="btn-primary">2020</button>
+                </div>
+                <div class="results-cards">
+                    <div class="result-card">
+                        <h3>A/L Results</h3>
+                        <!-- Add A/L results content here -->
+                    </div>
+                    <div class="result-card">
+                        <h3>O/L Results</h3>
+                        <!-- Add O/L results content here -->
                     </div>
                 </div>
+            </div>
             <?php
-                break;
+            break;
+
+        case 'teachers':
+            // Show teacher directory page
+            ?>
+            <div class="teachers-content">
+                <h1>Teacher Directory</h1>
+                <div class="teacher-cards">
+                    <div class="teacher-card">
+                        <div class="teacher-image">
+                            <img src="https://via.placeholder.com/150" alt="Teacher Image">
+                        </div>
+                        <div class="teacher-info">
+                            <h3>John Doe</h3>
+                            <p>Mathematics</p>
+                            <p>Years of Experience: 10</p>
+                        </div>
+                    </div>
+                    <div class="teacher-card">
+                        <div class="teacher-image">
+                            <img src="https://via.placeholder.com/150" alt="Teacher Image">
+                        </div>
+                        <div class="teacher-info">
+                            <h3>Jane Smith</h3>
+                            <p>Biology</p>
+                            <p>Years of Experience: 8</p>
+                        </div>
+                    </div>
+                    <!-- Add more teacher cards here -->
+                </div>
+            </div>
+            <?php
+            break;
+
+        case 'profile':
+            // Show user profile page
+            ?>
+            <div class="profile-content">
+                <h1>My Profile</h1>
+                <div class="profile-info">
+                    <div class="profile-image">
+                        <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="User Avatar" class="user-avatar"
+                            onerror="this.onerror=null; this.src='http://localhost/voting_system/uploads/default-avatar.png';" />
+                    </div>
+                    <div class="profile-details">
+                        <h3><?php echo htmlspecialchars($userName); ?></h3>
+                        <p>Email: user@example.com</p>
+                        <p>Phone: 123-456-7890</p>
+                    </div>
+                </div>
+                <div class="profile-form">
+                    <form action="update_profile.php" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="profile-image">Update Profile Image</label>
+                            <input type="file" id="profile-image" name="profile_image" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Update Username</label>
+                            <input type="text" id="username" name="username" value="<?php echo htmlspecialchars($userName); ?>" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Change Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        <?php
+            break;
+
 
             default:
             ?>
