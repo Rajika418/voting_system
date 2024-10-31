@@ -1,6 +1,6 @@
 <?php
 // Include external database configuration file
-require '../../db_config.php';  // Make sure this path is correct
+require '../../../db_config.php';  // Make sure this path is correct
 
 // Get the registration number from the request
 if (isset($_GET['registration_number'])) {

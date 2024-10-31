@@ -8,7 +8,7 @@ if (isset($_SESSION['user_id'])) {
         header("Location: http://localhost/voting_system/client/admin/admin.php");
         exit();
     } else {
-        header("Location: http://localhost/voting_system/client/user/home.php");
+        header("Location: http://localhost/voting_system/client/user/main.php");
         exit();
     }
 }

@@ -27,6 +27,7 @@ $view = $_GET['view'] ?? null;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/election.css" />
+    <link rel="stylesheet" href="./css/nomination.css" />
 </head>
 
 <body>
@@ -150,9 +151,35 @@ $view = $_GET['view'] ?? null;
         <p>&copy; 2024 Kalaimahal T.M.V. Hopton. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript -->
+ 
+
     <script src="./js/script.js"></script>
-    <script src="./js/election.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+    <?php
+    // Dynamic JavaScript inclusion based on the page
+    switch ($currentPage) {
+       
+        case 'elections':
+             // Nested switch for different views in the elections page
+             switch ($view) {
+                case 'current':
+                    echo '<script src="./js/"></script>';// Page for current elections
+                    break;
+                case 'apply-nomination':
+                    echo '<script src="./js/nomination.js"></script>'; ; // Page for applying nomination
+                    break;
+                case 'results':
+                   // Page for election results
+                    break;
+                default:
+                echo '<script src="./js/election.js"></script>';// Default view for elections dashboard
+                    break;
+            }
+        
+            echo '<script src="./js/script.js"></script>';
+            break;
+    }
+    ?>
 </body>
 
 </html>
