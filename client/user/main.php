@@ -163,7 +163,7 @@ $view = $_GET['view'] ?? null;
              // Nested switch for different views in the elections page
              switch ($view) {
                 case 'current':
-                    echo '<script src="./js/"></script>';// Page for current elections
+                    echo '<script src="./js/election.js"></script>';// Page for current elections
                     break;
                 case 'apply-nomination':
                     echo '<script src="./js/nomination.js"></script>'; ; // Page for applying nomination

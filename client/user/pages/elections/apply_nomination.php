@@ -28,13 +28,13 @@
             <input type="hidden" id="hidden-student-id">
             <label for="student-id">Student Registration Number:</label>
             <input type="text" id="student-id" required>
-            <p id="student-info"></p>
+            <p id="student-info"></p><br>
             <label for="why">Why do you want to nominate?</label>
-            <textarea id="why" required></textarea>
+            <textarea id="why" required></textarea><br>
             <label for="motive">What is your motive?</label>
-            <textarea id="motive" required></textarea>
+            <textarea id="motive" required></textarea><br>
             <label for="what">What will you do if elected?</label>
-            <textarea id="what" required></textarea>
+            <textarea id="what" required></textarea><br>
             <button type="submit" class="btn-primary">Nominate</button>
         </form>
         <div id="toast" class="toast" style="display: none;">Nomination submitted successfully.</div>

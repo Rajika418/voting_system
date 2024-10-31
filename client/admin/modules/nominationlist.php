@@ -6,16 +6,16 @@
   <title>Nomination List</title>
   <link rel="stylesheet" href="../assets/css/nominationlist.css">
 </head>
-<body>
-  <div class="container">
-    <h1>Nomination List</h1>
-    <div class="controls">
-      <input type="text" id="search" placeholder="Search by name or year" oninput="filterTable()">
-      <select id="sort" onchange="sortTable()">
-        <option value="name">Sort by Name</option>
-        <option value="year">Sort by Year</option>
-      </select>
-    </div>
+<div class="container">
+  <h1>Nomination List</h1>
+  <h2 id="electionName"></h2> <!-- Placeholder for Election Name -->
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search by name or year" oninput="filterTable()">
+    <select id="sort" onchange="sortTable()">
+      <option value="name">Sort by Name</option>
+      <option value="year">Sort by Year</option>
+    </select>
+  </div>
     <table id="nominationTable">
       <thead>
         <tr>

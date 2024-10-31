@@ -1,13 +1,18 @@
+
 <?php
+
+
 // vote_candidate.php
 
-require '../../db_config.php'; // Include database connection
+require '../../../db_config.php'; // Include database connection
 
 header('Content-Type: application/json'); // Set the content type to JSON
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST['_method'] === 'PUT') {
     // Retrieve the candidate ID
     $candidate_id = isset($_POST['candidate_id']) ? intval($_POST['candidate_id']) : null;
+
+  
     
     // Validate the input
     if ($candidate_id === null) {
@@ -24,7 +29,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST[
         
         // First, check if the candidate exists and get current vote count
         $checkStmt = $conn->prepare("SELECT id, total_votes FROM candidate WHERE id = ? FOR UPDATE");
-        $checkStmt->execute([$candidate_id]);
+        if (!$checkStmt->execute([$candidate_id])) {
+            throw new PDOException("Failed to execute select statement.");
+        }
         $candidate = $checkStmt->fetch(PDO::FETCH_ASSOC);
         
         if (!$candidate) {
@@ -39,15 +46,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST[
         
         // Update the total_votes for the candidate
         $updateStmt = $conn->prepare("UPDATE candidate SET total_votes = total_votes + 1 WHERE id = ?");
-        $updateStmt->execute([$candidate_id]);
-        
-        // Retrieve the updated vote count
-        $selectStmt = $conn->prepare("SELECT id, nomination_id, total_votes FROM candidate WHERE id = ?");
-        $selectStmt->execute([$candidate_id]);
-        $updatedCandidate = $selectStmt->fetch(PDO::FETCH_ASSOC);
+        if (!$updateStmt->execute([$candidate_id])) {
+            throw new PDOException("Vote update failed.");
+        }
         
         // Commit the transaction
         $conn->commit();
+        
+        // Retrieve the updated vote count
+        $selectStmt = $conn->prepare("SELECT id, nomination_id, total_votes FROM candidate WHERE id = ?");
+        if (!$selectStmt->execute([$candidate_id])) {
+            throw new PDOException("Failed to retrieve updated vote count.");
+        }
+        $updatedCandidate = $selectStmt->fetch(PDO::FETCH_ASSOC);
         
         echo json_encode([
             'status' => 'success',
@@ -61,7 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['_method']) && $_POST[
       
         echo json_encode([
             'status' => 'error',
-            'message' => 'An unexpected error occurred. Please try again later.'
+            'message' => 'An unexpected error occurred. Please try again later.',
+            'error' => $e->getMessage() // Optional: display error message for debugging
         ]);
     }
 } else {

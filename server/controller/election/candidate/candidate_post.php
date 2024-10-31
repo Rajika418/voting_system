@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         // Prepare the SQL statement to insert a new candidate
-        $stmt = $conn->prepare("INSERT INTO candidate (nomination_id, total_votes) VALUES (:nomination_id, NULL)");
+        $stmt = $conn->prepare("INSERT INTO candidate (nomination_id) VALUES (:nomination_id)");
 
         // Bind the nomination_id parameter
         $stmt->bindParam(':nomination_id', $nomination_id, PDO::PARAM_INT);

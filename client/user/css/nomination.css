@@ -16,7 +16,12 @@
     border-radius: 8px;
     width: 500px;
     max-width: 90%;
+    
     position: relative;
+}
+
+textarea{
+    width: 200px;
 }
 .close-btn {
     position: absolute;
