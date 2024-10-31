@@ -18,6 +18,7 @@ $sql = "
         c.id AS candidate_id,
         c.nomination_id,
         n.student_id,
+    
         n.motive,
         n.what,
         s.student_name,
