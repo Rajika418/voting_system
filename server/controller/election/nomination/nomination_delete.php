@@ -1,6 +1,6 @@
 <?php
 // Include the database configuration file
-include '../../db_config.php';
+include '../../../db_config.php';
 
 // API to delete a nomination
 if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {

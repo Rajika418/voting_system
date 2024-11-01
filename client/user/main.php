@@ -28,6 +28,7 @@ $view = $_GET['view'] ?? null;
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/election.css" />
     <link rel="stylesheet" href="./css/nomination.css" />
+    <link rel="stylesheet" href="./css/teacher.css" />
 </head>
 
 <body>
@@ -175,7 +176,9 @@ $view = $_GET['view'] ?? null;
                 echo '<script src="./js/election.js"></script>';// Default view for elections dashboard
                     break;
             }
-        
+            case 'teachers':
+                echo '<script src="./js/teacher.js"></script>';
+                break;
             echo '<script src="./js/script.js"></script>';
             break;
     }

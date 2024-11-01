@@ -45,6 +45,9 @@
             <button onclick="nextPage()">Next</button>
         </div>
     </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+    
     <script src="../js/nominationlist.js"></script>
 </body>
 </html>

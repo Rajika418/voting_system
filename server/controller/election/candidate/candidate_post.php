@@ -7,10 +7,11 @@ header('Content-Type: application/json'); // Set the content type to JSON
 
 // Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Retrieve the posted data
-    // Check if nomination_id is passed in the POST data or URL
-    $nomination_id = isset($_POST['nomination_id']) ? intval($_POST['nomination_id']) : 
-                     (isset($_GET['nomination_id']) ? intval($_GET['nomination_id']) : null);
+    // Retrieve the JSON input
+    $inputData = json_decode(file_get_contents('php://input'), true);
+
+    // Check if nomination_id is in the JSON data
+    $nomination_id = isset($inputData['nomination_id']) ? intval($inputData['nomination_id']) : null;
 
     // Validate the input
     if ($nomination_id === null) {
