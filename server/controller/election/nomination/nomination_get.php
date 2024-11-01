@@ -17,6 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             SELECT 
                 n.id, 
                 n.election_id,
+                e.election_name,
+                e.year,
                 n.student_id, 
                 s.student_name, 
                 s.grade_id, 
