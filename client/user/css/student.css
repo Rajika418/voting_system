@@ -1,0 +1,37 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #333;
+}
+
+select, button {
+    padding: 10px;
+    margin: 10px 0;
+
+}
+button{
+    background-color: rgb(79, 144, 197);
+    color: white;
+    with: 500px;
+}
+
+button:hover{
+    background-color: rgb(79, 197, 187);
+}
+select{
+  width: 50px;
+}

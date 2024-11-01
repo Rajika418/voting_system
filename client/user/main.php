@@ -29,6 +29,7 @@ $view = $_GET['view'] ?? null;
     <link rel="stylesheet" href="./css/election.css" />
     <link rel="stylesheet" href="./css/nomination.css" />
     <link rel="stylesheet" href="./css/teacher.css" />
+    <link rel="stylesheet" href="./css/student.css" />
 </head>
 
 <body>
@@ -88,6 +89,13 @@ $view = $_GET['view'] ?? null;
                 </a>
             </li>
             <li class="nav-item">
+            <a href="?page=students" class="nav-link <?php echo $currentPage === 'students' ? 'active' : ''; ?>">
+                <i class="fas fa-chalkboard-student"></i>
+                <span class="nav-text">Students</span>
+            </a>
+        </li>
+
+            <li class="nav-item">
                 <a href="?page=profile" class="nav-link <?php echo $currentPage === 'profile' ? 'active' : ''; ?>">
                     <i class="fas fa-user-cog"></i>
                     <span class="nav-text">Profile</span>
@@ -126,6 +134,9 @@ $view = $_GET['view'] ?? null;
             case 'teachers':
                 include './pages/teacher.php';
                 break;
+                case 'students':
+                    include './pages/student.php';
+                    break;
             case 'profile':
                 include './pages/profile.php';
                 break;
@@ -179,6 +190,11 @@ $view = $_GET['view'] ?? null;
             case 'teachers':
                 echo '<script src="./js/teacher.js"></script>';
                 break;
+
+                case 'students':
+                    echo '<script src="./js/student.js"></script>';
+                    break;
+                
             echo '<script src="./js/script.js"></script>';
             break;
     }

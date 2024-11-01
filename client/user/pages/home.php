@@ -17,6 +17,11 @@
                             <p>View information about our teachers</p>
                         </div>
                         <div class="stat-card">
+                            <i class="fas fa-chalkboard-student"></i>
+                            <h3> Student Directory</h3>
+                            <p>View information about our Students</p>
+                        </div>
+                        <div class="stat-card">
                             <i class="fas fa-user-cog"></i>
                             <h3>My Profile</h3>
                             <p>Manage your account and settings</p>
