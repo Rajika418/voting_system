@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: Oct 29, 2024 at 02:12 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Nov 01, 2024 at 05:49 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `candidate` (
   `id` int(11) NOT NULL,
   `nomination_id` int(11) NOT NULL,
-  `total_votes` int(11) DEFAULT 0
+  `total_votes` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -38,7 +38,8 @@ CREATE TABLE `candidate` (
 --
 
 INSERT INTO `candidate` (`id`, `nomination_id`, `total_votes`) VALUES
-(1, 2, NULL);
+(1, 2, 3),
+(2, 6, 3);
 
 -- --------------------------------------------------------
 
@@ -62,8 +63,7 @@ CREATE TABLE `elections` (
 --
 
 INSERT INTO `elections` (`id`, `year`, `election_name`, `nom_start_date`, `nom_end_date`, `ele_start_date`, `ele_end_date`, `image`) VALUES
-(4, 2024, 'School Parliament Election', '2024-10-15', '2024-10-16', '2024-10-20', '2024-10-21', 0x36373064396139346230633936362e34303630373232382e6a7067),
-(5, 2024, 'Student Parliament Election', '2024-01-01', '2024-01-10', '2024-01-15', '2024-01-20', 0x61633938313530666332326130373934396530663133643033356134336266352e706e67);
+(4, 2024, 'School Parliament Election', '2024-10-15', '2024-10-16', '2024-10-20', '2024-10-21', 0x36373064396139346230633936362e34303630373232382e6a7067);
 
 -- --------------------------------------------------------
 
@@ -140,6 +140,7 @@ INSERT INTO `grade` (`grade_id`, `grade_name`, `teacher_id`, `year`) VALUES
 
 CREATE TABLE `nomination` (
   `id` int(11) NOT NULL,
+  `election_id` int(11) NOT NULL,
   `student_id` int(11) NOT NULL,
   `why` varchar(255) NOT NULL,
   `motive` varchar(255) NOT NULL,
@@ -150,8 +151,10 @@ CREATE TABLE `nomination` (
 -- Dumping data for table `nomination`
 --
 
-INSERT INTO `nomination` (`id`, `student_id`, `why`, `motive`, `what`) VALUES
-(2, 21, 'dugvihk', 'xhvjh', 'szgfhg');
+INSERT INTO `nomination` (`id`, `election_id`, `student_id`, `why`, `motive`, `what`) VALUES
+(1, 4, 21, 'xhvjh', 'szgfhg', 'gjnljn'),
+(2, 4, 22, 'to get exprince', 'give good leadership', 'enhanse student power'),
+(6, 4, 24, 'dxhvjhbkj', 'jbkjnkjmk', 'vjbjn');
 
 -- --------------------------------------------------------
 
@@ -417,9 +420,9 @@ INSERT INTO `users` (`user_id`, `user_name`, `password`, `email`, `role_id`, `im
 (41, 'nimi', '$2y$10$tUjJDQreur2nSd0EGlKFUukEUJgCZ8OYEvdjX1.I4U3Ndh9w77N1O', 'nimi@example.com', 2, ''),
 (42, 'nimi', '$2y$10$xyth5JnySE9.PXu9W3BuieYoZuQIOGy./xDd5a5w.jjzEEd6aOR9m', 'nimi@example.com', 2, ''),
 (62, 'niviya', '$2y$10$CFnsSZiB/2R98daJpIgprOQbqcc9jurTAx6chvklOpZuBuN3itX6m', 'nivi@example.com', 3, ''),
-(63, 'kamal', '$2y$10$fnEdCmoRU8Z7OIAr3g30vO4koLsKGjA4.L5NKW/GIZgr7ZptXJolK', 'kamal@example.com', 3, ''),
-(64, 'mary', '$2y$10$//cSAYv4by27m/ECuhTZz.cB/AlV.GLTpqfMH5u6O55lzYZsxdW1q', 'mary@example.com', 3, ''),
-(65, 'dhurai', '$2y$10$aLQ6PT.UtcfOsYNaHRnUJ.6hSFD80acTK4B0w4zseqEj4bLeCI.zu', 'dhurai@example.com', 3, '');
+(63, 'kamal', '$2y$10$fnEdCmoRU8Z7OIAr3g30vO4koLsKGjA4.L5NKW/GIZgr7ZptXJolK', 'kamal@example.com', 3, 'http://localhost/voting_system/uploads/67235fb926948_IMG_20241012_134903_954.jpg'),
+(64, 'mary', '$2y$10$//cSAYv4by27m/ECuhTZz.cB/AlV.GLTpqfMH5u6O55lzYZsxdW1q', 'mary@example.com', 3, 'http://localhost/voting_system/uploads/67235fc5b4251_IMG_20241012_134903_954.jpg'),
+(65, 'dhurai', '$2y$10$aLQ6PT.UtcfOsYNaHRnUJ.6hSFD80acTK4B0w4zseqEj4bLeCI.zu', 'dhurai@example.com', 3, 'http://localhost/voting_system/uploads/67235fcd36752_IMG_20241012_134903_954.jpg');
 
 --
 -- Indexes for dumped tables
@@ -450,7 +453,8 @@ ALTER TABLE `grade`
 --
 ALTER TABLE `nomination`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `student_id` (`student_id`);
+  ADD KEY `student_id` (`student_id`),
+  ADD KEY `election_id` (`election_id`);
 
 --
 -- Indexes for table `results`
@@ -503,20 +507,6 @@ ALTER TABLE `subject_teacher`
   ADD KEY `teacher_id` (`teacher_id`);
 
 --
--- Indexes for table `teacher`
---
-ALTER TABLE `teacher`
-  ADD PRIMARY KEY (`teacher_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`),
-  ADD KEY `role_id` (`role_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -524,140 +514,23 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `candidate`
 --
 ALTER TABLE `candidate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `elections`
---
-ALTER TABLE `elections`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `grade`
---
-ALTER TABLE `grade`
-  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `nomination`
 --
 ALTER TABLE `nomination`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `results`
---
-ALTER TABLE `results`
-  MODIFY `result_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
-
---
--- AUTO_INCREMENT for table `roles`
---
-ALTER TABLE `roles`
-  MODIFY `role_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `staffs`
---
-ALTER TABLE `staffs`
-  MODIFY `staff_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `student`
---
-ALTER TABLE `student`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT for table `student_exam`
---
-ALTER TABLE `student_exam`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
-
---
--- AUTO_INCREMENT for table `subjects`
---
-ALTER TABLE `subjects`
-  MODIFY `subject_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
-
---
--- AUTO_INCREMENT for table `subject_teacher`
---
-ALTER TABLE `subject_teacher`
-  MODIFY `subject_teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT for table `teacher`
---
-ALTER TABLE `teacher`
-  MODIFY `teacher_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
 --
 
 --
--- Constraints for table `candidate`
---
-ALTER TABLE `candidate`
-  ADD CONSTRAINT `candidate_ibfk_1` FOREIGN KEY (`nomination_id`) REFERENCES `nomination` (`id`);
-
---
--- Constraints for table `grade`
---
-ALTER TABLE `grade`
-  ADD CONSTRAINT `grade_ibfk_1` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`teacher_id`);
-
---
 -- Constraints for table `nomination`
 --
 ALTER TABLE `nomination`
-  ADD CONSTRAINT `nomination_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`);
-
---
--- Constraints for table `results`
---
-ALTER TABLE `results`
-  ADD CONSTRAINT `results_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`),
-  ADD CONSTRAINT `results_ibfk_3` FOREIGN KEY (`exam_id`) REFERENCES `student_exam` (`id`);
-
---
--- Constraints for table `student`
---
-ALTER TABLE `student`
-  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
-  ADD CONSTRAINT `student_ibfk_2` FOREIGN KEY (`grade_id`) REFERENCES `grade` (`grade_id`);
-
---
--- Constraints for table `student_exam`
---
-ALTER TABLE `student_exam`
-  ADD CONSTRAINT `student_exam_ibfk_1` FOREIGN KEY (`student_id`) REFERENCES `student` (`student_id`);
-
---
--- Constraints for table `subject_teacher`
---
-ALTER TABLE `subject_teacher`
-  ADD CONSTRAINT `subject_teacher_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`),
-  ADD CONSTRAINT `subject_teacher_ibfk_2` FOREIGN KEY (`teacher_id`) REFERENCES `teacher` (`teacher_id`);
-
---
--- Constraints for table `teacher`
---
-ALTER TABLE `teacher`
-  ADD CONSTRAINT `teacher_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
-
---
--- Constraints for table `users`
---
-ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`);
+  ADD CONSTRAINT `nomination_ibfk_1` FOREIGN KEY (`election_id`) REFERENCES `elections` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
