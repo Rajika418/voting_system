@@ -1,6 +1,6 @@
 <?php
 // Include the database configuration file
-require '../../db_config.php';
+require '../../../db_config.php';
 
 // Set headers to allow API access
 header("Content-Type: application/json; charset=UTF-8");
@@ -9,7 +9,11 @@ try {
     // Check the request method
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         // Prepare an SQL statement to select candidate data
-        $sql = "SELECT id, nomination_id, total_votes FROM candidate";
+        $sql = "SELECT c.id, n.election_id, e.election_name, year e, c.nomination_id, n.student_id, s.student_name, c.total_votes 
+                FROM candidate c 
+                JOIN nomination n ON c.nomination_id = n.id
+                JOIN elections e ON n.election_id = e.id
+                JOIN student s ON n.student_id = s.student_id";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
 
