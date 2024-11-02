@@ -1,11 +1,13 @@
-
 let currentYear = '';
 let currentExam = 'o/l';
+let debugMode = false; // Change to true to enable debugging
 
 function debugLog(message, data) {
-    console.log(message, data);
-    const debugDiv = document.getElementById('debug');
-    debugDiv.innerHTML += `<p>${message}: ${JSON.stringify(data)}</p>`;
+    if (debugMode) {
+        console.log(message, data);
+        const debugDiv = document.getElementById('debug');
+        debugDiv.innerHTML += `<p>${message}: ${JSON.stringify(data)}</p>`;
+    }
 }
 
 // Fetch and display years
@@ -27,6 +29,10 @@ async function fetchYears() {
                 yearsContainer.appendChild(btn);
             });
             debugLog('Years buttons created', data.years);
+            
+            // Clear debug messages after loading years
+            const debugDiv = document.getElementById('debug');
+            debugDiv.innerHTML = '';
         }
     } catch (error) {
         debugLog('Error fetching years', error.message);
@@ -47,6 +53,7 @@ function selectYear(year) {
 
 // Show results based on exam type
 async function showResults(examType) {
+    if (currentYear === '') return; // Prevent showing results if no year is selected
     debugLog('Showing results for', { examType, currentYear });
     currentExam = examType;
     document.querySelectorAll('.tab-btn').forEach(btn => {

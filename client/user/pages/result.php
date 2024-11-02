@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="heading">Exam Results Portal</h1>
+        <h1 class="heading">Exam Results </h1>
         <div class="years-container" id="yearsContainer"></div>
         <div class="results-container" id="resultsContainer">
             <div class="tab-buttons">
