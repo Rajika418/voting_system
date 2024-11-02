@@ -26,10 +26,48 @@ $view = $_GET['view'] ?? null;
     <title>User Home - Kalaimahal School Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/election.css" />
-    <link rel="stylesheet" href="./css/nomination.css" />
-    <link rel="stylesheet" href="./css/teacher.css" />
-    <link rel="stylesheet" href="./css/student.css" />
+  
+  
+ 
+
+    <?php
+    // Default to 'dashboard' if no page parameter is set
+    
+
+    // Dynamic CSS inclusion based on the page
+    switch ($currentPage ) {
+        
+
+            case 'elections':
+                // Nested switch for different views in the elections page
+                switch ($view) {
+                   case 'current':
+                       echo '<link rel="stylesheet" href="./css/election.css" />';// Page for current elections
+                       break;
+                   case 'apply-nomination':
+                       echo '  <link rel="stylesheet" href="./css/nomination.css" />'; // Page for applying nomination
+                       break;
+                   case 'results':
+                       echo '  <link rel="stylesheet" href="./css/election_results.css" />'; // Page for election results
+                       break;
+                   default:
+                   echo '<link rel="stylesheet" href="./css/election.css" />';// Default view for elections dashboard
+                       break;
+               }
+               case 'teachers':
+                   echo '<link rel="stylesheet" href="./css/teacher.css" />';
+                   break;
+   
+                   case 'students':
+                       echo ' <link rel="stylesheet" href="./css/student.css" />';
+                       break;
+                default:
+                  echo '<link rel="stylesheet" href="./css/style.css" />" />';
+                 break;
+        
+    }
+    ?>
+   
 </head>
 
 <body>
@@ -178,10 +216,10 @@ $view = $_GET['view'] ?? null;
                     echo '<script src="./js/election.js"></script>';// Page for current elections
                     break;
                 case 'apply-nomination':
-                    echo '<script src="./js/nomination.js"></script>'; ; // Page for applying nomination
+                    echo '<script src="./js/nomination.js"></script>'; // Page for applying nomination
                     break;
                 case 'results':
-                   // Page for election results
+                    echo '<script src="./js/election_results.js"></script>'; // Page for election results
                     break;
                 default:
                 echo '<script src="./js/election.js"></script>';// Default view for elections dashboard

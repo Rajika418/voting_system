@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Fetch election data from the API
-    fetch('http://localhost/voting_system/server/controller/election/election_get.php')
+    // Fetch election data from the API with current year filter
+    fetch('http://localhost/voting_system/server/controller/election/election_getyear.php?action=read')
         .then(response => response.json())
         .then(data => {
             if (data.status === 'success' && data.data.length > 0) {
@@ -52,45 +52,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Submit the nomination form
-   // Submit the nomination form
-document.getElementById('nomination-form').addEventListener('submit', function(event) {
-    event.preventDefault();
+    document.getElementById('nomination-form').addEventListener('submit', function(event) {
+        event.preventDefault();
 
-    const electionId = document.getElementById('election-id').value;
-    const studentId = document.getElementById('hidden-student-id').value;
-    const why = document.getElementById('why').value;
-    const motive = document.getElementById('motive').value;
-    const what = document.getElementById('what').value;
+        const electionId = document.getElementById('election-id').value;
+        const studentId = document.getElementById('hidden-student-id').value;
+        const why = document.getElementById('why').value;
+        const motive = document.getElementById('motive').value;
+        const what = document.getElementById('what').value;
 
-    fetch('http://localhost/voting_system/server/controller/election/nomination/nomination_post.php?action=create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        body: `election_id=${electionId}&student_id=${studentId}&why=${encodeURIComponent(why)}&motive=${encodeURIComponent(motive)}&what=${encodeURIComponent(what)}`
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.status === 'success') {
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');  // Add a 'show' class to trigger visibility
-            toast.textContent = data.message;
+        fetch('http://localhost/voting_system/server/controller/election/nomination/nomination_post.php?action=create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `election_id=${electionId}&student_id=${studentId}&why=${encodeURIComponent(why)}&motive=${encodeURIComponent(motive)}&what=${encodeURIComponent(what)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success') {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');  // Add a 'show' class to trigger visibility
+                toast.textContent = data.message;
 
-            // Close the form and reset inputs
-            document.getElementById('nomination-popup').style.display = 'none';
-            document.getElementById('nomination-form').reset();
-            document.getElementById('student-info').textContent = "";
+                // Close the form and reset inputs
+                document.getElementById('nomination-popup').style.display = 'none';
+                document.getElementById('nomination-form').reset();
+                document.getElementById('student-info').textContent = "";
 
-            // Hide the toast after 3 seconds
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        } else {
-            alert(data.message);
-        }
-    })
-    .catch(error => console.error('Error submitting nomination:', error));
-});
+                // Hide the toast after 3 seconds
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error submitting nomination:', error));
+    });
 
     function openNominationForm(electionId, electionName) {
         document.getElementById('election-id').value = electionId;

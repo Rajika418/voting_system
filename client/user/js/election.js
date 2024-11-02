@@ -9,8 +9,20 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Fetch candidates from the server
-    fetch('http://localhost/voting_system/server/controller/election/candidate/candidate_get.php?election_id=4')
+    // Step 1: Fetch the current election ID based on the current year
+    fetch('http://localhost/voting_system/server/controller/election/election_getyear.php?action=read')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success' && data.data.length > 0) {
+                const election = data.data[0]; // Get the current election
+                const electionId = election.id;
+
+                // Step 2: Fetch candidates using the dynamic election ID
+                return fetch(`http://localhost/voting_system/server/controller/election/candidate/candidate_get.php?election_id=${electionId}`);
+            } else {
+                throw new Error("No election data found for the current year.");
+            }
+        })
         .then(response => response.json())
         .then(data => {
             if (data.status === "success") {
