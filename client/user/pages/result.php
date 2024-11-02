@@ -1,20 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Results</title>
 
-            <div class="results-content">
-                <h1>Exam Results</h1>
-                <div class="results-year-tabs">
-                    <button class="btn-primary active">2024</button>
-                    <button class="btn-primary">2021</button>
-                    <button class="btn-primary">2020</button>
-                </div>
-                <div class="results-cards">
-                    <div class="result-card">
-                        <h3>A/L Results</h3>
-                        <!-- Add A/L results content here -->
-                    </div>
-                    <div class="result-card">
-                        <h3>O/L Results</h3>
-                        <!-- Add O/L results content here -->
-                    </div>
-                </div>
+</head>
+<body>
+    <div class="container">
+        <h1 class="heading">Exam Results Portal</h1>
+        <div class="years-container" id="yearsContainer"></div>
+        <div class="results-container" id="resultsContainer">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="showResults('o/l')">O/L Results</button>
+                <button class="tab-btn" onclick="showResults('A/L')">A/L Results</button>
             </div>
-            
+            <div id="resultsTable"></div>
+        </div>
+        <div id="debug"></div>
+    </div>
+
+ 
+</body>
+</html>

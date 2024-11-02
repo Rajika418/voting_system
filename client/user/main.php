@@ -54,6 +54,9 @@ $view = $_GET['view'] ?? null;
                    echo '<link rel="stylesheet" href="./css/election.css" />';// Default view for elections dashboard
                        break;
                }
+               case 'results':
+                echo '<link rel="stylesheet" href="./css/exam_results.css" />';
+                break;
                case 'teachers':
                    echo '<link rel="stylesheet" href="./css/teacher.css" />';
                    break;
@@ -225,6 +228,9 @@ $view = $_GET['view'] ?? null;
                 echo '<script src="./js/election.js"></script>';// Default view for elections dashboard
                     break;
             }
+            case 'results':
+                echo '<script src="./js/exam_results.js"></script>';
+                break;
             case 'teachers':
                 echo '<script src="./js/teacher.js"></script>';
                 break;
