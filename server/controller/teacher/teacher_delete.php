@@ -1,4 +1,4 @@
-<?php 
+<?php
 require "../../db_config.php";
 
 // Check if the necessary POST data is provided
@@ -50,7 +50,6 @@ try {
 } catch (Exception $e) {
     // Rollback transaction if something went wrong
     $conn->rollBack();
-    
+
     echo json_encode(["message" => "Deletion failed: " . $e->getMessage()]);
 }
-?>

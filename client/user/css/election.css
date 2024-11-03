@@ -1,0 +1,151 @@
+/* Election Page Styles */
+.election-detail-container {
+    display: flex;
+    gap: 2rem;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.candidates-section {
+    flex: 2;
+    padding: 20px;
+}
+
+.voting-section {
+    flex: 1;
+    padding: 20px;
+}
+
+.candidates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.candidate-card {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.candidate-card:hover {
+    transform: translateY(-5px);
+}
+
+.candidate-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.candidate-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.candidate-info {
+    padding: 20px;
+}
+
+.candidate-info h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.candidate-info .position {
+    color: #666;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.candidate-info .grade {
+    color: #888;
+    margin: 5px 0;
+}
+
+.candidate-info .manifesto {
+    color: #555;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    line-height: 1.4;
+}
+
+.voting-box {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 20px;
+}
+
+.voting-box h2 {
+    margin-top: 0;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+#candidateSelect {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.vote-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.vote-button:hover {
+    background-color: #45a049;
+}
+
+.vote-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.already-voted {
+    text-align: center;
+    color: #666;
+}
+
+.already-voted p {
+    margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+    .election-detail-container {
+        flex-direction: column;
+    }
+    
+    .voting-box {
+        position: static;
+    }
+}
+
+

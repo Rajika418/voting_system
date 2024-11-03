@@ -1,4 +1,4 @@
-<?php 
+<?php
 require "../../db_config.php";
 
 // Check if the necessary POST data is provided
@@ -26,7 +26,7 @@ if (!is_dir($image_dir)) {
 if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     $image_tmp_name = $_FILES['image']['tmp_name'];
     $image_name = basename($_FILES['image']['name']);
-    
+
     // Generate a unique name for the image to prevent overwriting
     $unique_image_name = uniqid() . '_' . $image_name;
     $image_path = $image_dir . $unique_image_name;
@@ -47,8 +47,6 @@ if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
     }
 }
 
-// Get optional fields
-$grade_name = isset($_POST['grade_name']) ? $_POST['grade_name'] : NULL;
 $join_date = isset($_POST['join_date']) ? $_POST['join_date'] : NULL;
 $leave_date = isset($_POST['leave_date']) ? $_POST['leave_date'] : NULL;
 
@@ -110,16 +108,15 @@ try {
 
     // Commit transaction
     $conn->commit();
-   // Redirect to login page with success parameter
-    header("Location: ../../../client/login.html?registration=success");
+    // Redirect to login page with success parameter
+    header("Location: ../../../client/index.php?registration=success");
     exit();
 } catch (Exception $e) {
     // Rollback transaction if something went wrong
     $conn->rollBack();
-    
+
     // Encode error message and redirect back to registration page
     $error_message = urlencode("Registration failed: " . $e->getMessage());
-    header("Location: ../../../client/teacher/register.html?error=" . $error_message);
-    exit();
+    header("Location: ../../../client/?error=" . $error_message);
+    exit();
 }
-    ?>

@@ -1,25 +1,18 @@
-<?php 
+<?php
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: GET');
 header('Access-Control-Allow-Origin: *');
 
-// Database connection
-$host = "localhost";
-$db_name = "voting_system";
-$username = "root";
-$password = "";
+require "../../db_config.php";
 
-try {
-    $conn = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
-    echo json_encode(["status" => "error", "message" => "Connection failed: " . $e->getMessage()]);
-    exit();
-}
-
-// Prepare the SQL query
-$sql = "SELECT teacher_id, teacher_name FROM teacher";
+// Prepare the SQL query to get teachers and their related grades
+$sql = "
+    SELECT t.teacher_id, t.teacher_name, GROUP_CONCAT(g.grade_name) AS grades 
+    FROM teacher t
+    LEFT JOIN grade g ON t.teacher_id = g.teacher_id
+    GROUP BY t.teacher_id, t.teacher_name
+";
 
 // Execute the SQL statement
 try {
@@ -29,6 +22,11 @@ try {
     // Fetch all results
     $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Format the grades as an array instead of a comma-separated string
+    foreach ($teachers as &$teacher) {
+        $teacher['grades'] = !empty($teacher['grades']) ? explode(',', $teacher['grades']) : [];
+    }
+
     if ($teachers) {
         echo json_encode(["status" => "success", "teachers" => $teachers]);
     } else {
@@ -37,4 +35,3 @@ try {
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => "Query failed: " . $e->getMessage()]);
 }
-?>

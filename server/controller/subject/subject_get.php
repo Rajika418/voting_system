@@ -1,23 +1,11 @@
-
-
-
-
-<?php 
-
-
+<?php
 
 header('Content-Type: application/json');
 
-// Database connection
-$host = 'localhost';
-$dbname = 'voting_system';
-$username = 'root';
-$password = '';
+// Include database configuration
+require '../../db_config.php';
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Retrieve all subjects with corresponding teacher details (if available)
     $stmt = $conn->prepare("
         SELECT s.subject_id, s.subject_name, t.teacher_id, t.teacher_name 
@@ -52,11 +40,9 @@ try {
 
     // Return the result as JSON
     echo json_encode($result);
-
 } catch (PDOException $e) {
     echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
 }
 
 // Close the connection
 $conn = null;
-?>

@@ -1,16 +1,10 @@
 <?php
 header('Content-Type: application/json');
 
-// Database connection
-$host = 'localhost';
-$dbname = 'voting_system';
-$username = 'root';
-$password = '';
+// Include database configuration
+require '../../db_config.php';
 
 try {
-    $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     // Get the input data
     $data = json_decode(file_get_contents('php://input'), true);
 
@@ -71,4 +65,3 @@ try {
 
 // Close the connection
 $conn = null;
-?>
