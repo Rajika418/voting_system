@@ -37,6 +37,6 @@
             <textarea id="what" required></textarea><br>
             <button type="submit" class="btn-primary">Nominate</button>
         </form>
-        <div id="toast" class="toast" style="display: none;">Nomination submitted successfully.</div>
+        <div id="toast" class="toast"></div>
     </div>
 </div>
