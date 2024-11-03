@@ -229,3 +229,8 @@
     width: 100%;
   }
 }
+
+
+body.modal-active {
+  overflow: hidden;
+}

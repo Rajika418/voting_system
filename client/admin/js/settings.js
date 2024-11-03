@@ -111,13 +111,16 @@ async function updateProfile() {
 // Function to show password modal
 function showChangePasswordModal() {
   document.getElementById("passwordModal").classList.add("active");
+  document.body.classList.add("modal-active"); // Disable scrolling
 }
 
 // Function to close modal
 function closeModal() {
   document.getElementById("passwordModal").classList.remove("active");
+  document.body.classList.remove("modal-active"); // Enable scrolling
   document.getElementById("passwordForm").reset();
 }
+
 
 // Function to change password
 async function changePassword() {
