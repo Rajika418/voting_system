@@ -1,0 +1,63 @@
+/* Container to hold both the image and description */
+.about-section {
+    padding-top: 0rem;
+    padding-left: 40px ;
+    padding-right: 40px ;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    flex-wrap: wrap; /* Enables wrapping on smaller screens */
+}
+
+.about-container {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+    flex-wrap: wrap; /* Ensures items wrap on smaller screens */
+}
+
+.about-image {
+    flex: 1 1 300px; /* Adjusts width, ensuring a minimum size */
+    max-width: 400px; /* Limits max width for larger screens */
+}
+
+.about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.about-description {
+    flex: 2 1 500px; /* Takes up remaining space next to image */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: justify;
+}
+
+.about-description h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: #333;
+}
+
+.about-description p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 12px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .about-container {
+        flex-direction: column; /* Stacks items on smaller screens */
+    }
+
+    .about-image, .about-description {
+        max-width: 100%; /* Full width for smaller screens */
+    }
+}

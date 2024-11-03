@@ -26,53 +26,54 @@ $view = $_GET['view'] ?? null;
     <title>User Home - Kalaimahal School Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css" />
-  
-  
- 
+
+
+
 
     <?php
     // Default to 'dashboard' if no page parameter is set
-    
+
 
     // Dynamic CSS inclusion based on the page
-    switch ($currentPage ) {
-        
+    switch ($currentPage) {
 
-            case 'elections':
-                // Nested switch for different views in the elections page
-                switch ($view) {
-                   case 'current':
-                       echo '<link rel="stylesheet" href="./css/election.css" />';// Page for current elections
-                       break;
-                   case 'apply-nomination':
-                       echo '  <link rel="stylesheet" href="./css/nomination.css" />'; // Page for applying nomination
-                       break;
-                   case 'results':
-                       echo '  <link rel="stylesheet" href="./css/election_results.css" />'; // Page for election results
-                       break;
-                   default:
-                   echo '<link rel="stylesheet" href="./css/election.css" />';// Default view for elections dashboard
-                       break;
-               }
 
-               break;
-               case 'exam_results':
-                echo '<link rel="stylesheet" href="./css/exam_results.css" />';
-                break;
-               case 'teachers':
-                   echo '<link rel="stylesheet" href="./css/teacher.css" />';
-                   break;
-   
-                   case 'students':
-                       echo ' <link rel="stylesheet" href="./css/student.css" />';
-                       break;
+        case 'elections':
+            // Nested switch for different views in the elections page
+            switch ($view) {
+                case 'current':
+                    echo '<link rel="stylesheet" href="./css/election.css" />'; // Page for current elections
+                    break;
+                case 'apply-nomination':
+                    echo '  <link rel="stylesheet" href="./css/nomination.css" />'; // Page for applying nomination
+                    break;
+                case 'results':
+                    echo '  <link rel="stylesheet" href="./css/election_results.css" />'; // Page for election results
+                    break;
                 default:
-                  echo '<link rel="stylesheet" href="./css/style.css" />" />';
-                 break;
-        
+                    echo '<link rel="stylesheet" href="./css/election.css" />'; // Default view for elections dashboard
+                    break;
+            }
+
+            break;
+        case 'exam_results':
+            echo '<link rel="stylesheet" href="./css/exam_results.css" />';
+            break;
+        case 'teachers':
+            echo '<link rel="stylesheet" href="./css/teacher.css" />';
+            break;
+        case 'students':
+            echo ' <link rel="stylesheet" href="./css/student.css" />';
+            break;
+        case 'about':
+            echo '<link rel="stylesheet" href="./css/about.css"/>';
+            break;
+        default:
+            echo '<link rel="stylesheet" href="./css/style.css" />" />';
+            break;
     }
     ?>
-   
+
 </head>
 
 <body>
@@ -89,7 +90,7 @@ $view = $_GET['view'] ?? null;
             <div class="header-actions">
                 <a href="?page=settings" class="user-profile">
                     <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="User Avatar" class="user-avatar"
-                        onerror="this.onerror=null; this.src='http://localhost/voting_system/uploads/default-avatar.png';" />
+                        onerror="this.onerror=null;" this.src='http://localhost/voting_system/uploads/default-avatar.png' />
                     <div class="user-info">
                         <h4><?php echo htmlspecialchars($userName); ?></h4>
                     </div>
@@ -132,16 +133,23 @@ $view = $_GET['view'] ?? null;
                 </a>
             </li>
             <li class="nav-item">
-            <a href="?page=students" class="nav-link <?php echo $currentPage === 'students' ? 'active' : ''; ?>">
-                <i class="fas fa-user-graduate"></i>
-                <span class="nav-text">Students</span>
-            </a>
-        </li>
+                <a href="?page=students" class="nav-link <?php echo $currentPage === 'students' ? 'active' : ''; ?>">
+                    <i class="fas fa-user-graduate"></i>
+                    <span class="nav-text">Students</span>
+                </a>
+            </li>
 
             <li class="nav-item">
                 <a href="?page=profile" class="nav-link <?php echo $currentPage === 'profile' ? 'active' : ''; ?>">
                     <i class="fas fa-user-cog"></i>
                     <span class="nav-text">Profile</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="?page=about" class="nav-link <?php echo $currentPage === 'about' ? 'active' : ''; ?>">
+                    <i class="fas fa-info-circle"></i>
+                    <span class="nav-text">About</span>
                 </a>
             </li>
         </ul>
@@ -155,8 +163,8 @@ $view = $_GET['view'] ?? null;
                 include './pages/home.php';
                 break;
             case 'elections':
-                 // Nested switch for different views in the elections page
-                 switch ($view) {
+                // Nested switch for different views in the elections page
+                switch ($view) {
                     case 'current':
                         include './pages/elections/current_election.php'; // Page for current elections
                         break;
@@ -173,23 +181,25 @@ $view = $_GET['view'] ?? null;
 
                 break;
             case 'exam_results':
-                    include './pages/result.php';
-                    break;
+                include './pages/result.php';
+                break;
             case 'teachers':
                 include './pages/teacher.php';
                 break;
-                case 'students':
-                    include './pages/student.php';
-                    break;
+            case 'students':
+                include './pages/student.php';
+                break;
             case 'profile':
                 include './pages/profile.php';
                 break;
-           
+            case 'about':
+                include './pages/about.php';
+                break;
             default:
                 echo "<p>Page not found.</p>";
                 break;
         ?>
-           
+
                 <div class="error-content">
                     <h1>404 - Page Not Found</h1>
                     <p>The requested page could not be found.</p>
@@ -207,19 +217,19 @@ $view = $_GET['view'] ?? null;
         <p>&copy; 2024 Kalaimahal T.M.V. Hopton. All rights reserved.</p>
     </footer>
 
- 
+
 
     <script src="./js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
     <?php
     // Dynamic JavaScript inclusion based on the page
     switch ($currentPage) {
-       
+
         case 'elections':
-             // Nested switch for different views in the elections page
-             switch ($view) {
+            // Nested switch for different views in the elections page
+            switch ($view) {
                 case 'current':
-                    echo '<script src="./js/election.js"></script>';// Page for current elections
+                    echo '<script src="./js/election.js"></script>'; // Page for current elections
                     break;
                 case 'apply-nomination':
                     echo '<script src="./js/nomination.js"></script>'; // Page for applying nomination
@@ -228,21 +238,21 @@ $view = $_GET['view'] ?? null;
                     echo '<script src="./js/election_results.js"></script>'; // Page for election results
                     break;
                 default:
-                echo '<script src="./js/election.js"></script>';// Default view for elections dashboard
+                    echo '<script src="./js/election.js"></script>'; // Default view for elections dashboard
                     break;
             }
             break;
-            case 'exam_results':
-                echo '<script src="./js/exam_results.js"></script>';
-                break;
-            case 'teachers':
-                echo '<script src="./js/teacher.js"></script>';
-                break;
+        case 'exam_results':
+            echo '<script src="./js/exam_results.js"></script>';
+            break;
+        case 'teachers':
+            echo '<script src="./js/teacher.js"></script>';
+            break;
 
-                case 'students':
-                    echo '<script src="./js/student.js"></script>';
-                    break;
-                
+        case 'students':
+            echo '<script src="./js/student.js"></script>';
+            break;
+
             echo '<script src="./js/script.js"></script>';
             break;
     }

@@ -146,6 +146,11 @@ body {
     margin-top: 2rem;
 }
 
+.dashboard-stats a{
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
 .stat-card {
     background-color: var(--white);
     padding: 1.5rem;
