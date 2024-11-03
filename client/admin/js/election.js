@@ -68,37 +68,33 @@ async function fetchElections() {
 function renderElections(elections) {
   electionBody.innerHTML = "";
   elections.forEach((election, index) => {
-    const row = document.createElement("tr");
-    row.id = `election-${election.id}`;
-    row.dataset.name = election.election_name;
-    row.dataset.year = election.year;
-    row.dataset.nomStart = election.nom_start_date;
-    row.dataset.nomEnd = election.nom_end_date;
-    row.dataset.eleStart = election.ele_start_date;
-    row.dataset.eleEnd = election.ele_end_date;
+      const row = document.createElement("tr");
+      row.id = `election-${election.id}`;
+      row.dataset.name = election.election_name;
+      row.dataset.year = election.year;
+      row.dataset.nomStart = election.nom_start_date;
+      row.dataset.nomEnd = election.nom_end_date;
+      row.dataset.eleStart = election.ele_start_date;
+      row.dataset.eleEnd = election.ele_end_date;
 
-    row.innerHTML = `
-            <td>${(state.currentPage - 1) * 10 + index + 1}</td>
-            <td>${election.election_name}</td>
-            <td>${election.year}</td>
-            <td>${new Date(election.nom_start_date).toLocaleDateString()}</td>
-            <td>${new Date(election.nom_end_date).toLocaleDateString()}</td>
-            <td>${new Date(election.ele_start_date).toLocaleDateString()}</td>
-            <td>${new Date(election.ele_end_date).toLocaleDateString()}</td>
-            <td>
-                <a href="#/elections/nominations/${
-                  election.id
-                }">Nominations</a> |
-                <a href="#/elections/candidates/${election.id}">Candidates</a>
-            </td>
-            <td>
-                <button class="editbtn" data-id="${election.id}">Edit</button>
-                <button class="deletebtn" data-id="${
-                  election.id
-                }">Delete</button>
-            </td>
-        `;
-    electionBody.appendChild(row);
+      row.innerHTML = `
+          <td>${(state.currentPage - 1) * 10 + index + 1}</td>
+          <td>${election.election_name}</td>
+          <td>${election.year}</td>
+          <td>${new Date(election.nom_start_date).toLocaleDateString()}</td>
+          <td>${new Date(election.nom_end_date).toLocaleDateString()}</td>
+          <td>${new Date(election.ele_start_date).toLocaleDateString()}</td>
+          <td>${new Date(election.ele_end_date).toLocaleDateString()}</td>
+          <td>
+              <a href="?page=election/nominations/${election.id}" class="action-link">Nominations</a> |
+              <a href="?page=election/candidates/${election.id}" class="action-link">Candidates</a>
+          </td>
+          <td>
+              <button class="editbtn" data-id="${election.id}">Edit</button>
+              <button class="deletebtn" data-id="${election.id}">Delete</button>
+          </td>
+      `;
+      electionBody.appendChild(row);
   });
 }
 

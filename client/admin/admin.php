@@ -12,6 +12,13 @@ $userId = $_SESSION['user_id'] ?? '';
 $userName = $_SESSION['user_name'] ?? 'User';
 $roleName = $_SESSION['role_name'] ?? 'Role';
 $imageUrl = $_SESSION['image'] ?? 'Profile';
+
+// Parse the page parameter to handle sub-pages
+$pageRequest = $_GET['page'] ?? 'dashboard';
+$pageParams = explode('/', $pageRequest);
+$mainPage = $pageParams[0];
+$subPage = $pageParams[1] ?? '';
+$id = $pageParams[2] ?? '';
 ?>
 
 <!DOCTYPE html>
@@ -25,11 +32,8 @@ $imageUrl = $_SESSION['image'] ?? 'Profile';
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link rel="icon" href="./assets/images/school.png" type="image/png">
     <?php
-    // Default to 'dashboard' if no page parameter is set
-    $page = $_GET['page'] ?? 'dashboard';
-
-    // Dynamic CSS inclusion based on the page
-    switch ($page) {
+    // Dynamic CSS inclusion based on the page and subpage
+    switch ($mainPage) {
         case 'dashboard':
             echo '<link rel="stylesheet" href="./assets/css/dashboard.css" />';
             break;
@@ -41,6 +45,11 @@ $imageUrl = $_SESSION['image'] ?? 'Profile';
             break;
         case 'election':
             echo '<link rel="stylesheet" href="./assets/css/election.css" />';
+            if ($subPage == 'nominations') {
+                echo '<link rel="stylesheet" href="./assets/css/nominationlist.css" />';
+            } elseif ($subPage == 'candidates') {
+                echo '<link rel="stylesheet" href="./assets/css/candidatelist.css" />';
+            }
             break;
         case 'result':
             echo '<link rel="stylesheet" href="./assets/css/result.css" />';
@@ -71,7 +80,8 @@ $imageUrl = $_SESSION['image'] ?? 'Profile';
         <div class="header-right">
             <div class="header-actions">
                 <a href="?page=settings" class="user-profile">
-                    <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="User Avatar" class="user-avatar" onerror="this.onerror=null; this.src='http://localhost/voting_system/uploads/default-avatar.png;'" />
+                    <img src="<?php echo htmlspecialchars($imageUrl); ?>" alt="User Avatar" class="user-avatar" 
+                         onerror="this.onerror=null; this.src='http://localhost/voting_system/uploads/default-avatar.png;'" />
                     <div class="user-info">
                         <h4><?php echo htmlspecialchars($userName); ?></h4>
                         <p><?php echo htmlspecialchars($roleName); ?></p>
@@ -92,37 +102,37 @@ $imageUrl = $_SESSION['image'] ?? 'Profile';
         <div class="nav-section">
             <ul class="nav-items">
                 <li class="nav-item">
-                    <a href="?page=dashboard" class="nav-link <?= $page === 'dashboard' ? 'active' : '' ?>">
+                    <a href="?page=dashboard" class="nav-link <?= $mainPage === 'dashboard' ? 'active' : '' ?>">
                         <i class="fas fa-home-alt"></i>
                         <span class="nav-text">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="?page=teachers" class="nav-link <?= $page === 'teachers' ? 'active' : '' ?>">
+                    <a href="?page=teachers" class="nav-link <?= $mainPage === 'teachers' ? 'active' : '' ?>">
                         <i class="fas fa-chalkboard-teacher"></i>
                         <span class="nav-text">Teachers</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="?page=students" class="nav-link <?= $page === 'students' ? 'active' : '' ?>">
+                    <a href="?page=students" class="nav-link <?= $mainPage === 'students' ? 'active' : '' ?>">
                         <i class="fas fa-user-graduate"></i>
                         <span class="nav-text">Students</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="?page=election" class="nav-link <?= $page === 'election' ? 'active' : '' ?>">
+                    <a href="?page=election" class="nav-link <?= $mainPage === 'election' ? 'active' : '' ?>">
                         <i class="fas fa-vote-yea"></i>
                         <span class="nav-text">Election</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="?page=result" class="nav-link <?= $page === 'result' ? 'active' : '' ?>">
+                    <a href="?page=result" class="nav-link <?= $mainPage === 'result' ? 'active' : '' ?>">
                         <i class="fas fa-clipboard-list"></i>
                         <span class="nav-text">Result</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="?page=settings" class="nav-link <?= $page === 'settings' ? 'active' : '' ?>">
+                    <a href="?page=settings" class="nav-link <?= $mainPage === 'settings' ? 'active' : '' ?>">
                         <i class="fas fa-cog"></i>
                         <span class="nav-text">Settings</span>
                     </a>
@@ -134,8 +144,8 @@ $imageUrl = $_SESSION['image'] ?? 'Profile';
     <!-- Main Content -->
     <main class="main-content" id="mainContent">
         <?php
-        // Dynamic PHP inclusion based on the page
-        switch ($page) {
+        // Dynamic PHP inclusion based on the page and subpage
+        switch ($mainPage) {
             case 'dashboard':
                 include 'dashboard.php';
                 break;
@@ -146,7 +156,17 @@ $imageUrl = $_SESSION['image'] ?? 'Profile';
                 include './modules/students.php';
                 break;
             case 'election':
-                include './modules/election.php';
+                switch ($subPage) {
+                    case 'nominations':
+                        include './modules/nominations.php';
+                        break;
+                    case 'candidates':
+                        include './modules/candidates.php';
+                        break;
+                    default:
+                        include './modules/election.php';
+                        break;
+                }
                 break;
             case 'result':
                 include './modules/results.php';
@@ -173,12 +193,13 @@ $imageUrl = $_SESSION['image'] ?? 'Profile';
         </div>
     </footer>
 
-    <!-- Dynamic JS inclusion based on the page -->
+    <!-- Common Scripts -->
     <script src="./js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
+
     <?php
-    // Dynamic JavaScript inclusion based on the page
-    switch ($page) {
+    // Dynamic JavaScript inclusion based on the page and subpage
+    switch ($mainPage) {
         case 'dashboard':
             echo '<script src="./js/dashboard.js"></script>';
             break;
@@ -191,6 +212,11 @@ $imageUrl = $_SESSION['image'] ?? 'Profile';
             break;
         case 'election':
             echo '<script src="./js/election.js" defer></script>';
+            if ($subPage == 'nominations') {
+                echo '<script src="./js/nominationlist.js" defer></script>';
+            } elseif ($subPage == 'candidates') {
+                echo '<script src="./js/candidatelist.js" defer></script>';
+            }
             break;
         case 'result':
             echo '<script src="./js/tab.js" defer></script>';

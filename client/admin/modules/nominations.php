@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nomination List</title>
-    <link rel="stylesheet" href="../assets/css/nominationlist.css">
-</head>
-<body>
     <div class="container">
         <h1>Nomination List</h1>
         <div class="election-header">
@@ -47,7 +38,3 @@
     </div>
 
     <div class="toast-container" id="toastContainer"></div>
-    
-    <script src="../js/nominationlist.js"></script>
-</body>
-</html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Registration</title>
+    <link rel="icon" href="../../admin/assets/images/school.png" type="image/png">
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         // Get all required elements
