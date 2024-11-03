@@ -1,61 +1,80 @@
-let allTeachers = []; // Store all teachers data for filtering
+// JavaScript
+let allTeachers = [];
+let currentPage = 1;
+const teachersPerPage = 6; // 3x2 grid
 
-// Function to fetch and display teacher details
 async function fetchTeachers() {
   try {
     const response = await fetch(
-      "http://localhost/voting_system/server/controller/teacher/teacher_get.php?action=read"
+      "http://localhost/voting_system/server/controller/teacher/teacher_get.php"
     );
     const data = await response.json();
-
-    allTeachers = data.data; // Store teacher data
-    displayTeachers(allTeachers); // Display all teachers initially
+    allTeachers = data.data;
+    displayTeachers(allTeachers);
+    setupPagination(allTeachers);
   } catch (error) {
     console.error("Error fetching teacher data:", error);
   }
 }
 
-// Function to display teachers based on filtered data
 function displayTeachers(teachers) {
-  const teacherCardsContainer = document.getElementById("teacher-cards");
-  teacherCardsContainer.innerHTML = ""; // Clear existing content
+  const startIndex = (currentPage - 1) * teachersPerPage;
+  const endIndex = startIndex + teachersPerPage;
+  const paginatedTeachers = teachers.slice(startIndex, endIndex);
 
-  teachers.forEach((teacher) => {
+  const teacherCardsContainer = document.getElementById("teacher-cards");
+  teacherCardsContainer.innerHTML = "";
+
+  paginatedTeachers.forEach((teacher, index) => {
     const teacherCard = document.createElement("div");
     teacherCard.classList.add("teacher-card");
 
-    // Create the teacher image section
+    const teacherNumber = document.createElement("div");
+    teacherNumber.classList.add("teacher-number");
+    teacherNumber.textContent = startIndex + index + 1;
+
     const teacherImageDiv = document.createElement("div");
     teacherImageDiv.classList.add("teacher-image");
     const teacherImage = document.createElement("img");
     teacherImage.src = teacher.image || "https://via.placeholder.com/150";
     teacherImage.alt = "Teacher Image";
     teacherImageDiv.appendChild(teacherImage);
-    teacherCard.appendChild(teacherImageDiv);
 
-    // Create the teacher info section
     const teacherInfoDiv = document.createElement("div");
     teacherInfoDiv.classList.add("teacher-info");
-    const teacherName = document.createElement("h3");
-    teacherName.textContent = teacher.teacher_name;
-    const teacherAddress = document.createElement("p");
-    teacherAddress.textContent = teacher.address;
-    const teacherContact = document.createElement("p");
-    teacherContact.textContent = `Contact: ${teacher.contact_number}`;
-    const teacherEmail = document.createElement("p");
-    teacherEmail.textContent = `Email: ${teacher.email}`;
+    teacherInfoDiv.innerHTML = `
+      <h3>${teacher.teacher_name}</h3>
+      <p>${teacher.address}</p>
+      <p>Contact: ${teacher.contact_number}</p>
+      <p>Email: ${teacher.email}</p>
+    `;
 
-    teacherInfoDiv.appendChild(teacherName);
-    teacherInfoDiv.appendChild(teacherAddress);
-    teacherInfoDiv.appendChild(teacherContact);
-    teacherInfoDiv.appendChild(teacherEmail);
+    teacherCard.appendChild(teacherNumber);
+    teacherCard.appendChild(teacherImageDiv);
     teacherCard.appendChild(teacherInfoDiv);
-
     teacherCardsContainer.appendChild(teacherCard);
   });
 }
 
-// Function to filter teachers based on search input
+function setupPagination(teachers) {
+  const totalPages = Math.ceil(teachers.length / teachersPerPage);
+  const paginationContainer = document.getElementById("pagination");
+  paginationContainer.innerHTML = "";
+
+  for (let i = 1; i <= totalPages; i++) {
+    const pageButton = document.createElement("button");
+    pageButton.classList.add("page-btn");
+    if (i === currentPage) pageButton.classList.add("active");
+    pageButton.textContent = i;
+    pageButton.addEventListener("click", () => {
+      currentPage = i;
+      displayTeachers(teachers);
+      setupPagination(teachers);
+    });
+    paginationContainer.appendChild(pageButton);
+  }
+}
+
 function filterTeachers() {
   const searchValue = document
     .getElementById("search-input")
@@ -63,8 +82,9 @@ function filterTeachers() {
   const filteredTeachers = allTeachers.filter((teacher) =>
     teacher.teacher_name.toLowerCase().includes(searchValue)
   );
-  displayTeachers(filteredTeachers); // Display filtered teachers
+  currentPage = 1;
+  displayTeachers(filteredTeachers);
+  setupPagination(filteredTeachers);
 }
 
-// Call the function to fetch teachers when the page loads
 document.addEventListener("DOMContentLoaded", fetchTeachers);
