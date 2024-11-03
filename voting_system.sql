@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3307
--- Generation Time: Nov 03, 2024 at 11:39 AM
+-- Generation Time: Nov 03, 2024 at 06:48 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -38,7 +38,7 @@ CREATE TABLE `candidate` (
 --
 
 INSERT INTO `candidate` (`id`, `nomination_id`, `total_votes`) VALUES
-(1, 2, 5),
+(1, 2, 6),
 (2, 6, 3);
 
 -- --------------------------------------------------------
@@ -144,17 +144,19 @@ CREATE TABLE `nomination` (
   `student_id` int(11) NOT NULL,
   `why` varchar(255) NOT NULL,
   `motive` varchar(255) NOT NULL,
-  `what` varchar(255) NOT NULL
+  `what` varchar(255) NOT NULL,
+  `isNominated` tinyint(1) NOT NULL,
+  `isRejected` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `nomination`
 --
 
-INSERT INTO `nomination` (`id`, `election_id`, `student_id`, `why`, `motive`, `what`) VALUES
-(2, 4, 22, 'to get exprince', 'give good leadership', 'enhanse student power'),
-(6, 4, 24, 'dxhvjhbkj', 'jbkjnkjmk', 'vjbjn'),
-(8, 4, 23, 'jnkbjm;', 'bljnl', 'jlvkjld');
+INSERT INTO `nomination` (`id`, `election_id`, `student_id`, `why`, `motive`, `what`, `isNominated`, `isRejected`) VALUES
+(2, 4, 22, 'to get exprince', 'give good leadership', 'enhanse student power', 1, 0),
+(6, 4, 24, 'dxhvjhbkj', 'jbkjnkjmk', 'vjbjn', 1, 0),
+(8, 4, 23, 'jnkbjm;', 'bljnl', 'jlvkjld', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -438,6 +440,13 @@ CREATE TABLE `user_election` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Dumping data for table `user_election`
+--
+
+INSERT INTO `user_election` (`id`, `user_id`, `election_id`, `hasVoted`) VALUES
+(1, 8, 4, 1);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -567,7 +576,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_election`
 --
 ALTER TABLE `user_election`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

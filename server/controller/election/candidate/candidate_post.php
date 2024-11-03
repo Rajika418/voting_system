@@ -31,10 +31,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Execute the statement
         if ($stmt->execute()) {
+            // Get the ID of the newly created candidate
+            $candidate_id = $conn->lastInsertId();
+
+            // Update the nomination table to set isNominated to true
+            $updateStmt = $conn->prepare("UPDATE nomination SET isNominated = true WHERE id = :nomination_id");
+            $updateStmt->bindParam(':nomination_id', $nomination_id, PDO::PARAM_INT);
+            $updateStmt->execute();
+
             echo json_encode([
                 'status' => 'success',
                 'message' => 'Candidate added successfully.',
-                'candidate_id' => $conn->lastInsertId() // Return the ID of the newly created candidate
+                'candidate_id' => $candidate_id // Return the ID of the newly created candidate
             ]);
         } else {
             echo json_encode([
@@ -57,4 +65,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Close the database connection
 $conn = null;
-?>

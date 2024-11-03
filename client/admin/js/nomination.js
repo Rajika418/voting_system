@@ -208,7 +208,7 @@ function rejectNomination(nominationId) {
   fetch(
     `http://localhost/voting_system/server/controller/election/nomination/nomination_delete.php?id=${nominationId}`,
     {
-      method: "DELETE",
+      method: "PATCH",
     }
   )
     .then((response) => response.json())

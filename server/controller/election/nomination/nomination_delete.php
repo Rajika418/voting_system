@@ -2,11 +2,11 @@
 // Include the database configuration file
 include '../../../db_config.php';
 
-// API to delete a nomination
-if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+// API to reject a nomination
+if ($_SERVER['REQUEST_METHOD'] === 'PATCH') { // Use PATCH for updates
     // Get the ID from the query string or request body
-    parse_str(file_get_contents("php://input"), $_DELETE);
-    $id = $_GET['id'] ?? $_DELETE['id'] ?? null;
+    parse_str(file_get_contents("php://input"), $_PATCH);
+    $id = $_GET['id'] ?? $_PATCH['id'] ?? null;
 
     // Validate required fields
     if (empty($id)) {
@@ -17,26 +17,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         exit();
     }
 
-    // Prepare and execute the delete statement
+    // Prepare and execute the update statement
     try {
-        $stmt = $conn->prepare("DELETE FROM nomination WHERE id = ?");
+        $stmt = $conn->prepare("UPDATE nomination SET isRejected = true WHERE id = ?");
         $stmt->execute([$id]);
 
         if ($stmt->rowCount() > 0) {
             echo json_encode([
                 'status' => 'success',
-                'message' => 'Nomination deleted successfully.'
+                'message' => 'Nomination marked as rejected successfully.'
             ]);
         } else {
             echo json_encode([
                 'status' => 'error',
-                'message' => 'Nomination not found or already deleted.'
+                'message' => 'Nomination not found or already marked as rejected.'
             ]);
         }
     } catch (PDOException $e) {
         echo json_encode([
             'status' => 'error',
-            'message' => 'Error deleting nomination: ' . $e->getMessage()
+            'message' => 'Error rejecting nomination: ' . $e->getMessage()
         ]);
     }
 } else {
@@ -45,4 +45,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
         'message' => 'Invalid request method.'
     ]);
 }
-?>
