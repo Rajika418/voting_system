@@ -188,8 +188,7 @@ function selectNomination(nominationId) {
       console.log("Response data:", data); // Debug log
       if (data.status === "success") {
         showToast("Nomination selected as candidate!", "success");
-        nominations = nominations.filter((n) => n.id !== nominationId);
-        displayedNominations = [...nominations];
+        location.reload();
         displayNominations();
         updatePageInfo();
         updatePaginationButtons();
@@ -215,8 +214,7 @@ function rejectNomination(nominationId) {
     .then((data) => {
       if (data.status === "success") {
         showToast("Nomination rejected successfully.", "success");
-        nominations = nominations.filter((n) => n.id !== nominationId);
-        displayedNominations = [...nominations];
+        location.reload();
         displayNominations();
         updatePageInfo();
         updatePaginationButtons();
