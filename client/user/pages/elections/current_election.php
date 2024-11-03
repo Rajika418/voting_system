@@ -1,8 +1,3 @@
-<?php
-// Check if user has already voted
-$hasVoted = false; // This should be checked from your database
-?>
-
 <div class="election-detail-container">
     <div class="candidates-section">
         <h2>Current Election Candidates</h2>

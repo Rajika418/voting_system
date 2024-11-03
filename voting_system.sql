@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 03, 2024 at 07:02 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: 127.0.0.1:3307
+-- Generation Time: Nov 03, 2024 at 11:39 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -406,7 +406,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `user_name`, `password`, `email`, `role_id`, `image`) VALUES
-(8, 'Raji', '$2y$10$gRWFH5I5GMz3PI37jRHJj.q/yZaJdNMORXcL5Ij0lrfuRq9HKb6ym', 'raji@example.com', 2, 'http://localhost/voting_system/uploads/66fcd4ecc08ca_vijay.jpg'),
+(8, 'Raji', '$2y$10$gRWFH5I5GMz3PI37jRHJj.q/yZaJdNMORXcL5Ij0lrfuRq9HKb6ym', 'raji@gmail.com', 2, 'http://localhost/voting_system/uploads/66fcd4ecc08ca_vijay.jpg'),
 (9, 'Rajika', '$2y$10$B9Dxn4jQdgd47Idp/56XuufICDiBXJ9c.Qmb4/0I9EdJ.QsanpSKK', 'rajikakumar18@gmail.com', 1, 'http://localhost/voting_system/uploads/66fcd4ecc08ca_vijay.jpg'),
 (10, 'teacher', '$2y$10$HfD9i9ysA2XjTvfqp0YwEOAQXHH3pe/Wh6kXSFUlTGOlNtrZ5hVrO', 'teacher@example.com', 2, ''),
 (11, 'student', '$2y$10$RgS2NmBonL.cXJ1ly/wmkOLTrx1VfViQXNKkqxhhmDGy2RTJIFC4K', 'student@example.com', 3, ''),
@@ -423,6 +423,19 @@ INSERT INTO `users` (`user_id`, `user_name`, `password`, `email`, `role_id`, `im
 (63, 'kamal', '$2y$10$fnEdCmoRU8Z7OIAr3g30vO4koLsKGjA4.L5NKW/GIZgr7ZptXJolK', 'kamal@example.com', 3, 'http://localhost/voting_system/uploads/67235fb926948_IMG_20241012_134903_954.jpg'),
 (64, 'mary', '$2y$10$//cSAYv4by27m/ECuhTZz.cB/AlV.GLTpqfMH5u6O55lzYZsxdW1q', 'mary@example.com', 3, 'http://localhost/voting_system/uploads/67235fc5b4251_IMG_20241012_134903_954.jpg'),
 (65, 'dhurai', '$2y$10$aLQ6PT.UtcfOsYNaHRnUJ.6hSFD80acTK4B0w4zseqEj4bLeCI.zu', 'dhurai@example.com', 3, 'http://localhost/voting_system/uploads/67235fcd36752_IMG_20241012_134903_954.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_election`
+--
+
+CREATE TABLE `user_election` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `election_id` int(11) NOT NULL,
+  `hasVoted` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -507,6 +520,28 @@ ALTER TABLE `subject_teacher`
   ADD KEY `teacher_id` (`teacher_id`);
 
 --
+-- Indexes for table `teacher`
+--
+ALTER TABLE `teacher`
+  ADD PRIMARY KEY (`teacher_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`),
+  ADD KEY `role_id` (`role_id`);
+
+--
+-- Indexes for table `user_election`
+--
+ALTER TABLE `user_election`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `election_id` (`election_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -523,6 +558,18 @@ ALTER TABLE `nomination`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+
+--
+-- AUTO_INCREMENT for table `user_election`
+--
+ALTER TABLE `user_election`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -531,6 +578,31 @@ ALTER TABLE `nomination`
 --
 ALTER TABLE `nomination`
   ADD CONSTRAINT `nomination_ibfk_1` FOREIGN KEY (`election_id`) REFERENCES `elections` (`id`);
+
+--
+-- Constraints for table `student`
+--
+ALTER TABLE `student`
+  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `teacher`
+--
+ALTER TABLE `teacher`
+  ADD CONSTRAINT `teacher_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`role_id`) REFERENCES `roles` (`role_id`);
+
+--
+-- Constraints for table `user_election`
+--
+ALTER TABLE `user_election`
+  ADD CONSTRAINT `user_election_ibfk_1` FOREIGN KEY (`election_id`) REFERENCES `elections` (`id`),
+  ADD CONSTRAINT `user_election_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
