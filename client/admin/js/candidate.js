@@ -34,6 +34,11 @@ async function fetchCandidateData() {
     const data = await response.json();
 
     if (data.status === "success") {
+      document.getElementById("electionName").textContent =
+        data.data[0]?.election_name || "Election";
+      document.getElementById("electionYear").textContent = `Year: ${
+        data.data[0]?.year || ""
+      }`;
       renderCandidateData(data);
       updatePagination(data);
     } else {
@@ -53,6 +58,8 @@ function renderCandidateData(data) {
 
   // Clear previous candidate information
   candidateInfo.innerHTML = "";
+
+  console.log(data.data);
 
   if (data.data.length === 0) {
     candidateInfo.innerHTML = `

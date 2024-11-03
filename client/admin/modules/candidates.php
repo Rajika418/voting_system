@@ -1,6 +1,11 @@
 <div class="container">
     <h1 id="electionTitle">Candidate List</h1>
 
+    <div id="electionDetails">
+        <h2 id="electionName"></h2>
+        <p id="electionYear"></p>
+    </div>
+    
     <div class="search-container">
         <i class="search-icon">🔍</i>
         <input

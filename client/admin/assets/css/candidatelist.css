@@ -91,6 +91,27 @@
     border-color: #007bff;
 }
 
+/* Election details styling */
+#electionDetails {
+    background-color: #f8f9fa;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #dee2e6;
+    text-align: center;
+}
+
+#electionName {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+#electionYear {
+    font-size: 18px;
+    color: #555;
+}
+
 .page-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;

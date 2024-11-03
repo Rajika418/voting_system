@@ -2,17 +2,18 @@
 // Include the database configuration file
 include '../../../db_config.php';
 
-// API to get nomination data by election ID, with search and pagination
+header('Content-Type: application/json');
+
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    // Get the election ID from the request
-    $electionId = isset($_GET['election_id']) ? $_GET['election_id'] : null;
-    $search = isset($_GET['search']) ? $_GET['search'] : '';
-    $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10; // Number of results per page (default is 10)
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Current page (default is 1)
-    $offset = ($page - 1) * $limit; // Offset calculation for pagination
+    // Get the election ID from the input parameter
+    $electionId = isset($_GET['election_id']) ? intval($_GET['election_id']) : null;
+    $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+    $limit = isset($_GET['limit']) ? max(1, intval($_GET['limit'])) : 10; // Default limit is 10
+    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1; // Default page is 1
+    $offset = ($page - 1) * $limit;
 
     if ($electionId) {
-        // Prepare the SQL query with election_id, search, and pagination
+        // SQL query with election_id, search, pagination, and isNominated condition
         $sql = "
             SELECT 
                 n.id, 
@@ -27,7 +28,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 u.image,
                 n.why,
                 n.motive,
-                n.what
+                n.what,
+                n.isNominated,
+                n.isRejected
             FROM 
                 nomination n
             JOIN 
@@ -45,21 +48,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         ";
 
         try {
-            // Prepare the statement
+            // Prepare and bind parameters
             $stmt = $conn->prepare($sql);
-            // Bind parameters
             $stmt->bindParam(':election_id', $electionId, PDO::PARAM_INT);
             $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
-            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT); // Use bindValue instead of bindParam for limit
-            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT); // Use bindValue instead of bindParam for offset
+            $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+            $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
 
             // Execute the query
             $stmt->execute();
-
-            // Fetch all results
             $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Get the total count of records for pagination
+            // Count total records for pagination
             $countSql = "
                 SELECT COUNT(*) as total
                 FROM 
@@ -68,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     student s ON n.student_id = s.student_id
                 WHERE 
                     n.election_id = :election_id 
+                    AND n.isNominated = false
                     AND s.student_name LIKE :search
             ";
             $countStmt = $conn->prepare($countSql);
@@ -76,18 +77,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $countStmt->execute();
             $totalCount = $countStmt->fetch(PDO::FETCH_ASSOC)['total'];
 
-            // Check if results were found
+            // Prepare and send the JSON response
             if ($results) {
                 echo json_encode([
                     'status' => 'success',
                     'data' => $results,
                     'total' => $totalCount,
                     'page' => $page,
-                    'limit' => $limit
+                    'limit' => $limit,
+                    'totalPages' => ceil($totalCount / $limit)
                 ]);
             } else {
                 echo json_encode([
-                    'status' => 'error',
+                    'status' => 'success',
+                    'data' => [],
+                    'total' => 0,
+                    'page' => $page,
+                    'limit' => $limit,
+                    'totalPages' => 0,
                     'message' => 'No nominations found.'
                 ]);
             }
@@ -109,4 +116,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         'message' => 'Invalid request method.'
     ]);
 }
-?>

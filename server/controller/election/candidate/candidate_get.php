@@ -17,11 +17,14 @@ try {
         SELECT 
             c.id AS candidate_id,
             s.student_name,
-            c.total_votes
+            c.total_votes,
+            e.election_name,
+            e.year
         FROM 
             candidate c
             JOIN nomination n ON c.nomination_id = n.id
             JOIN student s ON n.student_id = s.student_id
+            JOIN elections e ON n.election_id = e.id
         WHERE n.election_id = :electionId
     ";
 
@@ -38,6 +41,7 @@ try {
         FROM candidate c
         JOIN nomination n ON c.nomination_id = n.id
         JOIN student s ON n.student_id = s.student_id
+        JOIN elections e ON n.election_id = e.id
         WHERE n.election_id = :electionId
     ";
 
@@ -101,3 +105,4 @@ try {
         'message' => 'An unexpected error occurred: ' . $e->getMessage()
     ]);
 }
+?>
