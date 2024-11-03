@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
+    let electionId;
     // Step 1: Fetch the current election ID based on the current year
     fetch(
       "http://localhost/voting_system/server/controller/election/election_getyear.php?action=read"
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
       .then((data) => {
         if (data.status === "success" && data.data.length > 0) {
           const election = data.data[0];
-          const electionId = election.id;
+          electionId = election.id;
 
           // Step 2: Check if user has already voted
           return Promise.all([
@@ -108,14 +109,16 @@ document.addEventListener("DOMContentLoaded", function () {
           voteButton.textContent = "Submitting Vote...";
 
           fetch(
-            "http://localhost/voting_system/server/controller/election/candidate/vote_put.php?election_id=${electionId}&user_id=${userId}",
+            `http://localhost/voting_system/server/controller/election/candidate/vote_put.php`,
             {
               method: "POST",
               headers: {
-                "Content-Type": "application/json",
+                "Content-Type": "application/x-www-form-urlencoded",
               },
               body: new URLSearchParams({
                 candidate_id: candidateSelect.value,
+                election_id: electionId,
+                user_id: userId,
                 _method: "PUT",
               }).toString(),
             }
