@@ -1,6 +1,5 @@
 <?php
 // Include the database configuration file
-// Include the database configuration file
 include '../../../db_config.php';
 
 header('Content-Type: application/json');
@@ -25,7 +24,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
-    // Prepare the SQL statement
+    // Check if the student has already applied for a nomination
+    try {
+        $checkStmt = $conn->prepare("SELECT COUNT(*) FROM nomination WHERE student_id = ? AND election_id = ?");
+        $checkStmt->execute([$student_id, $election_id]);
+        $count = $checkStmt->fetchColumn();
+
+        if ($count > 0) {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'This student has already applied for a nomination in this election.'
+            ]);
+            exit();
+        }
+    } catch (PDOException $e) {
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Error checking nomination: ' . $e->getMessage()
+        ]);
+        exit();
+    }
+
+    // Prepare the SQL statement to insert the nomination
     try {
         $stmt = $conn->prepare("INSERT INTO nomination (election_id, student_id, why, motive, what) VALUES (?, ?, ?, ?, ?)");
         $stmt->execute([$election_id, $student_id, $why, $motive, $what]);
@@ -40,12 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'message' => 'Error submitting nomination: ' . $e->getMessage()
         ]);
     }
-
 } else {
     echo json_encode([
         'status' => 'error',
         'message' => 'Invalid request method.'
     ]);
 }
-
-?>

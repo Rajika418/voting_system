@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("nomination-popup").style.display = "none";
           document.getElementById("nomination-form").reset();
           document.getElementById("student-info").textContent = "";
-  
+          alert("Nomination submitted successfully.")
           // Hide the toast after 3 seconds
           setTimeout(() => {
             toast.classList.remove("show");
