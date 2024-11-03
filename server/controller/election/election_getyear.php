@@ -12,13 +12,23 @@ $sql = "SELECT id, year, election_name, nom_start_date, nom_end_date, ele_start_
 
 $stmt = $conn->prepare($sql);
 $stmt->bindParam(':currentYear', $currentYear, PDO::PARAM_INT);
-$stmt->execute();
+$response = []; // Initialize response array
 
-// Fetch the election details if any
-$elections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+if ($stmt->execute()) {
+    // Fetch the election details if any
+    $elections = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Set status and data in response
+    $response['status'] = 'success';
+    $response['data'] = $elections;
+} else {
+    // If query execution fails, set error status
+    $response['status'] = 'error';
+    $response['data'] = [];
+}
 
 // Return the result as JSON
 header('Content-Type: application/json');
-echo json_encode($elections);
+echo json_encode($response);
 
 ?>

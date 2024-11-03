@@ -45,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     'message' => 'No data found for this index number'
                 ]);
             }
-
         } catch (PDOException $e) {
             // Handle any errors
             echo json_encode([
@@ -53,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 'message' => 'Database error: ' . $e->getMessage()
             ]);
         }
-
     } else {
         // If index_no is not provided in the GET request
         echo json_encode([
@@ -65,5 +63,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 // Close connection
 $conn = null;
-?>
-

@@ -45,7 +45,7 @@ try {
     // Insert data into the staffs table
     $stmt = $conn->prepare("INSERT INTO staffs (staff_name, position, address, email, contact_number, image, join_date, leave_date) 
                             VALUES (:staff_name, :position, :address, :email, :contact_number, :image, :join_date, :leave_date)");
-    
+
     $stmt->bindParam(':staff_name', $_POST['staff_name']);
     $stmt->bindParam(':position', $_POST['position']);
     $stmt->bindParam(':address', $_POST['address']);
@@ -54,7 +54,7 @@ try {
     $stmt->bindParam(':image', $image);
     $stmt->bindParam(':join_date', $_POST['join_date']);
     $stmt->bindParam(':leave_date', $_POST['leave_date']);
-    
+
     $stmt->execute();
 
     echo json_encode(['status' => 'success', 'message' => 'Staff added successfully']);
@@ -64,4 +64,3 @@ try {
 
 // Close the connection
 $conn = null;
-?>

@@ -3,7 +3,8 @@ require '../../db_config.php';
 require('../fpdf/fpdf.php');
 
 // Function to fetch student data
-function getStudentData($conn, $student_id) {
+function getStudentData($conn, $student_id)
+{
     $sql = "
         SELECT 
             se.id,
@@ -102,12 +103,10 @@ try {
     }
 
     // Output PDF
-    $pdf->Output('D', $student_data['student_name'] .'_'.$student_data['year']. '_results.pdf');
-
+    $pdf->Output('D', $student_data['student_name'] . '_' . $student_data['year'] . '_results.pdf');
 } catch (PDOException $e) {
     die("Error: " . $e->getMessage());
 }
 
 // Close connection
 $conn = null;
-?>

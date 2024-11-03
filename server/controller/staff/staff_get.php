@@ -49,4 +49,3 @@ try {
 
 // Close the connection
 $conn = null;
-?>

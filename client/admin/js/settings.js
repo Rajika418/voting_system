@@ -30,10 +30,13 @@ async function changeImage() {
         const formData = new FormData();
         formData.append("image", file);
 
-        const response = await fetch(`${API_BASE_URL}/user_update.php/${userId}`, {
-          method: "POST",
-          body: formData,
-        });
+        const response = await fetch(
+          `${API_BASE_URL}/user_update.php/${userId}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
 
         const data = await response.json();
 
@@ -137,10 +140,13 @@ async function changePassword() {
     formData.append("current_password", currentPassword);
     formData.append("new_password", newPassword);
 
-    const response = await fetch(`${API_BASE_URL}/change_password.php/${userId}`, {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      `${API_BASE_URL}/change_password.php/${userId}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     const data = await response.json();
 
@@ -158,9 +164,7 @@ async function changePassword() {
 // Function to get user details from the API
 async function getUserDetails() {
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/user_get.php/${userId}`
-    );
+    const response = await fetch(`${API_BASE_URL}/user_get.php/${userId}`);
     const data = await response.json();
 
     if (data.status === "success") {
@@ -168,7 +172,8 @@ async function getUserDetails() {
       document.getElementById("fullName").value = data.data.user_name;
       document.getElementById("email").value = data.data.email;
       document.getElementById("profileImage").src =
-        data.data.image || "http://localhost/voting_system/uploads/default-avatar.png";
+        data.data.image ||
+        "http://localhost/voting_system/uploads/default-avatar.png";
       document.getElementById("userName").textContent = data.data.user_name;
       document.getElementById("userEmail").textContent = data.data.email;
     } else {

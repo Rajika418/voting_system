@@ -16,10 +16,10 @@ try {
     if (!empty($data)) {
         // Prepare the SQL to check if the index_no exists in student_exam and retrieve exam_id
         $check_query = "SELECT id FROM student_exam WHERE index_no = :index_no";
-        
+
         // Prepare the SQL to insert into the results table
         $insert_query = "INSERT INTO results (exam_id, subject_id, result) VALUES (:exam_id, :subject_id, :result)";
-        
+
         // Prepare the statements
         $check_stmt = $conn->prepare($check_query);
         $insert_stmt = $conn->prepare($insert_query);
@@ -70,4 +70,3 @@ try {
 
 // Close connection
 $conn = null;
-?>

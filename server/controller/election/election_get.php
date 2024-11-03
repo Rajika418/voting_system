@@ -77,4 +77,3 @@ try {
 }
 
 $conn = null; // Close the connection
-?>

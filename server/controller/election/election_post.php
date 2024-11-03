@@ -8,7 +8,8 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Access-Control-Allow-Headers,Content-Type,Access-Control-Allow-Methods, Authorization, X-Requested-With");
 
 // Function to clean input data
-function clean_input($data) {
+function clean_input($data)
+{
     return htmlspecialchars(stripslashes(trim($data)));
 }
 
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $fileName = $_FILES['image']['name'];
         $fileNameCmps = explode(".", $fileName);
         $fileExtension = strtolower(end($fileNameCmps));
-        
+
         // Allowed file extensions
         $allowedfileExtensions = array('jpg', 'png', 'jpeg', 'gif');
         if (in_array($fileExtension, $allowedfileExtensions)) {
@@ -75,4 +76,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $conn = null; // Close the connection
-?>

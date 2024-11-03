@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 header('Content-Type: application/json');
 
@@ -40,11 +40,9 @@ try {
 
     // Return the result as JSON
     echo json_encode($result);
-
 } catch (PDOException $e) {
     echo json_encode(['status' => 'error', 'message' => 'Database error: ' . $e->getMessage()]);
 }
 
 // Close the connection
 $conn = null;
-?>

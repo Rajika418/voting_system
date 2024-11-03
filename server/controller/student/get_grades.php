@@ -8,7 +8,7 @@ try {
     // Prepare SQL statement
     $stmt = $conn->prepare("SELECT grade_id, grade_name FROM grade");
     $stmt->execute();
-    
+
     // Fetch results using fetchAll
     $grades = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -21,4 +21,3 @@ try {
 
 // Close the database connection
 $conn = null;
-?>

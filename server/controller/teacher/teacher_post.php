@@ -120,4 +120,3 @@ try {
     header("Location: ../../../client/?error=" . $error_message);
     exit();
 }
-?>

@@ -18,10 +18,8 @@ try {
     } else {
         echo json_encode(array("status" => "error", "message" => "No years found."));
     }
-
 } catch (PDOException $e) {
     echo json_encode(array("status" => "error", "message" => $e->getMessage()));
 }
 
 $conn = null; // Close the connection
-?>

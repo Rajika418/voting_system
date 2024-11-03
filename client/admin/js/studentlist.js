@@ -97,14 +97,18 @@ function updateSortButtons() {
 
   // Update student name button text based on sort state
   if (sortColumn === "student_name") {
-    studentNameButton.innerHTML = `Sort by Name ${sortDirection === "asc" ? ascArrow : descArrow}`;
+    studentNameButton.innerHTML = `Sort by Name ${
+      sortDirection === "asc" ? ascArrow : descArrow
+    }`;
   } else {
     studentNameButton.textContent = "Sort by Name";
   }
 
   // Update grade name button text based on sort state
   if (sortColumn === "grade_name") {
-    gradeNameButton.innerHTML = `Sort by Grade ${sortDirection === "asc" ? ascArrow : descArrow}`;
+    gradeNameButton.innerHTML = `Sort by Grade ${
+      sortDirection === "asc" ? ascArrow : descArrow
+    }`;
   } else {
     gradeNameButton.textContent = "Sort by Grade";
   }
@@ -221,7 +225,7 @@ deleteStudent = async function deleteStudent(studentId) {
   }
 };
 
-function showToast(message, type ) {
+function showToast(message, type) {
   const toast = document.getElementById("toast");
   toast.innerText = message;
   toast.classList.add("show", type);
@@ -233,5 +237,3 @@ function showToast(message, type ) {
 })();
 
 fetchStudents();
-
-

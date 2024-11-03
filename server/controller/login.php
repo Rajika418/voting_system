@@ -56,4 +56,3 @@ try {
     header("Location: ../../client/index.php?error=database");
     exit();
 }
-?>

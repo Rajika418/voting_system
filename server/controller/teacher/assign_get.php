@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: GET');
@@ -35,5 +35,3 @@ try {
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "message" => "Query failed: " . $e->getMessage()]);
 }
-
-?>

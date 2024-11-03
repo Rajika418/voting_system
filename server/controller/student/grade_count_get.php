@@ -14,14 +14,14 @@ if (isset($_GET['grade_id'])) {
                              FROM student s 
                              WHERE s.grade_id = :grade_id");
     $stmt->bindValue(':grade_id', $grade_id, PDO::PARAM_INT);
-    
+
     if ($stmt->execute()) {
         $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Fetch grade details
         $stmt = $conn->prepare("SELECT g.grade_name FROM grade g WHERE g.grade_id = :grade_id");
         $stmt->bindValue(':grade_id', $grade_id, PDO::PARAM_INT);
-        
+
         if ($stmt->execute()) {
             $grade_result = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -48,4 +48,3 @@ if (isset($_GET['grade_id'])) {
 }
 
 $conn = null; // Close the connection
-?>

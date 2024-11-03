@@ -130,23 +130,25 @@ function renderSubjects(subjects) {
   // Render subjects with sections
   Object.entries(subjects.sections).forEach(
     ([sectionName, sectionSubjects]) => {
-
       const repeatCount = sectionName === "Subject 1" ? 3 : 1;
 
       for (let i = 0; i < repeatCount; i++) {
-      const sectionDiv = document.createElement("div");
-      sectionDiv.className = "section";
-      const dynamicSectionName = sectionName === "Subject 1" ? `Subject ${i + 1}` : sectionName;
-      sectionDiv.innerHTML = `<div class="section-title">${dynamicSectionName}</div>`;
+        const sectionDiv = document.createElement("div");
+        sectionDiv.className = "section";
+        const dynamicSectionName =
+          sectionName === "Subject 1" ? `Subject ${i + 1}` : sectionName;
+        sectionDiv.innerHTML = `<div class="section-title">${dynamicSectionName}</div>`;
 
-      const subjectDiv = document.createElement("div");
-      subjectDiv.className = "subject-row";
-      subjectDiv.appendChild(createSubjectSelect(sectionSubjects, sectionName));
-      subjectDiv.appendChild(createResultSelect(dynamicSectionName));
-      //subjectDiv.appendChild(createResultSelect(sectionName));
-      sectionDiv.appendChild(subjectDiv);
+        const subjectDiv = document.createElement("div");
+        subjectDiv.className = "subject-row";
+        subjectDiv.appendChild(
+          createSubjectSelect(sectionSubjects, sectionName)
+        );
+        subjectDiv.appendChild(createResultSelect(dynamicSectionName));
+        //subjectDiv.appendChild(createResultSelect(sectionName));
+        sectionDiv.appendChild(subjectDiv);
 
-      container.appendChild(sectionDiv);
+        container.appendChild(sectionDiv);
       }
     }
   );
@@ -246,4 +248,3 @@ function fetchData() {
 
 // Add event listener to the index number input
 document.getElementById("indexNo").addEventListener("input", fetchData);
-

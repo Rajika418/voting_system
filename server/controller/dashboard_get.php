@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Methods: GET');
@@ -27,5 +27,3 @@ try {
 } catch (PDOException $e) {
     echo json_encode(["message" => "Query failed: " . $e->getMessage()]);
 }
-
-?>
