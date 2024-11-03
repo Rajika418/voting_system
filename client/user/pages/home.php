@@ -1,5 +1,5 @@
 <div class="home-content">
-    <h1>Welcome to the User Home Page!</h1>
+    <h1>Welcome to the Kalaimahal T.M.V  Hopton!</h1>
     <div class="dashboard-stats">
         <a href="?page=elections&view=current" class="stat-card">
             <i class="fas fa-vote-yea"></i>
