@@ -23,6 +23,7 @@ if (isset($_SESSION['user_id'])) {
     <title>Login Page</title>
     <script src="./index.js"> </script>
     <link rel="stylesheet" href="login.css">
+    <link rel="icon" href="./admin/assets/images/school.png" type="image/png">
 </head>
 
 <body>

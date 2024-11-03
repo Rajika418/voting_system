@@ -26,10 +26,7 @@ $view = $_GET['view'] ?? null;
     <title>User Home - Kalaimahal School Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css" />
-
-
-
-
+    <link rel="icon" href="../admin/assets/images/school.png" type="image/png">
     <?php
     // Default to 'dashboard' if no page parameter is set
 
