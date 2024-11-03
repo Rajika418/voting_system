@@ -2,7 +2,7 @@
 
 // get_user_election.php
 
-require '../../../db_config.php'; // Include database connection
+require '../../db_config.php'; // Include database connection
 
 header('Content-Type: application/json'); // Set the content type to JSON
 
@@ -28,15 +28,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $userElectionData = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($userElectionData) {
-            // Return the user election data
+            // Return the user election data along with hasVoted as true
             echo json_encode([
                 'status' => 'success',
+                'hasVoted' => true,   // Indicate that the user has voted
                 'data' => $userElectionData
             ]);
         } else {
             // No data found for the given user_id and election_id
             echo json_encode([
-                'status' => 'error',
+                'status' => 'success', // Still success to maintain consistent structure
+                'hasVoted' => false,   // Indicate that the user has not voted
                 'message' => 'No election data found for the provided user_id and election_id.'
             ]);
         }

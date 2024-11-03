@@ -214,8 +214,6 @@ $view = $_GET['view'] ?? null;
         <p>&copy; 2024 Kalaimahal T.M.V. Hopton. All rights reserved.</p>
     </footer>
 
-
-
     <script src="./js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.4/axios.min.js"></script>
     <?php
@@ -226,6 +224,7 @@ $view = $_GET['view'] ?? null;
             // Nested switch for different views in the elections page
             switch ($view) {
                 case 'current':
+                    echo '<script>const userId = ' . json_encode($userId) . ';</script>';
                     echo '<script src="./js/election.js"></script>'; // Page for current elections
                     break;
                 case 'apply-nomination':
