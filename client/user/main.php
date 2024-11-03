@@ -65,6 +65,9 @@ $view = $_GET['view'] ?? null;
         case 'students':
             echo ' <link rel="stylesheet" href="./css/student.css" />';
             break;
+        case 'profile':
+            echo '<link rel="stylesheet" href="./css/profile.css"/>';
+            break;
         case 'about':
             echo '<link rel="stylesheet" href="./css/about.css"/>';
             break;
@@ -248,11 +251,14 @@ $view = $_GET['view'] ?? null;
         case 'teachers':
             echo '<script src="./js/teacher.js"></script>';
             break;
-
         case 'students':
             echo '<script src="./js/student.js"></script>';
             break;
-
+        case 'profile':
+            echo '<script>const userId = ' . json_encode($userId) . ';</script>';
+            echo '<script src="./js/profile.js"></script>';
+            break;
+        default:
             echo '<script src="./js/script.js"></script>';
             break;
     }
