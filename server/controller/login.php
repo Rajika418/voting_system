@@ -37,7 +37,7 @@ try {
             if ($user['role_id'] == "1") {
                 header("Location: http://localhost/voting_system/client/admin/admin.php");
             } else {
-                header("Location: http://localhost/voting_system/client/user/home.php");
+                header("Location: http://localhost/voting_system/client/user/main.php");
             }
             exit();
         } else {

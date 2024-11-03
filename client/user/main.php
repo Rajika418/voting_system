@@ -54,7 +54,9 @@ $view = $_GET['view'] ?? null;
                    echo '<link rel="stylesheet" href="./css/election.css" />';// Default view for elections dashboard
                        break;
                }
-               case 'results':
+
+               break;
+               case 'exam_results':
                 echo '<link rel="stylesheet" href="./css/exam_results.css" />';
                 break;
                case 'teachers':
@@ -118,7 +120,7 @@ $view = $_GET['view'] ?? null;
                 </a>
             </li>
             <li class="nav-item">
-                <a href="?page=results" class="nav-link <?php echo $currentPage === 'results' ? 'active' : ''; ?>">
+                <a href="?page=exam_results" class="nav-link <?php echo $currentPage === 'exam_results' ? 'active' : ''; ?>">
                     <i class="fas fa-chart-line"></i>
                     <span class="nav-text">Exam Results</span>
                 </a>
@@ -168,8 +170,9 @@ $view = $_GET['view'] ?? null;
                         include './pages/elections/election_dash.php'; // Default view for elections dashboard
                         break;
                 }
+
                 break;
-            case 'results':
+            case 'exam_results':
                     include './pages/result.php';
                     break;
             case 'teachers':
@@ -228,7 +231,8 @@ $view = $_GET['view'] ?? null;
                 echo '<script src="./js/election.js"></script>';// Default view for elections dashboard
                     break;
             }
-            case 'results':
+            break;
+            case 'exam_results':
                 echo '<script src="./js/exam_results.js"></script>';
                 break;
             case 'teachers':

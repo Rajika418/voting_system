@@ -5,8 +5,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const candidatesGrid = document.getElementById('candidatesGrid');
 
     if (!candidatesGrid) {
-        console.error('Candidates grid element is not found.');
-        return;
+       
+            console.log('Debug - URL:', window.location.href);
+            console.log('Debug - Search params:', new URLSearchParams(window.location.search).toString());
+            console.error('Candidates grid element is not found.');
+            return;
+        
     }
 
     // Step 1: Fetch the current election ID based on the current year

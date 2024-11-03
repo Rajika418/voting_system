@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2024 at 05:49 AM
+-- Generation Time: Nov 03, 2024 at 07:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -38,7 +38,7 @@ CREATE TABLE `candidate` (
 --
 
 INSERT INTO `candidate` (`id`, `nomination_id`, `total_votes`) VALUES
-(1, 2, 3),
+(1, 2, 5),
 (2, 6, 3);
 
 -- --------------------------------------------------------
@@ -152,9 +152,9 @@ CREATE TABLE `nomination` (
 --
 
 INSERT INTO `nomination` (`id`, `election_id`, `student_id`, `why`, `motive`, `what`) VALUES
-(1, 4, 21, 'xhvjh', 'szgfhg', 'gjnljn'),
 (2, 4, 22, 'to get exprince', 'give good leadership', 'enhanse student power'),
-(6, 4, 24, 'dxhvjhbkj', 'jbkjnkjmk', 'vjbjn');
+(6, 4, 24, 'dxhvjhbkj', 'jbkjnkjmk', 'vjbjn'),
+(8, 4, 23, 'jnkbjm;', 'bljnl', 'jlvkjld');
 
 -- --------------------------------------------------------
 
@@ -410,8 +410,8 @@ INSERT INTO `users` (`user_id`, `user_name`, `password`, `email`, `role_id`, `im
 (9, 'Rajika', '$2y$10$B9Dxn4jQdgd47Idp/56XuufICDiBXJ9c.Qmb4/0I9EdJ.QsanpSKK', 'rajikakumar18@gmail.com', 1, 'http://localhost/voting_system/uploads/66fcd4ecc08ca_vijay.jpg'),
 (10, 'teacher', '$2y$10$HfD9i9ysA2XjTvfqp0YwEOAQXHH3pe/Wh6kXSFUlTGOlNtrZ5hVrO', 'teacher@example.com', 2, ''),
 (11, 'student', '$2y$10$RgS2NmBonL.cXJ1ly/wmkOLTrx1VfViQXNKkqxhhmDGy2RTJIFC4K', 'student@example.com', 3, ''),
-(12, 'anusha', '$2y$10$76dHSMUt/7cNnYVtgQF53uh7krWDKi9hSXaX1U7ipLlR.5CcWZEbe', 'anusha@example.com', 2, ''),
-(13, 'pre', '$2y$10$3HiPsuOkwT5485KN3F53fezwNjGBq6jpCzVnjSECGdwihceJ1gGsW', 'pre@example.com', 2, ''),
+(12, 'anusha', '$2y$10$76dHSMUt/7cNnYVtgQF53uh7krWDKi9hSXaX1U7ipLlR.5CcWZEbe', 'anusha@example.com', 2, 'http://localhost/voting_system/uploads/6724c76b02527_IMG_20241012_134934_460.jpg'),
+(13, 'pre', '$2y$10$3HiPsuOkwT5485KN3F53fezwNjGBq6jpCzVnjSECGdwihceJ1gGsW', 'pre@example.com', 2, 'http://localhost/voting_system/uploads/6724c7762c555_IMG_20241012_134934_460.jpg'),
 (36, 'divishi', '$2y$10$ziveYIAu8LKYitlT6ddtcuIGndjdKIaFbc5A286wbgcaWfPy8zf3W', 'divishi@example.com', 2, ''),
 (37, 'nimi', '$2y$10$ZKqjHE6JPm03kWq4vw8IWeRjunokICUdemUADNNXwZYOB/2lmChhu', 'nimi@example.com', 2, ''),
 (38, 'nimi', '$2y$10$T72pfhoRTz6zT9LxJs1NuewgkYUKYrnZEMKMMffswf6Oa.M3haEUO', 'nimi@example.com', 2, ''),
@@ -514,13 +514,13 @@ ALTER TABLE `subject_teacher`
 -- AUTO_INCREMENT for table `candidate`
 --
 ALTER TABLE `candidate`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `nomination`
 --
 ALTER TABLE `nomination`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
