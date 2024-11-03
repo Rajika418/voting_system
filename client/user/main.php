@@ -133,7 +133,7 @@ $view = $_GET['view'] ?? null;
             </li>
             <li class="nav-item">
             <a href="?page=students" class="nav-link <?php echo $currentPage === 'students' ? 'active' : ''; ?>">
-                <i class="fas fa-chalkboard-student"></i>
+                <i class="fas fa-user-graduate"></i>
                 <span class="nav-text">Students</span>
             </a>
         </li>

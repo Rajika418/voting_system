@@ -41,10 +41,6 @@
     display: block;
 }
 
-.tab-buttons {
-    margin-bottom: 20px;
-}
-
 .tab-btn {
     padding: 10px 20px;
     margin-right: 10px;
@@ -90,4 +86,205 @@
     padding: 10px;
     background-color: #f8f9fa;
     border: 1px solid #ddd;
+}
+
+
+/* Pagination Container */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem 0;
+    padding: 1rem;
+}
+
+.pagination-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Pagination Buttons */
+.pagination-btn {
+    min-width: 40px;
+    height: 40px;
+    padding: 0.5rem 1rem;
+    margin: 0 0.25rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+/* Active Page Button */
+.pagination-btn.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+
+/* Previous/Next Buttons */
+.pagination-btn:first-child,
+.pagination-btn:last-child {
+    min-width: 100px;
+}
+
+/* Hover Effects */
+.pagination-btn:not(.disabled):not(.active):hover {
+    background-color: #f8f9fa;
+    border-color: #007bff;
+    color: #007bff;
+}
+
+/* Disabled Button State */
+.pagination-btn.disabled {
+    background-color: #f8f9fa;
+    color: #aaa;
+    cursor: not-allowed;
+    border-color: #ddd;
+}
+
+/* Active Button Hover */
+.pagination-btn.active:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    .pagination-btn {
+        min-width: 35px;
+        height: 35px;
+        padding: 0.4rem 0.8rem;
+        font-size: 13px;
+    }
+
+    .pagination-btn:first-child,
+    .pagination-btn:last-child {
+        min-width: 80px;
+    }
+}
+
+/* For very small screens */
+@media screen and (max-width: 400px) {
+    .pagination-wrapper {
+        gap: 0.25rem;
+    }
+
+    .pagination-btn {
+        min-width: 30px;
+        height: 30px;
+        padding: 0.3rem 0.6rem;
+        font-size: 12px;
+        margin: 0 0.1rem;
+    }
+
+    .pagination-btn:first-child,
+    .pagination-btn:last-child {
+        min-width: 70px;
+    }
+}
+
+/* Optional: Animation for button clicks */
+.pagination-btn:active:not(.disabled) {
+    transform: scale(0.95);
+}
+
+/* Optional: Focus styles for accessibility */
+.pagination-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Optional: Loading state styles */
+.pagination.loading .pagination-btn {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* Tab Buttons Container */
+.tab-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 10px 0;
+}
+
+/* Group for exam type buttons */
+.tab-group {
+    display: flex;
+    gap: 10px;
+}
+
+/* Search Container */
+.search-container {
+    position: relative;
+    max-width: 300px;
+    width: 100%;
+}
+
+/* Search Input Wrapper */
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+/* Search Icon */
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    font-size: 14px;
+    pointer-events: none;
+}
+
+/* Search Input */
+.search-input {
+    width: 100%;
+    padding: 8px 12px 8px 35px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.search-input:focus + .search-icon {
+    color: #007bff;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .tab-buttons {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .search-container {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+/* Optional: Add clear button for search input */
+.search-input::-webkit-search-cancel-button {
+    position: relative;
+    right: 10px;
+    cursor: pointer;
 }
