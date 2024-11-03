@@ -213,9 +213,9 @@ $id = $pageParams[2] ?? '';
         case 'election':
             echo '<script src="./js/election.js" defer></script>';
             if ($subPage == 'nominations') {
-                echo '<script src="./js/nominationlist.js" defer></script>';
+                echo '<script src="./js/nomination.js" defer></script>';
             } elseif ($subPage == 'candidates') {
-                echo '<script src="./js/candidatelist.js" defer></script>';
+                echo '<script src="./js/candidate.js" defer></script>';
             }
             break;
         case 'result':

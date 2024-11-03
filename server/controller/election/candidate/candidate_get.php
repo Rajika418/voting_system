@@ -1,75 +1,102 @@
 <?php
 // get_candidates.php
+include '../../../db_config.php';
 
-include '../../../db_config.php'; // Include database connection
+header('Content-Type: application/json');
 
-header('Content-Type: application/json'); // Set the content type to JSON
+try {
+    // Sanitize and validate input parameters
+    $searchTerm = isset($_GET['search']) ? trim($_GET['search']) : '';
+    $electionId = isset($_GET['id']) ? intval($_GET['id']) : 0; // Get election_id from the query parameters
+    $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+    $limit = isset($_GET['limit']) ? max(1, min(50, intval($_GET['limit']))) : 10;
+    $offset = ($page - 1) * $limit;
 
-// Get search term and pagination parameters from query string
-$searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Default to page 1
-$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10; // Default limit
+    // Base query for candidates with necessary joins
+    $baseQuery = "
+        SELECT 
+            c.id AS candidate_id,
+            s.student_name
+        FROM 
+            candidate c
+            JOIN nomination n ON c.nomination_id = n.id
+            JOIN student s ON n.student_id = s.student_id
+        WHERE n.election_id = :electionId
+    ";
 
-$offset = ($page - 1) * $limit; // Calculate offset for pagination
-
-// SQL query to retrieve data from the tables
-$sql = "
-    SELECT 
-        c.id AS candidate_id,
-        c.nomination_id,
-        n.student_id,
-    
-        n.motive,
-        n.what,
-        s.student_name,
-        s.user_id,
-        u.image,
-        e.id AS election_id
-    FROM candidate c
-    JOIN nomination n ON c.nomination_id = n.id
-    JOIN student s ON n.student_id = s.student_id 
-    JOIN users u ON s.user_id = u.user_id
-    JOIN elections e ON n.election_id = e.id  -- Changed to 'elections'
-    WHERE s.student_name LIKE :search
-    LIMIT :limit OFFSET :offset
-";
-
-// Prepare and execute the statement
-$stmt = $conn->prepare($sql);
-$stmt->bindValue(':search', '%' . $searchTerm . '%', PDO::PARAM_STR);
-$stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-$stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-
-$stmt->execute();
-
-$response = [];
-$totalCandidates = $conn->query("SELECT COUNT(*) FROM candidate c
-    JOIN nomination n ON c.nomination_id = n.id
-    JOIN student s ON n.student_id = s.student_id
-    WHERE s.student_name LIKE '%" . $searchTerm . "%'")->fetchColumn();
-
-if ($stmt->rowCount() > 0) {
-    // Fetch each row and append it to the response array
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        $response[] = $row;
+    // Add search condition if search term is provided
+    $params = [':electionId' => $electionId];
+    if (!empty($searchTerm)) {
+        $baseQuery .= " AND s.student_name LIKE :search";
+        $params[':search'] = '%' . $searchTerm . '%';
     }
 
-    $response = [
-        'status' => 'success',
-        'data' => $response,
-        'total' => $totalCandidates,
-        'page' => $page,
-        'limit' => $limit
-    ];
-} else {
-    $response = [
+    // Count total records for pagination
+    $countQuery = "
+        SELECT COUNT(*) 
+        FROM candidate c
+        JOIN nomination n ON c.nomination_id = n.id
+        JOIN student s ON n.student_id = s.student_id
+        WHERE n.election_id = :electionId
+    ";
+
+    if (!empty($searchTerm)) {
+        $countQuery .= " AND s.student_name LIKE :search";
+    }
+
+    // Prepare and execute the count query
+    $countStmt = $conn->prepare($countQuery);
+    foreach ($params as $key => $value) {
+        $countStmt->bindValue($key, $value);
+    }
+    $countStmt->execute();
+    $totalRecords = $countStmt->fetchColumn();
+
+    // Add pagination to the main query
+    $baseQuery .= " ORDER BY s.student_name
+                    LIMIT :limit OFFSET :offset";
+
+    // Prepare and execute the main query
+    $stmt = $conn->prepare($baseQuery);
+    foreach ($params as $key => $value) {
+        $stmt->bindValue($key, $value);
+    }
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+
+    $candidates = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (count($candidates) > 0) {
+        echo json_encode([
+            'status' => 'success',
+            'data' => $candidates,
+            'total' => $totalRecords,
+            'page' => $page,
+            'limit' => $limit,
+            'totalPages' => ceil($totalRecords / $limit)
+        ]);
+    } else {
+        echo json_encode([
+            'status' => 'success',
+            'data' => [],
+            'total' => 0,
+            'page' => $page,
+            'limit' => $limit,
+            'totalPages' => 0,
+            'message' => 'No candidates found matching the search criteria.'
+        ]);
+    }
+} catch (PDOException $e) {
+    error_log("Database Error: " . $e->getMessage());
+    echo json_encode([
         'status' => 'error',
-        'message' => 'No candidates found.'
-    ];
+        'message' => 'Database error occurred: ' . $e->getMessage()
+    ]);
+} catch (Exception $e) {
+    error_log("General Error: " . $e->getMessage());
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'An unexpected error occurred: ' . $e->getMessage()
+    ]);
 }
-
-// Output the JSON response
-echo json_encode($response);
-
-// No need to close the connection; it closes automatically
-?>

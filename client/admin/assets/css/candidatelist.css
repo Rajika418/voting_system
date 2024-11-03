@@ -1,129 +1,99 @@
-/* Main container styles */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
 }
 
-/* Search input styles */
-#search {
+.search-container {
+    position: relative;
+    margin-bottom: 20px;
+    max-width: 400px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+    pointer-events: none;
+}
+
+.search-input {
     width: 100%;
-    padding: 12px;
-    margin: 20px 0;
+    padding: 10px 10px 10px 40px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
-    box-sizing: border-box;
+    transition: border-color 0.3s ease;
 }
 
-#search:focus {
+.search-input:focus {
+    border-color: #007bff;
     outline: none;
-    border-color: #2196F3;
-    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
 }
 
-/* Table styles */
-table {
+.table-responsive {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+#candidateTable {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    background-color: white;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-th, td {
+#candidateTable th,
+#candidateTable td {
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 
-th {
+#candidateTable th {
     background-color: #f8f9fa;
-    font-weight: bold;
-    position: relative;
+    font-weight: 600;
 }
 
-th[onclick] {
-    cursor: pointer;
-}
-
-th[onclick]:hover {
-    background-color: #e9ecef;
-}
-
-th[data-sort]:after {
-    content: '';
-    margin-left: 5px;
-    display: inline-block;
-}
-
-th[data-sort="asc"]:after {
-    content: '↑';
-}
-
-th[data-sort="desc"]:after {
-    content: '↓';
-}
-
-tr:nth-child(even) {
-    background-color: #f8f9fa;
-}
-
-tr:hover {
+#candidateTable tbody tr:hover {
     background-color: #f5f5f5;
 }
 
-/* Loading state */
-.loading {
+.no-data {
     text-align: center;
     padding: 20px;
     color: #666;
 }
 
-/* Error and no results states */
-.error, .no-results {
-    text-align: center;
-    padding: 20px;
-    color: #721c24;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
-}
-
-.no-results {
-    color: #666;
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-}
-
-/* Pagination styles */
 .pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    margin-top: 20px;
+    gap: 15px;
 }
 
-.pagination button {
+.page-btn {
     padding: 8px 16px;
     border: 1px solid #ddd;
-    background-color: white;
-    cursor: pointer;
+    background-color: #fff;
     border-radius: 4px;
-    transition: all 0.2s ease;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.pagination button:not(:disabled):hover {
-    background-color: #e9ecef;
-    border-color: #ced4da;
+.page-btn:hover:not(:disabled) {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
 }
 
-.pagination button:disabled {
-    background-color: #f8f9fa;
+.page-btn:disabled {
+    opacity: 0.5;
     cursor: not-allowed;
-    opacity: 0.6;
 }
 
 #pageInfo {
@@ -131,23 +101,36 @@ tr:hover {
     color: #666;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
+/* Responsive styles */
+@media screen and (max-width: 768px) {
     .container {
         padding: 10px;
     }
 
-    table {
-        display: block;
-        overflow-x: auto;
-    }
-
-    th, td {
+    #candidateTable th,
+    #candidateTable td {
         padding: 8px 10px;
+        font-size: 14px;
     }
 
     .pagination {
-        flex-direction: column;
-        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .page-btn {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #candidateTable th,
+    #candidateTable td {
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+
+    .search-input {
+        font-size: 14px;
     }
 }
