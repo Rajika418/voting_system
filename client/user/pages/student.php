@@ -1,11 +1,14 @@
-    <div class="container">
-        <h1>Student Details by Grade</h1>
-        <select id="gradeSelect">
-            <!-- Options will be populated with JavaScript -->
-        </select>
-        <button id="fetchStudents">Fetch Students</button>
+<div class="student_container">
+    <h1>Student Details by Grade</h1>
 
-        <h2 id="gradeName"></h2>
-        <p>Total Students: <span id="studentCount">0</span></p>
-        <ul id="studentList"></ul>
+    <select class="grade-select" id="gradeSelect">
+        <option value="">Select Grade</option>
+    </select>
+
+    <div class="grade-info">
+        <h2 class="grade-name" id="gradeName"></h2>
+        <p class="student-count">Total Students: <span id="studentCount">0</span></p>
     </div>
+
+    <ul class="student-grid" id="studentList"></ul>
+</div>

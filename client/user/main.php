@@ -19,7 +19,6 @@ $view = $_GET['view'] ?? null;
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -210,8 +209,6 @@ $view = $_GET['view'] ?? null;
         }
         ?>
     </main>
-
-
     <!-- Footer -->
     <footer class="footer">
         <p>&copy; 2024 Kalaimahal T.M.V. Hopton. All rights reserved.</p>
