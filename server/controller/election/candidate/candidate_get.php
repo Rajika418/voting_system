@@ -16,7 +16,8 @@ try {
     $baseQuery = "
         SELECT 
             c.id AS candidate_id,
-            s.student_name
+            s.student_name,
+            c.total_votes
         FROM 
             candidate c
             JOIN nomination n ON c.nomination_id = n.id
