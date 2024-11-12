@@ -61,6 +61,9 @@ $view = $_GET['view'] ?? null;
         case 'students':
             echo ' <link rel="stylesheet" href="./css/student.css" />';
             break;
+        case 'parents':
+            echo ' <link rel="stylesheet" href="./css/parentslist.css" />';
+            break;
         case 'profile':
             echo '<link rel="stylesheet" href="./css/profile.css"/>';
             break;
@@ -137,6 +140,12 @@ $view = $_GET['view'] ?? null;
                     <span class="nav-text">Students</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="?page=parents" class="nav-link <?php echo $currentPage === 'parents' ? 'active' : ''; ?>">
+                    <i class="fas fa-user-parents"></i>
+                    <span class="nav-text">Parents</span>
+                </a>
+            </li>
 
             <li class="nav-item">
                 <a href="?page=profile" class="nav-link <?php echo $currentPage === 'profile' ? 'active' : ''; ?>">
@@ -188,6 +197,9 @@ $view = $_GET['view'] ?? null;
             case 'students':
                 include './pages/student.php';
                 break;
+            case 'parents':
+                    include './pages/parentslist.php';
+                    break;
             case 'profile':
                 include './pages/profile.php';
                 break;
@@ -247,6 +259,10 @@ $view = $_GET['view'] ?? null;
         case 'students':
             echo '<script src="./js/student.js"></script>';
             break;
+
+        case 'parents':
+                echo '<script src="./js/parentslist.js"></script>';
+                break;
         case 'profile':
             echo '<script>const userId = ' . json_encode($userId) . ';</script>';
             echo '<script src="./js/profile.js"></script>';

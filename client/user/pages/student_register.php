@@ -223,6 +223,14 @@
             </div>
           </div>
 
+          <div class="form-row">
+            <div class="form-group">
+              <label for="parents_image">Upload Parent's Image (optional)</label>
+              <input type="file" id="parents_image" name="parents_image" accept="image/*" />
+            </div>
+          </div>
+
+
           <div class="form-group-submit">
             <button type="submit">Register</button>
           </div>

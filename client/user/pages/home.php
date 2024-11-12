@@ -21,6 +21,11 @@
             <h3>Student Directory</h3>
             <p>View information about our students</p>
         </a>
+        <a href="?page=parents" class="stat-card">
+            <i class="fas fa-user-parents"></i>
+            <h3>Parants Directory</h3>
+            <p>View information about our Parents</p>
+        </a>
         <a href="?page=profile" class="stat-card">
             <i class="fas fa-user-cog"></i>
             <h3>My Profile</h3>

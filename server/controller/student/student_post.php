@@ -65,13 +65,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'registration_number' => $registration_number,
         'join_date' => $join_date,
         'grade_id' => $grade_id,
-        'image' => isset($_FILES['image']) ? 'Provided' : 'Not provided'
+        'image' => isset($_FILES['image']) ? 'Provided' : 'Not provided',
+        'parents_image' => isset($_FILES['parents_image']) ? 'Provided' : 'Not provided'
     ];
 
     error_log("Received data: " . json_encode($received_data));
 
-    // Handle the image upload
-    $image = NULL;
+    // Handle the image uploads
+    $image = null;
+    $parents_image = null;
     $image_dir = '../../../uploads/';
     $base_url = 'http://localhost/voting_system/uploads/';
 
@@ -80,6 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         mkdir($image_dir, 0777, true);
     }
 
+    // Upload student image
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $image_tmp_name = $_FILES['image']['tmp_name'];
         $image_name = basename($_FILES['image']['name']);
@@ -90,11 +93,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Full URL with base URL included
             $image = $base_url . $unique_image_name;
         } else {
-            echo json_encode(["message" => "Image upload failed"]);
+            echo json_encode(["message" => "Student image upload failed"]);
             exit();
         }
     } elseif (isset($_FILES['image']['error']) && $_FILES['image']['error'] !== UPLOAD_ERR_NO_FILE) {
         echo json_encode(["message" => "Image upload error: " . $_FILES['image']['error']]);
+        exit();
+    }
+
+    // Upload parents' image
+    if (isset($_FILES['parents_image']) && $_FILES['parents_image']['error'] === UPLOAD_ERR_OK) {
+        $parents_image_tmp_name = $_FILES['parents_image']['tmp_name'];
+        $parents_image_name = basename($_FILES['parents_image']['name']);
+        $unique_parents_image_name = uniqid() . '_' . $parents_image_name;
+        $parents_image_path = $image_dir . $unique_parents_image_name;
+
+        if (move_uploaded_file($parents_image_tmp_name, $parents_image_path)) {
+            // Full URL with base URL included
+            $parents_image = $base_url . $unique_parents_image_name;
+        } else {
+            echo json_encode(["message" => "Parents image upload failed"]);
+            exit();
+        }
+    } elseif (isset($_FILES['parents_image']['error']) && $_FILES['parents_image']['error'] !== UPLOAD_ERR_NO_FILE) {
+        echo json_encode(["message" => "Parents image upload error: " . $_FILES['parents_image']['error']]);
         exit();
     }
 
@@ -110,9 +132,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Get the last inserted user ID
         $user_id = $conn->lastInsertId();
 
-        // Insert student data into the student table
-        $stmt_student = $conn->prepare("INSERT INTO student (student_name, user_id, grade_id, address, guardian, father_name, contact_number, registration_number, join_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt_student->execute([$student_name, $user_id, $grade_id, $address, $guardian, $father_name, $contact_number, $registration_number, $join_date]);
+        // Insert student data into the student table with parents_image URL
+        $stmt_student = $conn->prepare("INSERT INTO student (student_name, user_id, grade_id, address, guardian, father_name, contact_number, registration_number, join_date, parents_image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt_student->execute([$student_name, $user_id, $grade_id, $address, $guardian, $father_name, $contact_number, $registration_number, $join_date, $parents_image]);
 
         // Commit the transaction
         $conn->commit();
@@ -127,3 +149,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
     }
 }
+?>
