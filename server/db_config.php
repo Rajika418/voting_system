@@ -6,7 +6,7 @@ header('Access-Control-Allow-Origin: *');
 
 // Database connection
 $host = "localhost:3307";
-$db_name = "voting_system";
+$db_name = "school_ms";
 $username = "root";
 $password = "";
 
