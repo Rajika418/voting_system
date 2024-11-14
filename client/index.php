@@ -58,7 +58,8 @@
 <!-- Popup HTML -->
 <div id="registerPopup" class="popup">
     <div class="popup-content">
-        <button class="popup-close" id="closePopup"></button>
+       
+        <button class="popup-close" id="closePopup">&times;</button> <!-- Close icon -->
         <h2>Select Registration Type</h2>
         <div class="btns">
             <button id="studentBtn" class="popup-btn">Student</button>

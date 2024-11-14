@@ -22,7 +22,7 @@
             <p>View information about our students</p>
         </a>
         <a href="?page=parents" class="stat-card">
-            <i class="fas fa-user-parents"></i>
+            <i class="fas fa-users"></i>
             <h3>Parants Directory</h3>
             <p>View information about our Parents</p>
         </a>

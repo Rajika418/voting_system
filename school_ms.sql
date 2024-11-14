@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: Nov 03, 2024 at 06:48 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Host: 127.0.0.1
+-- Generation Time: Nov 14, 2024 at 09:18 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `voting_system`
+-- Database: `school_ms`
 --
 
 -- --------------------------------------------------------
@@ -269,18 +269,41 @@ CREATE TABLE `student` (
   `contact_number` varchar(15) NOT NULL,
   `registration_number` varchar(20) NOT NULL,
   `join_date` date DEFAULT NULL,
-  `leave_date` date DEFAULT NULL
+  `leave_date` date DEFAULT NULL,
+  `parents_image` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `student`
 --
 
-INSERT INTO `student` (`student_id`, `student_name`, `father_name`, `user_id`, `grade_id`, `address`, `guardian`, `contact_number`, `registration_number`, `join_date`, `leave_date`) VALUES
-(21, 'nivithaya', 'kamal', 62, 52, '123 Main Street, Springfield', 'null', '1234567888', 'REG123463', '2024-09-06', NULL),
-(22, 'kamalanathan', 'kamal', 63, 53, '123 Main Street, Springfield', NULL, '1234567889', 'REG123464', '2024-09-06', NULL),
-(23, 'mary', 'Antony', 64, 49, '123 Main Street, Springfield', 'null', '1234567810', 'REG123465', '2024-09-06', NULL),
-(24, 'Dthurai', 'Dhurai', 65, 50, '123 Main Street, Springfield', NULL, '1234567811', 'REG123467', '2024-09-06', NULL);
+INSERT INTO `student` (`student_id`, `student_name`, `father_name`, `user_id`, `grade_id`, `address`, `guardian`, `contact_number`, `registration_number`, `join_date`, `leave_date`, `parents_image`) VALUES
+(1, 'Raja', 'Kamal', 66, 7, 'Bungalow division Hopton', NULL, '077586942', '8256', '2018-11-13', NULL, NULL),
+(21, 'nivithaya', 'kamal', 62, 52, '123 Main Street, Springfield', 'null', '1234567888', 'REG123463', '2024-09-06', NULL, NULL),
+(22, 'kamalanathan', 'kamal', 63, 53, '123 Main Street, Springfield', NULL, '1234567889', 'REG123464', '2024-09-06', NULL, NULL),
+(23, 'mary', 'Antony', 64, 49, '123 Main Street, Springfield', 'null', '1234567810', 'REG123465', '2024-09-06', NULL, NULL),
+(24, 'Dthurai', 'Dhurai', 65, 50, '123 Main Street, Springfield', NULL, '1234567811', 'REG123467', '2024-09-06', NULL, NULL),
+(25, 'Ramesh', 'Rajasuntharam', 69, 7, 'Bungalaow Division Hopton', NULL, '0764289365', '8257', '2018-06-20', NULL, NULL),
+(26, 'Amala', 'Ramesh', 70, 8, 'Bulugala division hopton', NULL, '077894561', '4862', '2018-06-12', NULL, NULL),
+(27, 'Arya', 'Kalyanam', 71, 8, 'Bulugala Division Hopton', NULL, '077562315', '1596', '2018-07-12', NULL, NULL),
+(28, 'Bala', 'Balakirisnan', 72, 9, 'Bungalow division Hopton', NULL, '075142369', '4528', '2018-09-10', NULL, NULL),
+(29, 'Babu', 'Prabu', 73, 9, 'Bulugala Division Hopton', NULL, '0754523698', '4253', '2018-10-17', NULL, NULL),
+(30, 'Chithra', 'Rajesh', 74, 10, 'Bungalow division Hopton', NULL, '07854269', '7894', '2018-07-12', NULL, NULL),
+(31, 'Chalsh', 'magesh', 75, 10, 'Bungalow division Hopton', NULL, '075861245', '1234', '2018-09-12', NULL, NULL),
+(32, 'Dhenesh ', 'Tharmaraji', 76, 0, 'Bungalow division Hopton', NULL, '077895641', '1536', '2017-02-15', NULL, NULL),
+(33, 'Dhenesh ', 'Tharmaraji', 77, 11, 'Bungalow division Hopton', NULL, '07746562', '12968', '2017-06-06', NULL, NULL),
+(34, 'Dheluni', 'Ramesh', 78, 11, 'Bungalaow Division Hopton', NULL, '07564238', '1789', '2017-07-18', NULL, NULL),
+(35, 'Dharman', 'Tharmabalan', 79, 12, 'Bulugala division hopton', NULL, '0785642', '1259', '2017-05-08', NULL, NULL),
+(36, 'Dhilakshan', 'Dhilakshanan', 80, 12, 'Bulugala division hopton', NULL, '07546286', '1579', '2017-07-13', NULL, NULL),
+(37, 'Malar', 'Dharman', 81, 13, 'Bungalaow Division Hopton', NULL, '077856423', '1789', '2017-06-13', NULL, NULL),
+(38, 'Madhu', 'kamarai', 82, 13, 'Bulugala Division Hopton', NULL, '07596423', '1485', '2017-06-16', NULL, NULL),
+(39, 'Thilakshan', 'Tharman', 83, 14, 'Bulugala Division Hopton', NULL, '07758862', '1769', '2017-02-22', NULL, NULL),
+(40, 'Tharani', 'k.haranthan', 84, 14, 'Bungalaow Division Hopton', NULL, '07758623', '7895', '2017-06-28', NULL, NULL),
+(41, 'Harshan', 'Rajasuntharam', 85, 15, 'Bungalaow Division Hopton', NULL, '077542698', '1296', '2017-08-11', NULL, NULL),
+(42, 'Kokilan', 'tharani', 86, 16, 'Bungalaow Division Hopton', NULL, '0778563', '1452', '2017-01-02', NULL, NULL),
+(43, 'Niroshan', 'tharan', 87, 18, 'Bulugala Division Hopton', NULL, '07856423', '1563', '2017-07-07', NULL, NULL),
+(44, 'Mthavi', 'Dhurai', 90, 50, '123 Main Street, Springfield', NULL, '1234567811', 'REG122367', '2024-09-06', NULL, 'http://localhost/voting_system/uploads/67331beda0e7f_IMG_20241012_134934_460.jpg'),
+(45, 'Saran', 'Sarathkumar', 91, 7, 'Bungalaow Division Hopton', NULL, '02456522', '178562', '2017-11-22', NULL, 'http://localhost/voting_system/uploads/67331ea19e52e_IMG_20241012_134934_460.jpg');
 
 -- --------------------------------------------------------
 
@@ -363,6 +386,13 @@ CREATE TABLE `subject_teacher` (
   `teacher_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `subject_teacher`
+--
+
+INSERT INTO `subject_teacher` (`subject_teacher_id`, `subject_id`, `teacher_id`) VALUES
+(0, 11, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -385,6 +415,7 @@ CREATE TABLE `teacher` (
 --
 
 INSERT INTO `teacher` (`teacher_id`, `teacher_name`, `address`, `contact_number`, `nic`, `user_id`, `join_date`, `leave_date`) VALUES
+(0, 'M.Chanthrakumari', 'meethumpittity passara', '077586123', '19975243681', 88, '1996-06-26', NULL),
 (1, 'Anusha', '123 Main Street, City, Colombo', '071234567', '987654321V', 12, '0000-00-00', '0000-00-00'),
 (2, 'Pragash', ' Main Street, badulla, Sri Lanka', '0712345678', '200058426491', 13, NULL, NULL);
 
@@ -424,7 +455,30 @@ INSERT INTO `users` (`user_id`, `user_name`, `password`, `email`, `role_id`, `im
 (62, 'niviya', '$2y$10$CFnsSZiB/2R98daJpIgprOQbqcc9jurTAx6chvklOpZuBuN3itX6m', 'nivi@example.com', 3, ''),
 (63, 'kamal', '$2y$10$fnEdCmoRU8Z7OIAr3g30vO4koLsKGjA4.L5NKW/GIZgr7ZptXJolK', 'kamal@example.com', 3, 'http://localhost/voting_system/uploads/67235fb926948_IMG_20241012_134903_954.jpg'),
 (64, 'mary', '$2y$10$//cSAYv4by27m/ECuhTZz.cB/AlV.GLTpqfMH5u6O55lzYZsxdW1q', 'mary@example.com', 3, 'http://localhost/voting_system/uploads/67235fc5b4251_IMG_20241012_134903_954.jpg'),
-(65, 'dhurai', '$2y$10$aLQ6PT.UtcfOsYNaHRnUJ.6hSFD80acTK4B0w4zseqEj4bLeCI.zu', 'dhurai@example.com', 3, 'http://localhost/voting_system/uploads/67235fcd36752_IMG_20241012_134903_954.jpg');
+(65, 'dhurai', '$2y$10$aLQ6PT.UtcfOsYNaHRnUJ.6hSFD80acTK4B0w4zseqEj4bLeCI.zu', 'dhurai@example.com', 3, 'http://localhost/voting_system/uploads/67235fcd36752_IMG_20241012_134903_954.jpg'),
+(66, 'Raja', '$2y$10$vcRiqU80W1j1zodcqUwQUuTPPijwhTzUa.H79k39B6yS1Nqkz1cNK', 'raja@gmail.com', 3, NULL),
+(69, 'Ramesh', '$2y$10$VcAUvn61U8gfyiZXrrRj8.ElN1W6mDmVpKd87AhRYdcE.vP/ntrQK', 'ramesg@gmail.com', 3, NULL),
+(70, 'Amala', '$2y$10$9qYyBCBfT0i/XluBJYZoTuKmGAiPieVLP.OvPHWCopHToMypA/bRW', 'amala@gmail.com', 3, NULL),
+(71, 'Arya', '$2y$10$kbiung/Ip.UkChz8.H0H/uZCeJisTMEkXoFHO8Rki.6tA3sQbghly', 'arya@gmail.com', 3, NULL),
+(72, 'Bala', '$2y$10$Rkp2IZbrr/WEsM15.pZvouc.YZc1OtohFxNIk9Q3u2by3she5Bcju', 'bala@gmail.com', 3, NULL),
+(73, 'Babu', '$2y$10$4GgDY55fBkCM5yZuLVn9bOh3UfNb0gRv/CoxsXeVa7mrzweYSe.ue', 'babu@gmail.com', 3, NULL),
+(74, 'Chithra', '$2y$10$k4xDfEJYskRWh/ZBkY.Zau7znz1ndBYJ0PkLEDuSOIaj5WkGn1lGW', 'chithra@gmail.com', 3, NULL),
+(75, 'Chalsh', '$2y$10$bq1ENdusBoZ4/9rfT2cSHuyNwPZ/BArRQiwIHNGBy61n6QPGVJvma', 'chalsh@gmail.com', 3, NULL),
+(76, 'Dhenesh', '$2y$10$aiydIOlbJVol2zqVE3PlNedRh49PnBul.u2smq5ngfi1afXJPc0rC', 'dhenesh@gmailcooom', 3, NULL),
+(77, 'Dhenesh', '$2y$10$CgULD0IZFGXHiSXSKoZpOu/kj.uxVvSTKkhwZX/H6h8nHyLsc4.oi', 'dhenesg@gmail.com', 3, NULL),
+(78, 'Dhiluni', '$2y$10$MWmAqBSDb3dLpI6T1p2ZFO0j/VnTb7rRStEG.bz61i251WgXkT8a6', 'dhiluni@gmail.com', 3, NULL),
+(79, 'Dharman', '$2y$10$Sbe/D2.MzHxjyfSVkOHp/.b9Osu1zDlarq0qRWU9RNymWHEf/2ile', 'dharman@gmail.com', 3, NULL),
+(80, 'Dhilakshan', '$2y$10$rtoqICmhuMrfSXgCObw4.uNlHcg7AbTVrtceAqOIro.T001YqLi7.', 'dhilakshan@gmail.com', 3, NULL),
+(81, 'Malar', '$2y$10$.ytF0hdYYdOulKJ4P8KIH.AXm8z4gIzmGPEmtulpvonQ1yVaA.lom', 'malar@gmail.com', 3, NULL),
+(82, 'Madhu', '$2y$10$7WMGc.huekHCukJwjOKA3uj/uVWgGdZqLtOiTybv2XsF4mM1ai3IG', 'madhu@gmail.com', 3, NULL),
+(83, 'Thilakshan', '$2y$10$ycL5v7bggnlK9Oy5OuzoWuD2Uc8uSmy7FCQjm0qpbO8C04BH2cKaG', 'thilakshan@gmail.com', 3, NULL),
+(84, 'Tharani', '$2y$10$83dKFUYZ0q9Vvb6h1DX0keKKNa.1ILj6DjBBS6s2Vsjd9XmSoF2i.', 'tharani@gmail.com', 3, NULL),
+(85, 'Harshan', '$2y$10$17SDaHcTUhAb7XuhXFCMHuaOt6e9U.JRZ4qafV8XVnXcNkLh8gnr6', 'harshan@gmail.com', 3, NULL),
+(86, 'Kokilan', '$2y$10$4A/P.sYyLPtG30jBmkgfH./lkOtsAWNnvAgVeaq34E0nhpAxtZeqK', 'kokilan@gmail.com', 3, NULL),
+(87, 'Nirosha', '$2y$10$hxL3I3DgAd5lXAYaM4YsiOfPKpm6eZHNXRYrxMrTEVgfSTL3wAqmW', 'nirosha@gmail.com', 3, NULL),
+(88, 'chanthra', '$2y$10$On0HT0IWc0GK4K/VTTKm3O5tCKKKxCpH40wepKBcNB2mAl/q3a58C', 'chanthra@gmail.com', 2, NULL),
+(90, 'mathavi', '$2y$10$7k4W0KdkTyLzI8FeoJJn4eJjQDDWSK.h0AnvkWEfaEPaJxYNs1YkG', 'mathavi@example.com', 3, NULL),
+(91, 'saran', '$2y$10$Fp1nmlShT0Lm4qzqrUg2TORkFEajfNzZJVGgYKwD9ASH9q2j3cc72', 'saran@gmail.com', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -567,10 +621,16 @@ ALTER TABLE `nomination`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
+-- AUTO_INCREMENT for table `student`
+--
+ALTER TABLE `student`
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
 
 --
 -- AUTO_INCREMENT for table `user_election`

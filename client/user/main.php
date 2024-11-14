@@ -142,7 +142,7 @@ $view = $_GET['view'] ?? null;
             </li>
             <li class="nav-item">
                 <a href="?page=parents" class="nav-link <?php echo $currentPage === 'parents' ? 'active' : ''; ?>">
-                    <i class="fas fa-user-parents"></i>
+                    <i class="fas fa-users"></i>
                     <span class="nav-text">Parents</span>
                 </a>
             </li>

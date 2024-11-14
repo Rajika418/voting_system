@@ -175,6 +175,19 @@ button[type="submit"]:hover {
   width: 90%;
   max-width: 400px;
   text-align: center;
+  position: relative;
+}
+
+.popup-close {
+  position: absolute;
+  top: 5px;
+  right: 30px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
 }
 
 .popup-btn {
