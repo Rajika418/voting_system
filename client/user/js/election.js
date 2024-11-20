@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
               `http://localhost/voting_system/server/controller/election/vote_check.php?election_id=${electionId}&user_id=${userId}`
             ),
             fetch(
-              `http://localhost/voting_system/server/controller/election/candidate/candidate_get.php?election_id=${electionId}`
+              `http://localhost/voting_system/server/controller/election/candidate/candidate_get.php?id=${electionId}`
             ),
           ]);
         } else {

@@ -1,3 +1,27 @@
+<?php
+session_start();
+
+// Check if user is already logged in
+if (isset($_SESSION['user_id']) && isset($_SESSION['role_id'])) {
+    // Navigate based on role_id
+    switch ($_SESSION['role_id']) {
+        case 1: // Admin role
+            header("Location: ../client/admin/admin.php");
+            break;
+        case 2: // Teacher role
+            header("Location: ../client/user/main.php");
+            break;
+        case 3: // Student role
+            header("Location: ../client/user/main.php");
+            break;
+        default: // Unknown role, redirect to login
+            session_destroy(); // Clear the session
+            header("Location: login.php");
+            break;
+    }
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

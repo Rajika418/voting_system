@@ -8,7 +8,7 @@ try {
     $search_father_name = isset($_GET['father_name']) ? $_GET['father_name'] : '';
     $sort_column = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'student_id';
     $sort_order = isset($_GET['sort_order']) && strtolower($_GET['sort_order']) === 'desc' ? 'DESC' : 'ASC';
-    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 10; // Items per page
+    $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 12; // Items per page
     $page = isset($_GET['page']) ? intval($_GET['page']) : 1; // Page number
 
     // Calculate the offset for pagination

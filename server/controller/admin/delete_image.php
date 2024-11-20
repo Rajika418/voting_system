@@ -43,6 +43,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'DELETE') {
         $stmt = $conn->prepare("UPDATE users SET image = NULL WHERE user_id = ?");
         $stmt->execute([$user_id]);
 
+        // Fetch updated user data after update
+        $sql_fetch_user = "SELECT user_id, user_name, email, image FROM users WHERE user_id = ?";
+        $stmt_fetch_user = $conn->prepare($sql_fetch_user);
+        $stmt_fetch_user->execute([$user_id]);
+        $user = $stmt_fetch_user->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['user_name'] = $user['user_name'];
+            $_SESSION['image'] = $user['image'];
+        } else {
+            // Handle case where user data could not be fetched
+            echo json_encode(["status" => "error", "message" => "Failed to retrieve updated user details"]);
+            exit();
+        }
+
+
         // Commit the transaction
         $conn->commit();
 

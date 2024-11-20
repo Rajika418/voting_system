@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require '../../db_config.php';
 
 // Check if request method is POST
@@ -78,6 +78,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $sql_user_update = "UPDATE users SET " . implode(', ', $update_fields) . " WHERE user_id = ?";
             $stmt_user = $conn->prepare($sql_user_update);
             $stmt_user->execute($update_values);
+        }
+
+        // Fetch updated user data after update
+        $sql_fetch_user = "SELECT user_id, user_name, email, image FROM users WHERE user_id = ?";
+        $stmt_fetch_user = $conn->prepare($sql_fetch_user);
+        $stmt_fetch_user->execute([$user_id]);
+        $user = $stmt_fetch_user->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            $_SESSION['user_id'] = $user['user_id'];
+            $_SESSION['user_name'] = $user['user_name'];
+            $_SESSION['image'] = $user['image'];
+        } else {
+            // Handle case where user data could not be fetched
+            echo json_encode(["status" => "error", "message" => "Failed to retrieve updated user details"]);
+            exit();
         }
 
         // Commit the transaction

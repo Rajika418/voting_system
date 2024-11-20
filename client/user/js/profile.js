@@ -46,6 +46,7 @@ async function changeImage() {
             document.getElementById("profileImage").src = event.target.result;
           };
           reader.readAsDataURL(file);
+          location.reload()
           showSuccess("Profile image updated successfully!");
         } else {
           showSuccess(data.message || "Failed to update image");
@@ -73,6 +74,7 @@ async function deleteImage() {
       showSuccess("Profile image removed successfully!");
     } else {
       showSuccess(data.message || "Failed to delete image");
+      location.reload()
     }
   } catch (error) {
     handleApiError(error);
@@ -100,6 +102,7 @@ async function updateProfile() {
       document.getElementById("userEmail").textContent =
         document.getElementById("email").value;
       showSuccess("Profile details updated successfully!");
+      location.reload()
     } else {
       showSuccess(data.message || "Failed to update profile");
     }
